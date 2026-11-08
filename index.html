@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Cornell Institute of Training | Nationally Recognised Vocational Training
+    </title>
+
+    <!-- Your base styles -->
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <!-- Page specific styles -->
+    <link rel="stylesheet" href="assets/css/page/index.css" />
+    <link rel="stylesheet" href="assets/css/sections/aboutSection.css" />
+    <link rel="stylesheet" href="assets/css/sections/course-section.css" />
+    <link rel="stylesheet" href="assets/css/sections/bento.css" />
+    <link rel="stylesheet" href="assets/css/sections/why.css" />
+    <link rel="stylesheet" href="assets/css/sections/cta.css" />
+    <link rel="stylesheet" href="assets/css/sections/future-leaders.css" />
+    <link rel="stylesheet" href="assets/css/sections/footer.css" />
+
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  </head>
+  <body>
+    <!-- ===================== HEADER ===================== -->
+
+    <header class="header" id="header">
+      <div class="container header-container">
+        <!-- Logo -->
+        <a href="index.html" class="header-logo">
+          <img
+            src="https://www.cornell.vic.edu.au/img/logotxt.png"
+            alt="Cornell Institute of Training"
+            class="header-logo-img"
+          />
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="header-nav" id="headerNav">
+          <ul class="header-menu">
+            <li><a href="index.html" class="header-link active">Home</a></li>
+            <li><a href="courses.html" class="header-link">Courses</a></li>
+            <li><a href="about.html" class="header-link">About</a></li>
+            <li>
+              <a href="admissions.html" class="header-link">Admissions</a>
+            </li>
+
+            <!-- Mega Menu Item -->
+            <li class="has-mega">
+              <button class="header-link mega-trigger" aria-expanded="false">
+                Student Support
+                <svg
+                  width="12"
+                  height="12"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                >
+                  <path d="M6 9l6 6 6-6" />
+                </svg>
+              </button>
+
+              <!-- Mega Menu -->
+              <div class="mega-menu">
+                <div class="mega-menu-inner">
+                  <div class="mega-col">
+                    <h4 class="mega-title">Student Resources</h4>
+                    <ul>
+                      <li><a href="#">Student Handbook</a></li>
+                      <li><a href="#">Policies & Procedures</a></li>
+                      <li><a href="#">Fees & Refunds</a></li>
+                      <li><a href="#">Timetables</a></li>
+                    </ul>
+                  </div>
+
+                  <div class="mega-col">
+                    <h4 class="mega-title">Support Services</h4>
+                    <ul>
+                      <li><a href="#">Academic Support</a></li>
+                      <li><a href="#">Wellbeing & Counselling</a></li>
+                      <li><a href="#">Disability Support</a></li>
+                      <li><a href="#">Career Guidance</a></li>
+                    </ul>
+                  </div>
+
+                  <div class="mega-col">
+                    <h4 class="mega-title">International Students</h4>
+                    <ul>
+                      <li><a href="#">Visa & ESOS Information</a></li>
+                      <li><a href="#">Orientation</a></li>
+                      <li><a href="#">Overseas Student Health Cover</a></li>
+                      <li><a href="#">Contact International Team</a></li>
+                    </ul>
+                  </div>
+
+                  <div class="mega-col mega-col-highlight">
+                    <h4 class="mega-title">Need Help?</h4>
+                    <p class="mega-text">
+                      Our student support team is here to assist you with any
+                      questions.
+                    </p>
+                    <a
+                      href="contact.html"
+                      class="btn-pill btn-pill-primary"
+                      style="margin-top: 1rem"
+                    >
+                      Contact Support
+                      <span class="btn-icon">↗</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </li>
+
+            <li><a href="contact.html" class="header-link">Contact</a></li>
+          </ul>
+        </nav>
+
+        <!-- CTA Button -->
+        <a href="#enquire" class="btn-pill btn-pill-primary header-cta">
+          Enquire Now
+          <span class="btn-icon">↗</span>
+        </a>
+
+        <!-- Mobile Toggle -->
+        <button
+          class="header-toggle"
+          id="headerToggle"
+          aria-label="Toggle menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="hero-bg">
+        <img
+          src="https://shorturl.at/rGwlB"
+          alt="Students in practical training"
+          class="hero-bg-img"
+        />
+        <div class="hero-overlay"></div>
+      </div>
+
+      <div class="container hero-content">
+        <div class="hero-text">
+          <h1 class="hero-title">Cornell Institute of Training</h1>
+          <p class="hero-subtitle">
+            Nationally recognised vocational training in construction trades and
+            hospitality. Develop the skills and knowledge required for your
+            chosen industry.
+          </p>
+
+          <a href="#courses" class="btn-pill btn-pill-secondary">
+            Explore Courses
+            <span class="btn-icon"> </span>
+          </a>
+        </div>
+      </div>
+    </section>
+    <section class="about">
+      <div class="container">
+        <div class="about-bar">
+          <div>
+            <h2 class="heading">
+              Practical Skills.<br />
+              Real Futures.
+            </h2>
+          </div>
+          <div class="aboutcta">
+            <p>
+              Discover industry-focused courses designed to equip you with
+              practical skills and real-world experience. Start your journey to
+              a rewarding career today at Cornell Institute of Training,
+              Melbourne’s trusted name in vocational education.
+            </p>
+            <a href="#enquire" class="btn-pill btn-pill-accent">
+              Learn more
+              <span class="btn-icon">↗</span>
+            </a>
+          </div>
+        </div>
+        <div class="trusted">
+          <div class="trustcard">
+            <img
+              src="assets/images/general/aqf.webp"
+              alt="Australian Qualifications Framework"
+            />
+          </div>
+          <div class="trustcard">
+            <img src="assets/images/general/asqa.webp" alt="ASQA" />
+          </div>
+          <div class="trustcard">
+            <img
+              src="assets/images/general/ntr.png"
+              alt="Nationally Recognised Training"
+            />
+          </div>
+          <div class="trustcard">
+            <img
+              src="assets/images/general/trainiggov.jpg"
+              alt="training.gov.au"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== COURSES SECTION ===================== -->
+    <section class="courses-section" id="courses">
+      <div class="container">
+        <!-- Heading on top -->
+        <div class="courses-header">
+          <h2 class="heading">Our <span> Courses</span></h2>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat
+            debitis laborum perferendis? Suscipit excepturi, error accusantium
+            illo mollitia eveniet cupiditate, fugit quae vitae nesciunt ratione
+            nulla aperiam doloremque voluptas vero?
+          </p>
+        </div>
+
+        <!-- Panels Wrapper -->
+        <div class="courses-panels">
+          <!-- Course 01 -->
+          <div class="course-panel">
+            <div class="course-card">
+              <div class="course-middle">
+                <h3 class="course-name">
+                  Certificate III in Commercial Cookery
+                </h3>
+                <div class="tags">
+                  <p class="course-code">SIT30821</p>
+                  <span class="course-category construction">Construction</span>
+                  <span class="course-duration">54 Weeks</span>
+                </div>
+
+                <p class="course-desc">
+                  Master practical cooking skills, kitchen operations, and food
+                  safety. Perfect for starting a career as a commercial cook.
+                </p>
+                <a href="#enquire" class="course-tag">Hands-on Training</a>
+              </div>
+
+              <div class="course-image">
+                <img
+                  src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop"
+                  alt="Commercial Cookery"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Course 01 -->
+          <div class="course-panel">
+            <div class="course-card">
+              <div class="course-middle">
+                <h3 class="course-name">
+                  Certificate III in Commercial Cookery
+                </h3>
+                <div class="tags">
+                  <p class="course-code">SIT30821</p>
+                  <span class="course-category construction">Construction</span>
+                  <span class="course-duration">54 Weeks</span>
+                </div>
+
+                <p class="course-desc">
+                  Master practical cooking skills, kitchen operations, and food
+                  safety. Perfect for starting a career as a commercial cook.
+                </p>
+                <div class="course-tag">Hands-on Training</div>
+              </div>
+
+              <div class="course-image">
+                <img
+                  src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop"
+                  alt="Commercial Cookery"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Course 01 -->
+          <div class="course-panel">
+            <div class="course-card">
+              <div class="course-middle">
+                <h3 class="course-name">
+                  Certificate III in Commercial Cookery
+                </h3>
+                <div class="tags">
+                  <p class="course-code">SIT30821</p>
+                  <span class="course-category construction">Construction</span>
+                  <span class="course-duration">54 Weeks</span>
+                </div>
+
+                <p class="course-desc">
+                  Master practical cooking skills, kitchen operations, and food
+                  safety. Perfect for starting a career as a commercial cook.
+                </p>
+                <div class="course-tag">Hands-on Training</div>
+              </div>
+
+              <div class="course-image">
+                <img
+                  src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop"
+                  alt="Commercial Cookery"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section
+      class="campus-section"
+      id="campus-life"
+      aria-labelledby="campus-title"
+    >
+      <div class="container">
+        <header class="campus-header">
+          <span class="campus-label">Campus Life</span>
+          <h2 class="heading" id="campus-title">
+            Life on Our <span>Campuses</span>
+          </h2>
+          <p class="campus-subtitle">
+            Step inside our Melbourne and Brisbane campuses and see the
+            classrooms, workshops and students that make Cornell what it is.
+          </p>
+        </header>
+
+        <div class="bento-grid">
+          <!-- 1 · Large image -->
+          <button
+            type="button"
+            class="bento-item bento-large"
+            data-type="image"
+            data-full="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=1600&q=80&auto=format&fit=crop"
+          >
+            <img
+              src="assets/images/campus/campus.jpg"
+              alt="Students outside the Melbourne campus"
+              loading="lazy"
+            />
+            <span class="bento-overlay">
+              <span class="bento-badge">Melbourne</span>
+              <span class="bento-caption"
+                >Student life at our Melbourne campus</span
+              >
+            </span>
+          </button>
+
+          <!-- 2 · Instagram Reel (tall) -->
+          <div class="bento-item bento-tall" data-type="video">
+            <img
+              src="images/melbourne-cover.jpg"
+              alt="Melbourne campus"
+              loading="lazy"
+            />
+            <video
+              class="bento-video"
+              src="assets/images/videos/painting.mp4"
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            ></video>
+            <span class="bento-play" aria-hidden="true"></span>
+            <span class="bento-overlay">
+              <span class="bento-badge">Melbourne · Reel</span>
+              <span class="bento-caption">A day in the classroom</span>
+            </span>
+          </div>
+
+          <!-- 3 · Image -->
+          <button
+            type="button"
+            class="bento-item"
+            data-type="image"
+            data-full="https://images.unsplash.com/photo-1556911220-bff31c812dce?w=1600&q=80&auto=format&fit=crop"
+          >
+            <img
+              src="assets/images/campus/class.jpg"
+              alt="classroom"
+              loading="lazy"
+            />
+            <span class="bento-overlay">
+              <span class="bento-badge">Brisbane</span>
+              <span class="bento-caption">classroom</span>
+            </span>
+          </button>
+
+          <!-- 4 · Image -->
+          <button
+            type="button"
+            class="bento-item"
+            data-type="image"
+            data-full="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1600&q=80&auto=format&fit=crop"
+          >
+            <img
+              src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80&auto=format&fit=crop"
+              alt="Carpentry workshop"
+              loading="lazy"
+            />
+            <span class="bento-overlay">
+              <span class="bento-badge">Melbourne</span>
+              <span class="bento-caption">Carpentry workshop</span>
+            </span>
+          </button>
+          <!-- 6 · Instagram Reel (tall) -->
+          <div class="bento-item bento-tall" data-type="video">
+            <img
+              src="assets/images/general/thumb.png"
+              alt="Melbourne campus"
+              loading="lazy"
+            />
+            <video
+              class="bento-video"
+              src="assets/images/videos/carpentry.mp4"
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            ></video>
+            <span class="bento-play" aria-hidden="true"></span>
+            <span class="bento-overlay">
+              <span class="bento-badge">Melbourne · Reel</span>
+              <span class="bento-caption">A day in the classroom</span>
+            </span>
+          </div>
+          <!-- 5 · Wide image -->
+          <button
+            type="button"
+            class="bento-item bento-wide"
+            data-type="image"
+            data-full="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1600&q=80&auto=format&fit=crop"
+          >
+            <img
+              src="assets/images/campus/practical1.jpg"
+              alt="Students studying together"
+              loading="lazy"
+            />
+            <span class="bento-overlay">
+              <span class="bento-badge">Brisbane</span>
+              <span class="bento-caption">Group study and collaboration</span>
+            </span>
+          </button>
+
+          <!-- 7 · Image -->
+
+          <!-- 8 · Call-to-action tile (not a media tile) -->
+          <div class="bento-item bento-wide bento-cta">
+            <h3 class="bento-cta__title">Come and see it for yourself</h3>
+            <p class="bento-cta__text">
+              Book a campus tour in Melbourne or Brisbane and meet our team.
+            </p>
+            <a href="#contact" class="btn-pill btn-pill-accent">
+              Book a tour
+              <span class="btn-icon" aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <!-- 9 · Image -->
+          <div class="bento-item bento-tall" data-type="video">
+            <img
+              src="assets/images/general/thumb.png"
+              alt="Melbourne campus"
+              loading="lazy"
+            />
+            <video
+              class="bento-video"
+              src="assets/images/videos/carpentry.mp4"
+              muted
+              loop
+              playsinline
+              preload="metadata"
+            ></video>
+            <span class="bento-play" aria-hidden="true"></span>
+            <span class="bento-overlay">
+              <span class="bento-badge">Melbourne · Reel</span>
+              <span class="bento-caption">A day in the classroom</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Media viewer (one per page, place right after the section) -->
+    <div
+      class="bento-lightbox"
+      id="bentoLightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Campus media viewer"
+      hidden
+    >
+      <div class="bento-lightbox__backdrop" data-close></div>
+      <div class="bento-lightbox__dialog">
+        <button
+          type="button"
+          class="bento-lightbox__btn bento-lightbox__close"
+          aria-label="Close"
+          data-close
+        >
+          &times;
+        </button>
+        <button
+          type="button"
+          class="bento-lightbox__btn bento-lightbox__prev"
+          aria-label="Previous"
+        >
+          &#8249;
+        </button>
+        <button
+          type="button"
+          class="bento-lightbox__btn bento-lightbox__next"
+          aria-label="Next"
+        >
+          &#8250;
+        </button>
+        <div class="bento-lightbox__stage"></div>
+        <p class="bento-lightbox__caption"></p>
+      </div>
+    </div>
+    <!-- ===================== WHY US + TESTIMONIALS ===================== -->
+    <section class="why-testimonial-section" id="why-us">
+      <div class="wt-container">
+        <!-- LEFT - Fixed -->
+        <div class="wt-left">
+          <h2 class="heading">Successful students <span>stories</span></h2>
+
+          <p class="wt-desc">
+            Discover inspiring stories from students who gained practical skills
+            and launched successful careers in Hospitality and Construction.
+          </p>
+
+          <div class="wt-stats">
+            <div class="wt-stat">
+              <div class="wt-stat-number">5.0</div>
+              <div class="wt-stat-label">
+                <div class="stars">★★★★★</div>
+                Google Rating
+              </div>
+            </div>
+            <div class="wt-stat">
+              <div class="wt-stat-number">09</div>
+              <div class="wt-stat-label">Industry Courses<br />Offered</div>
+            </div>
+            <div class="wt-stat">
+              <div class="wt-stat-number">500+</div>
+              <div class="wt-stat-label">
+                Students Trained<br />Successfully
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT - Carousel -->
+        <div class="wt-right">
+          <div class="wt-carousel">
+            <!-- Slide 1 -->
+            <div class="wt-slide active">
+              <div class="wt-image-wrap">
+                <img
+                  src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&h=600&fit=crop"
+                  alt="Student"
+                />
+              </div>
+              <div class="wt-testimonial-card">
+                <div class="quote-icon">“</div>
+                <p class="wt-quote">
+                  The trainers were knowledgeable and supportive, and the
+                  practical workshops provided valuable hands-on experience. The
+                  course helped me develop industry-relevant skills and
+                  confidence in woodworking and cabinetry. I would recommend it
+                  to anyone interested in pursuing a career.
+                </p>
+                <div class="wt-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face"
+                    class="wt-avatar"
+                    alt=""
+                  />
+                  <div>
+                    <strong>Malik Mattegama</strong>
+                    <span>Certificate III in Commercial Cookery</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2 -->
+            <div class="wt-slide">
+              <div class="wt-image-wrap">
+                <img
+                  src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&h=600&fit=crop"
+                  alt="Student"
+                />
+              </div>
+              <div class="wt-testimonial-card">
+                <div class="quote-icon">“</div>
+                <p class="wt-quote">
+                  I’m really enjoying my painting course. The trainers are
+                  supportive and explain everything clearly. It’s a great
+                  learning environment, and I would recommend this college to
+                  anyone interested in painting and any other course.
+                </p>
+                <div class="wt-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+                    class="wt-avatar"
+                    alt=""
+                  />
+                  <div>
+                    <strong>Sandeep Kaur</strong>
+                    <span>Certificate III in Carpentry</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3 -->
+            <div class="wt-slide">
+              <div class="wt-image-wrap">
+                <img
+                  src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&h=600&fit=crop"
+                  alt="Student"
+                />
+              </div>
+              <div class="wt-testimonial-card">
+                <div class="quote-icon">“</div>
+                <p class="wt-quote">
+                  I had a very positive experience with Cornell Institute. The
+                  team is supportive, professional, and genuinely cares about
+                  students’ progress. They provide clear guidance throughout the
+                  process and are always ready to answer questions.
+                </p>
+                <div class="wt-author">
+                  <img
+                    src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face"
+                    class="wt-avatar"
+                    alt=""
+                  />
+                  <div>
+                    <strong>Emily Nguyen</strong>
+                    <span>Diploma of Hospitality Management</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navigation Dots -->
+          <div class="wt-dots">
+            <button class="wt-dot active" data-index="0"></button>
+            <button class="wt-dot" data-index="1"></button>
+            <button class="wt-dot" data-index="2"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="fl" aria-labelledby="fl-title">
+      <div class="container">
+        <div class="fl__head fl-reveal">
+          <h2 id="fl-title" class="fl__title heading">
+            From first steps to <span>future leaders</span>
+          </h2>
+          <a href="#all-programs" class="btn-pill btn-pill-primary">
+            View all programs
+            <span class="btn-icon" aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <div class="fl__grid">
+          <a
+            class="fl-card fl-reveal"
+            href="#early-learning"
+            style="
+              --img:
+                url(https://www.cornell.vic.edu.au/img/courses/dipcon.webp),
+                linear-gradient(
+                  160deg,
+                  var(--color-accent),
+                  var(--color-warning)
+                );
+            "
+          >
+            <div
+              class="fl-card__media"
+              role="img"
+              aria-label="Early learning photo"
+            ></div>
+            <div class="fl-card__body">
+              <div>
+                <span class="fl-card__tag">4 Qualifications</span>
+                <div class="fl-card__name">Hospitality & Management</div>
+              </div>
+              <span class="fl-card__arrow" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M7 17 17 7M8 7h9v9" />
+                </svg>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M7 17 17 7M8 7h9v9" />
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <a
+            class="fl-card fl-reveal"
+            href="#junior-school"
+            style="
+              --img:
+                url(https://www.cornell.vic.edu.au/img/courses/cookingcourse.jpg),
+                linear-gradient(
+                  160deg,
+                  var(--color-accent-hover),
+                  var(--color-primary)
+                );
+            "
+          >
+            <div
+              class="fl-card__media"
+              role="img"
+              aria-label="Junior school photo"
+            ></div>
+            <div class="fl-card__body">
+              <div>
+                <span class="fl-card__tag">Prep to Year 6</span>
+                <div class="fl-card__name">Construction & Building</div>
+              </div>
+              <span class="fl-card__arrow" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M7 17 17 7M8 7h9v9" />
+                </svg>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M7 17 17 7M8 7h9v9" />
+                </svg>
+              </span>
+            </div>
+          </a>
+
+          <a
+            class="fl-card fl-reveal"
+            href="#senior-school"
+            style="
+              --img:
+                url(https://www.cornell.vic.edu.au/img/courses/carpentry.jpg),
+                linear-gradient(
+                  160deg,
+                  var(--color-secondary),
+                  var(--color-primary)
+                );
+            "
+          >
+            <div
+              class="fl-card__media"
+              role="img"
+              aria-label="Senior school photo"
+            ></div>
+            <div class="fl-card__body">
+              <div>
+                <span class="fl-card__tag">Years 7 to 12</span>
+                <div class="fl-card__name">Carpentry Courses</div>
+              </div>
+              <span class="fl-card__arrow" aria-hidden="true">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M7 17 17 7M8 7h9v9" />
+                </svg>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M7 17 17 7M8 7h9v9" />
+                </svg>
+              </span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CTA SECTION ===================== -->
+    <section class="cta-section">
+      <div class="cta-container">
+        <div class="cta-content">
+          <span class="cta-label">Start Your Journey</span>
+          <h2 class="cta-title">
+            Ready to build your future<br />with practical skills?
+          </h2>
+          <p class="cta-desc">
+            Join hundreds of students who have transformed their careers through
+            industry-focused training in Hospitality and Construction.
+          </p>
+
+          <div class="cta-buttons">
+            <a href="#courses" class="btn-pill btn-pill-accent"
+              >Contact now
+              <span class="btn-icon">↗</span>
+            </a>
+            <a href="contactus.php" class="btn-pill btn-pill-soft"
+              >Explore courses
+              <span class="btn-icon">↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Footer HTML matching reference layout -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-card">
+          <div class="footer-grid">
+            <!-- Col 1: Brand & Bio with Social Icons -->
+            <div class="footer-col footer-brand-col">
+              <a href="https://www.cornell.vic.edu.au" class="footer-logo">
+                <img
+                  src="assets/images/logo/logotransparent.png"
+                  width="250px"
+                  alt=""
+                />
+              </a>
+              <p class="footer-about">
+                <strong>TOID:6074 | CRICOS Code:03892A</strong>
+                Empowering students through high-quality vocational education
+                and training. Building futures with industry-aligned courses and
+                professional excellence.
+              </p>
+              <div class="footer-socials">
+                <a href="#" aria-label="Instagram" class="social-icon">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                    <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+                  </svg>
+                </a>
+                <a href="#" aria-label="LinkedIn" class="social-icon">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                    />
+                    <rect width="4" height="12" x="2" y="9" />
+                    <circle cx="4" cy="4" r="2" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <div class="footer-cols">
+              <!-- Col 2:  Quick Links -->
+              <div class="footer-col">
+                <h4 class="footer-heading">Quick links</h4>
+                <ul class="footer-links">
+                  <li><a href="#">Our Courses</a></li>
+                  <li><a href="#">Agent Portal</a></li>
+                  <li><a href="#">Contact</a></li>
+                  <li><a href="#">Student forms</a></li>
+                </ul>
+              </div>
+
+              <!-- Col 3: Resources -->
+              <div class="footer-col">
+                <h4 class="footer-heading">Student Resources</h4>
+                <ul class="footer-links">
+                  <li><a href="#">Student Handbook</a></li>
+                  <li><a href="#">Policies & Procedures</a></li>
+                  <li><a href="#">Fees & Refunds</a></li>
+                  <li><a href="#">Timetables</a></li>
+                </ul>
+              </div>
+
+              <!-- Col 4: Company -->
+              <div class="footer-col">
+                <h4 class="footer-heading">International Students</h4>
+                <ul class="footer-links">
+                  <li><a href="#">Visa & ESOS Information</a></li>
+                  <li><a href="#">Orientation</a></li>
+                  <li><a href="#">Overseas Student Health Cover</a></li>
+                  <li><a href="#">Contact International Team</a></li>
+                </ul>
+              </div>
+
+              <p>our campuses</p>
+              <a href="">brisbane</a>
+              <a href="">brisbane</a>
+            </div>
+          </div>
+
+          <!-- Bottom Bar inside Card -->
+          <div class="footer-bottom">
+            <p class="copyright">
+              &copy; 2026 Cornell Institute. All rights reserved.
+            </p>
+            <div class="footer-legal-links">
+              <a href="#">Privacy Policy</a>
+              <a href="#">Sitemap</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="assets/js/courses-gsap.js"></script>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/bento.js"></script>
+    <script src="assets/js/why.js"></script>
+    <script src="assets/js/future-leaders.js"></script>
+  </body>
+</html>

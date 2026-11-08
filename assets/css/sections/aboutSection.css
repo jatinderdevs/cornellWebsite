@@ -1,0 +1,89 @@
+.about-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: space-between;
+  align-items: center;
+  padding: 3rem 0;
+  gap: 15px;
+}
+.aboutcta {
+  text-align: right;
+}
+.aboutcta p {
+  font-size: 1rem;
+
+  text-wrap: balance;
+}
+.trusted {
+  display: flex;
+  width: 100%;
+  max-width: 1100px; /* Match your main content width */
+  margin: 40px auto 0; /* Centers it under the heading */
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  overflow: hidden; /* Clean edges */
+}
+
+.trustcard {
+  flex: 1; /* Equal width for all cards */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 120px;
+  padding: 20px 15px;
+  border-right: 1px solid #e5e5e5;
+  background: #fff;
+  transition: background 0.25s ease;
+}
+
+.trustcard:last-child {
+  border-right: none; /* Remove border on last card */
+}
+
+.trustcard img {
+  max-height: 70px;
+  max-width: 140px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  filter: grayscale(100%);
+  opacity: 0.75;
+  transition: all 0.3s ease;
+}
+
+.trustcard:hover {
+  background: #fafafa;
+}
+
+.trustcard:hover img {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(1.05);
+}
+@media (max-width: 768px) {
+  .trusted {
+    flex-wrap: wrap;
+  }
+
+  .trustcard {
+    flex: 0 0 50%;
+    height: 110px;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .trustcard:nth-child(2n) {
+    border-right: none;
+  }
+
+  .trustcard:nth-child(3),
+  .trustcard:nth-child(4) {
+    border-bottom: none;
+  }
+  .about-bar {
+    grid-template-columns: 1fr;
+  }
+  .aboutcta {
+    text-align: unset;
+  }
+}

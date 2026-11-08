@@ -1,0 +1,408 @@
+/* =========================================================
+   CAMPUS BENTO GRID
+   Section-specific styles only. Fonts, colours, spacing,
+   radius, shadows and buttons come from style.css.
+   ========================================================= */
+
+.campus-section {
+  background: var(--color-bg-alt);
+}
+
+/* ---------- Header ---------- */
+.campus-header {
+  max-width: 720px;
+  margin-inline: auto;
+  padding-bottom: var(--space-xl);
+  text-align: center;
+}
+
+.campus-label {
+  display: inline-block;
+  margin-bottom: var(--space-sm);
+  padding: 0.4rem 1rem;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+}
+
+.campus-subtitle {
+  margin-inline: auto;
+  color: var(--color-text-muted);
+}
+
+/* ---------- Grid ---------- */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: clamp(170px, 17vw, 230px);
+  grid-auto-flow: dense;
+  gap: var(--space-md);
+}
+
+.bento-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+.bento-tall {
+  grid-row: span 2;
+}
+.bento-wide {
+  grid-column: span 2;
+}
+
+/* ---------- Tile ---------- */
+.bento-item {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+  color: #fff;
+  background: var(--color-secondary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  isolation: isolate;
+  transition:
+    transform var(--transition-slow),
+    box-shadow var(--transition-slow);
+}
+
+button.bento-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.bento-item:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.bento-item img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+  z-index: -2;
+}
+
+button.bento-item:hover img {
+  transform: scale(1.06);
+}
+
+/* Dark gradient so text is always readable */
+.bento-item[data-type]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    to top,
+    rgba(11, 29, 54, 0.85) 0%,
+    rgba(11, 29, 54, 0.2) 45%,
+    rgba(11, 29, 54, 0) 70%
+  );
+}
+
+.bento-overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+}
+
+.bento-badge {
+  padding: 0.25rem 0.7rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: var(--radius-full);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.bento-caption {
+  font-family: var(--font-heading);
+  font-size: var(--fs-h6);
+  font-weight: 600;
+  line-height: var(--lh-snug);
+}
+
+/* ---------- Play button (reels / videos) ---------- */
+.bento-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  margin: -30px 0 0 -30px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 50%;
+  box-shadow: var(--shadow-lg);
+  transition:
+    transform var(--transition-slow),
+    background var(--transition-slow);
+}
+
+.bento-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.bento-item.is-playing .bento-video {
+  opacity: 1;
+}
+.bento-item.is-playing .bento-play {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.bento-item[data-type="video"]:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.bento-play::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-35%, -50%);
+  border-style: solid;
+  border-width: 9px 0 9px 15px;
+  border-color: transparent transparent transparent var(--color-primary);
+}
+
+button.bento-item:hover .bento-play {
+  transform: scale(1.1);
+  background: var(--color-accent);
+}
+
+/* ---------- CTA tile ---------- */
+.bento-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-lg);
+  background: var(--color-primary);
+}
+
+.bento-cta__title {
+  margin: 0;
+  font-size: var(--fs-h4);
+  color: #fff;
+}
+
+.bento-cta__text {
+  margin: 0 0 var(--space-xs);
+  max-width: 38ch;
+  font-size: var(--fs-small);
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* keeps button text readable on hover (global a:hover uses an undefined var) */
+.bento-cta .btn-pill:hover {
+  color: var(--color-primary);
+}
+
+/* ---------- Lightbox ---------- */
+.bento-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: var(--space-md);
+}
+
+.bento-lightbox[hidden] {
+  display: none;
+}
+
+.bento-lightbox__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 29, 54, 0.9);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  animation: bentoFade 0.25s ease;
+}
+
+.bento-lightbox__dialog {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  max-width: min(1100px, 100%);
+  animation: bentoPop 0.3s ease;
+}
+
+.bento-lightbox__stage {
+  display: grid;
+  place-items: center;
+}
+
+.bento-lightbox__stage img,
+.bento-lightbox__stage video {
+  max-width: 100%;
+  max-height: 78vh;
+  border-radius: var(--radius-lg);
+  background: #000;
+}
+
+.bento-lightbox__stage iframe {
+  display: block;
+  width: min(400px, 90vw);
+  height: min(740px, 78vh);
+  border: 0;
+  border-radius: var(--radius-lg);
+  background: #fff;
+}
+
+.bento-lightbox__caption {
+  margin: 0;
+  max-width: none;
+  font-size: var(--fs-small);
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+}
+
+.bento-lightbox__btn {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--color-primary);
+  background: #fff;
+  border-radius: 50%;
+  box-shadow: var(--shadow-md);
+  transition:
+    background var(--transition),
+    transform var(--transition);
+}
+
+.bento-lightbox__btn:hover {
+  background: var(--color-accent);
+  transform: scale(1.06);
+}
+
+.bento-lightbox__btn:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.bento-lightbox__close {
+  top: -12px;
+  right: -12px;
+}
+.bento-lightbox__prev {
+  top: 50%;
+  left: -22px;
+  margin-top: -22px;
+}
+.bento-lightbox__next {
+  top: 50%;
+  right: -22px;
+  margin-top: -22px;
+}
+
+@keyframes bentoFade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes bentoPop {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(8px);
+  }
+}
+
+/* ---------- Tablet & mobile: 2 columns ---------- */
+@media (max-width: 1024px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: clamp(150px, 26vw, 230px);
+    gap: var(--space-sm);
+  }
+}
+
+@media (max-width: 600px) {
+  .bento-overlay {
+    padding: var(--space-sm);
+  }
+
+  /* small tiles: keep just the campus badge */
+  .bento-item:not(.bento-large):not(.bento-wide):not(.bento-cta)
+    .bento-caption {
+    display: none;
+  }
+
+  .bento-caption {
+    font-size: var(--fs-small);
+  }
+
+  .bento-cta {
+    padding: var(--space-md);
+  }
+
+  .bento-cta__text {
+    display: none;
+  }
+
+  .bento-play {
+    width: 48px;
+    height: 48px;
+    margin: -24px 0 0 -24px;
+  }
+
+  .bento-lightbox__prev {
+    left: 4px;
+  }
+  .bento-lightbox__next {
+    right: 4px;
+  }
+  .bento-lightbox__close {
+    top: 4px;
+    right: 4px;
+  }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .bento-item,
+  .bento-item img,
+  .bento-play,
+  .bento-lightbox__backdrop,
+  .bento-lightbox__dialog {
+    transition: none;
+    animation: none;
+  }
+}

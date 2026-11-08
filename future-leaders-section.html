@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Future Leaders Section</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f6f1ea;
+    --ink:#1d1a17;
+    --accent:#b3202a;      /* change to your brand colour */
+    --radius:22px;
+    --ease:cubic-bezier(.22,.8,.24,1);
+    --serif:"Playfair Display",Georgia,serif;
+    --sans:"DM Sans",system-ui,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans)}
+
+  .fl{padding:clamp(64px,9vw,140px) clamp(20px,5vw,72px)}
+  .fl__inner{max-width:1320px;margin:0 auto}
+
+  /* Heading: sans + italic serif accent words */
+  .fl__title{
+    font-family:var(--sans);font-weight:500;
+    font-size:clamp(34px,5.4vw,78px);line-height:1.04;letter-spacing:-.02em;
+    max-width:14ch;margin-bottom:clamp(36px,5vw,72px);
+  }
+  .fl__title em{
+    font-family:var(--serif);font-style:italic;font-weight:500;
+    color:var(--accent);letter-spacing:-.01em;
+  }
+
+  /* Cards */
+  .fl__grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,26px)}
+
+  .card{
+    position:relative;display:block;color:#fff;text-decoration:none;
+    aspect-ratio:4/5.4;border-radius:var(--radius);overflow:hidden;isolation:isolate;
+    background:#222;
+    transition:transform .6s var(--ease), box-shadow .6s var(--ease);
+  }
+  .card:hover,.card:focus-visible{transform:translateY(-8px);box-shadow:0 30px 60px -24px rgba(0,0,0,.45)}
+  .card:focus-visible{outline:3px solid var(--accent);outline-offset:4px}
+
+  /* Image layer (swap the gradient for a real photo via --img) */
+  .card__media{
+    position:absolute;inset:0;z-index:-2;
+    background:var(--img, linear-gradient(160deg,#c9a27a,#6b3b2e));
+    background-size:cover;background-position:center;
+    transform:scale(1.001);
+    transition:transform 1.1s var(--ease), filter .6s var(--ease);
+  }
+  .card:hover .card__media{transform:scale(1.09)}
+
+  /* Bottom gradient for legibility */
+  .card::before{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background:linear-gradient(to top,rgba(10,8,6,.82) 0%,rgba(10,8,6,.25) 45%,rgba(10,8,6,0) 70%);
+    transition:opacity .6s var(--ease);
+  }
+  .card:hover::before{opacity:1}
+
+  .card__body{
+    position:absolute;left:0;right:0;bottom:0;
+    padding:clamp(20px,2.4vw,34px);
+    display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+  }
+  .card__tag{
+    display:inline-block;font-size:13px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;
+    padding:7px 14px;border-radius:999px;
+    background:rgba(255,255,255,.18);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(255,255,255,.28);margin-bottom:14px;
+  }
+  .card__name{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(28px,3vw,44px);line-height:1.05;
+    transform:translateY(0);transition:transform .6s var(--ease);
+  }
+  .card:hover .card__name{transform:translateY(-4px)}
+
+  /* Arrow button: slides diagonally and fills on hover */
+  .card__arrow{
+    flex:none;width:54px;height:54px;border-radius:50%;
+    display:grid;place-items:center;overflow:hidden;position:relative;
+    border:1.5px solid rgba(255,255,255,.7);
+    transition:background .45s var(--ease), border-color .45s var(--ease), transform .6s var(--ease);
+  }
+  .card__arrow svg{
+    width:20px;height:20px;position:absolute;
+    transition:transform .5s var(--ease);
+  }
+  .card__arrow svg:nth-child(2){transform:translate(-160%,160%)}
+  .card:hover .card__arrow{background:var(--accent);border-color:var(--accent);transform:rotate(0) scale(1.06)}
+  .card:hover .card__arrow svg:nth-child(1){transform:translate(160%,-160%)}
+  .card:hover .card__arrow svg:nth-child(2){transform:translate(0,0)}
+
+  /* Scroll reveal, staggered */
+  .reveal{opacity:0;transform:translateY(46px);transition:opacity .9s var(--ease), transform .9s var(--ease)}
+  .reveal.is-in{opacity:1;transform:none}
+  .fl__grid .card.reveal.is-in:hover{transform:translateY(-8px)}
+  .fl__grid .card:nth-child(2){transition-delay:.12s,.12s,0s,0s}
+  .fl__grid .card:nth-child(3){transition-delay:.24s,.24s,0s,0s}
+
+  @media (max-width:900px){
+    .fl__grid{grid-template-columns:1fr;max-width:520px}
+    .card{aspect-ratio:4/4.4}
+    .fl__grid .card:nth-child(n){transition-delay:0s}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<section class="fl" aria-labelledby="fl-title">
+  <div class="fl__inner">
+    <h2 id="fl-title" class="fl__title reveal">From first steps to <em>future leaders</em></h2>
+
+    <div class="fl__grid">
+
+      <a class="card reveal" href="#early-learning" style="--img:url('https://picsum.photos/seed/early-learning/900/1200'),linear-gradient(160deg,#e8b88a,#9a4d3a)">
+        <div class="card__media" role="img" aria-label="Early learning photo"></div>
+        <div class="card__body">
+          <div>
+            <span class="card__tag">Ages 3 &amp; 4</span>
+            <div class="card__name">Early Learning</div>
+          </div>
+          <span class="card__arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <a class="card reveal" href="#junior-school" style="--img:url('https://picsum.photos/seed/junior-school/900/1200'),linear-gradient(160deg,#9fb8a6,#2f4f4a)">
+        <div class="card__media" role="img" aria-label="Junior school photo"></div>
+        <div class="card__body">
+          <div>
+            <span class="card__tag">Prep to Year 6</span>
+            <div class="card__name">Junior School</div>
+          </div>
+          <span class="card__arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </span>
+        </div>
+      </a>
+
+      <a class="card reveal" href="#senior-school" style="--img:url('https://picsum.photos/seed/senior-school/900/1200'),linear-gradient(160deg,#a9a3c9,#3b2f5c)">
+        <div class="card__media" role="img" aria-label="Senior school photo"></div>
+        <div class="card__body">
+          <div>
+            <span class="card__tag">Years 7 to 12</span>
+            <div class="card__name">Senior School</div>
+          </div>
+          <span class="card__arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg>
+          </span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  // Scroll-reveal (IntersectionObserver)
+  (function(){
+    var els=document.querySelectorAll('.reveal');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('is-in')});return}
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){en.target.classList.add('is-in');io.unobserve(en.target)}
+      });
+    },{threshold:.15});
+    els.forEach(function(e){io.observe(e)});
+  })();
+</script>
+</body>
+</html>
