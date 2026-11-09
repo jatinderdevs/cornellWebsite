@@ -129,13 +129,13 @@
 
 /* Responsive Breakpoints for Grid */
 @media (max-width: 1200px) {
-  .cards-grid {
+  .blogs-grid {
     grid-template-columns: repeat(2, 1fr); /* 2 columns on tablets */
   }
 }
 
 @media (max-width: 640px) {
-  .cards-grid {
+  .blogs-grid {
     grid-template-columns: 1fr; /* 1 column on mobile phones */
     padding: 10px;
   }
