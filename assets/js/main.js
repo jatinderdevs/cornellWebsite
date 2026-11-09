@@ -1,7 +1,6 @@
 const btnIcons = document.querySelectorAll(".btn-icon");
 
 btnIcons.forEach((x) => {
-  console.log(x);
   return (x.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
                 <rect width="256" height="256" fill="none" />
                 <line
@@ -85,8 +84,9 @@ document.addEventListener("DOMContentLoaded", () => {
       y: 50,
       opacity: 0,
       duration: 1.1,
-      ease: "power3.out",
+      ease: "bounce.out",
       delay: 0.2,
+      //stagger: 0.05,
     });
 
     gsap.from(".hero-subtitle", {
