@@ -1,6 +1,6 @@
 /* =========================================================
-   COURSES SECTION – stacking panels (GSAP + ScrollTrigger)
-   Requires gsap and ScrollTrigger to be loaded before this file.
+   COURSES SECTION – full-bleed stacking panels
+   GSAP + ScrollTrigger
    ========================================================= */
 (function () {
   "use strict";
@@ -12,22 +12,16 @@
     }
 
     gsap.registerPlugin(ScrollTrigger);
-
-    // Stops mobile address-bar show/hide from re-measuring and jumping
     ScrollTrigger.config({ ignoreMobileResize: true });
 
     const section = document.querySelector("#courses");
     if (!section) return;
 
-    const panels = gsap.utils.toArray(
-      section.querySelectorAll(".course-panel"),
-    );
+    const panels = gsap.utils.toArray(section.querySelectorAll(".course-panel"));
     if (!panels.length) return;
 
     const mm = gsap.matchMedia();
 
-    // Everything animated lives here, so users who prefer reduced
-    // motion simply get a normal, readable list of cards.
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const last = panels.length - 1;
 
@@ -46,39 +40,37 @@
       });
 
       panels.forEach((panel, i) => {
-        const card = panel.querySelector(".course-card");
-        const img = panel.querySelector(".course-image img");
-        const items = panel.querySelectorAll(
-          ".course-number, .course-meta, .course-name, .course-code, .course-desc, .course-tag, .course-speaker",
+        const bg = panel.querySelector(".course-bg");
+        const contentItems = panel.querySelectorAll(
+          ".course-label, .course-title, .course-overview, .included-title, .included-list li, .course-actions"
         );
 
-        // Later cards must paint above earlier (pinned) ones
+        // Later panels sit above earlier ones
         panel.style.zIndex = i + 1;
 
-        /* ---- 1. Pin every panel except the last ----
-           Panels shorter than the viewport pin at the top; taller ones
-           (small phones) pin at the bottom so all content is readable. */
+        /* ---- 1. Pin every panel except the last ---- */
         if (i !== last) {
           ScrollTrigger.create({
             trigger: panel,
             start: () =>
               panel.offsetHeight < window.innerHeight
-                ? "top 100px"
+                ? "top top"
                 : "bottom bottom",
+            end: "+=100%",          // stay pinned while next panel covers it
             pin: true,
             pinSpacing: false,
             anticipatePin: 1,
             invalidateOnRefresh: true,
           });
 
-          /* ---- 2. Push the card back as the next one covers it ---- */
-          gsap.to(card, {
-            scale: 0.92,
-            opacity: 0,
+          /* ---- 2. Slight push-back / fade as next panel covers ---- */
+          gsap.to(panel.querySelector(".course-wrapper"), {
+            scale: 0.94,
+            opacity: 0.6,
             ease: "none",
             scrollTrigger: {
               trigger: panels[i + 1],
-              start: "top 50%",
+              start: "top bottom",
               end: "top top",
               scrub: true,
               invalidateOnRefresh: true,
@@ -86,47 +78,47 @@
           });
         }
 
-        /* ---- 3. Image parallax zoom while the panel slides in ---- */
-        if (img) {
+        /* ---- 3. Background parallax zoom ---- */
+        if (bg) {
           gsap.fromTo(
-            img,
-            { scale: 1.22 },
+            bg,
+            { scale: 1.18 },
             {
               scale: 1,
               ease: "none",
               scrollTrigger: {
                 trigger: panel,
                 start: "top bottom",
-                end: "top top",
+                end: "bottom top",
                 scrub: true,
                 invalidateOnRefresh: true,
               },
-            },
+            }
           );
         }
 
-        /* ---- 4. Content reveal (plays once) ---- */
-        gsap.from(items, {
-          y: 26,
+        /* ---- 4. Content reveal (once) ---- */
+        gsap.from(contentItems, {
+          y: 30,
           opacity: 0,
-          duration: 0.7,
+          duration: 0.75,
           ease: "power3.out",
-          stagger: 0.07,
+          stagger: 0.06,
           scrollTrigger: {
             trigger: panel,
-            start: "top 65%",
+            start: "top 70%",
             once: true,
           },
         });
       });
 
-      // Cleanup when the media query stops matching
+      // Cleanup
       return () => {
         panels.forEach((p) => (p.style.zIndex = ""));
       };
     });
 
-    // Images change layout height once loaded
+    // Refresh after images load
     window.addEventListener("load", () => ScrollTrigger.refresh());
   }
 

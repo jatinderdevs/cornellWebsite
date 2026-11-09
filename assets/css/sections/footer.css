@@ -1,62 +1,74 @@
-/* Footer CSS matching your style tokens and reference card layout */
+/* ============================================
+   Footer – Compact layout (no empty space)
+   ============================================ */
+
 .site-footer {
   background-color: var(--color-bg-alt);
-  padding: var(--space-2xl) 0;
+  padding: var(--space-2xl) 0 var(--space-xl);
   font-family: var(--font-body);
 }
 
 .footer-card {
-  background-color: var(--color-bg);
+  background: var(--color-bg);
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-lg);
-  padding: clamp(2rem, 4vw, 3.5rem);
-  margin: 0 auto;
+  padding: clamp(2rem, 4vw, 3rem);
 }
 
+/* ---------- Main Grid ---------- */
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.5fr 3fr;
-  gap: var(--space-md);
-  padding-bottom: var(--space-lg);
+  grid-template-columns: 280px 1fr;
+  gap: clamp(2rem, 4vw, 3.5rem);
+  
   border-bottom: 1px solid var(--color-border);
 }
-.footer-cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
+
+/* Brand column */
 .footer-logo {
-  font-family: var(--font-heading);
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: var(--color-primary);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: inline-block;
   margin-bottom: var(--space-md);
-  letter-spacing: -0.02em;
 }
 
-.footer-logo .logo-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  background: var(--color-primary);
-  color: var(--color-bg);
-  border-radius: var(--radius-sm);
-  font-size: 0.85rem;
-  font-weight: bold;
+.footer-logo img {
+  height: auto;
+  max-width: 200px;
+  display: block;
+}
+
+.footer-rto {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+  letter-spacing: 0.02em;
 }
 
 .footer-about {
   color: var(--color-text-muted);
   font-size: var(--fs-small);
   line-height: var(--lh-relaxed);
-  margin-bottom: var(--space-lg);
-  max-width: 320px;
+  margin-bottom: var(--space-md);
+  max-width: 280px;
+}
+
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: var(--space-md);
+}
+
+.footer-contact a {
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.footer-contact a:hover {
+  color: var(--color-accent);
 }
 
 .footer-socials {
@@ -68,20 +80,33 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: transparent;
-  color: var(--color-text);
   border: 1px solid var(--color-border);
+  color: var(--color-text);
+  background: transparent;
   transition: all var(--transition);
 }
 
 .social-icon:hover {
   background: var(--color-primary);
-  color: var(--color-bg);
   border-color: var(--color-primary);
+  color: #fff;
   transform: translateY(-2px);
+}
+
+/* Right side (links + campuses) */
+.footer-right {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.footer-links-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
 }
 
 .footer-heading {
@@ -89,7 +114,7 @@
   font-size: var(--fs-small);
   font-weight: 600;
   color: var(--color-text);
-  margin-bottom: var(--space-md);
+  margin-bottom: 0.85rem;
   letter-spacing: 0.02em;
 }
 
@@ -100,7 +125,7 @@
 }
 
 .footer-links li {
-  margin-bottom: 0.6rem;
+  margin-bottom: 0.5rem;
 }
 
 .footer-links a {
@@ -114,7 +139,73 @@
   color: var(--color-primary);
 }
 
-/* Footer Bottom Bar */
+/* Campuses – now fill the space under the links */
+.footer-campuses {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.campus-card {
+  background: var(--color-bg-alt);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--color-border);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.campus-card:hover {
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.campus-label {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 0.4rem;
+}
+
+.campus-card p {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  line-height: 1.5;
+  margin: 0 0 0.6rem;
+}
+
+.campus-link {
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.campus-link:hover {
+  color: var(--color-accent);
+}
+
+/* ---------- Acknowledgement ---------- */
+.footer-acknowledgement {
+  padding: var(--space-lg) 0;
+  
+  grid-column: 1 / -1;
+}
+
+.footer-acknowledgement p {
+  font-size: var(--fs-xs);
+  color: var(--color-text-light);
+  line-height: var(--lh-relaxed);
+  max-width: unset;
+  margin: 0;
+  font-style: italic;
+}
+
+/* ---------- Bottom Bar ---------- */
 .footer-bottom {
   padding-top: var(--space-lg);
   display: flex;
@@ -124,10 +215,10 @@
   gap: var(--space-md);
 }
 
-.footer-bottom .copyright {
+.copyright {
   color: var(--color-text-light);
   font-size: var(--fs-xs);
-  margin-bottom: 0;
+  margin: 0;
 }
 
 .footer-legal-links {
@@ -144,34 +235,38 @@
 
 .footer-legal-links a:hover {
   color: var(--color-primary);
-  text-decoration: underline;
 }
 
-/* Responsive Breakpoints */
-@media (max-width: 1024px) {
+/* ---------- Responsive ---------- */
+@media (max-width: 960px) {
   .footer-grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: var(--space-xl);
   }
 
-  .footer-brand-col {
-    grid-column: span 2;
+  .footer-brand {
+    max-width: 360px;
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 700px) {
+  .footer-links-group {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .footer-campuses {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
   .footer-card {
     padding: 1.5rem;
     border-radius: var(--radius-lg);
   }
 
-  .footer-grid {
+  .footer-links-group {
     grid-template-columns: 1fr;
-    gap: var(--space-lg);
-  }
-
-  .footer-brand-col {
-    grid-column: span 1;
   }
 
   .footer-bottom {
