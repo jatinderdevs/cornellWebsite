@@ -99,21 +99,6 @@
   background: var(--color-bg);
 }
 
-
-
-.about-intro-text h2 {
-  font-size: var(--fs-h2);
-  color: var(--color-primary);
-  margin-bottom: var(--space-md);
-}
-
-.about-intro-text p {
-  color: var(--color-primary);
-  line-height: var(--lh-relaxed);
-  font-weight: 600;
-  margin-bottom: var(--space-md);
-}
-
 .meta-item {
   display: flex;
   flex-direction: column;
@@ -133,8 +118,6 @@
   font-weight: 600;
   color: var(--color-primary);
 }
-
-
 
 /* ---------- Values ---------- */
 .about-values {
@@ -163,17 +146,7 @@
   color: var(--color-primary);
   margin: 0;
 }
-.about-intro-heading{
-  width: 20vw;
-}
-.about-intro-text{
-     width: 35vw;
-    text-align: right;
-    margin-right: 0;
-    margin-left: auto;
 
-
-}
 .values-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -185,7 +158,9 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: 1.75rem 1.5rem;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
 }
 /* ---------- About Video Zoom Section ---------- */
 .about-img {
@@ -241,65 +216,6 @@
   color: var(--color-text-muted);
   line-height: 1.6;
   margin: 0;
-}
-
-/* ---------- Campuses ---------- */
-.about-campuses {
-  padding: var(--space-2xl) 0;
-  background: var(--color-bg);
-}
-
-.campuses-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-}
-
-.campus-card {
-  background: var(--color-bg-alt);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  padding: 1.75rem 1.75rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.campus-card:hover {
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-sm);
-}
-
-.campus-label {
-  display: inline-block;
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  margin-bottom: 0.6rem;
-}
-
-.campus-card h3 {
-  font-size: var(--fs-h5);
-  color: var(--color-primary);
-  margin: 0 0 0.35rem;
-}
-
-.campus-card p {
-  font-size: var(--fs-small);
-  color: var(--color-text-muted);
-  margin: 0 0 1rem;
-}
-
-.campus-link {
-  font-size: var(--fs-small);
-  font-weight: 600;
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-.campus-link:hover {
-  color: var(--color-accent);
 }
 
 /* ---------- CTA ---------- */
@@ -358,8 +274,6 @@
 
 /* ---------- Responsive ---------- */
 @media (max-width: 980px) {
- 
-
   .values-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -383,6 +297,50 @@
     width: 100%;
     justify-content: center;
   }
+}
 
- 
+/* ---------- Intro ---------- */
+.about-intro {
+  padding: var(--space-2xl) 0;
+  background: var(--color-bg);
+}
+
+.about-intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+}
+
+.about-intro-heading h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.9rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  color: var(--color-primary);
+  line-height: 1.2;
+  margin: 0;
+}
+
+.about-intro-text p {
+  color: var(--color-text-muted);
+  line-height: var(--lh-relaxed);
+  font-weight: 400;
+  margin-bottom: var(--space-md);
+  max-width: 58ch;
+}
+
+.about-intro-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .about-intro-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .about-intro-heading h2 {
+    font-size: clamp(1.7rem, 6vw, 2.1rem);
+  }
 }

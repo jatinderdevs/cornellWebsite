@@ -98,3 +98,38 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+/* ============================================
+   Heading Reveal – GSAP SplitText (free)
+   ============================================ */
+
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (typeof gsap === "undefined" || typeof SplitText === "undefined") return;
+
+  gsap.registerPlugin(ScrollTrigger, SplitText);
+
+  document.querySelectorAll("h2.heading").forEach((heading) => {
+    // Split into words
+    const split = new SplitText(heading, {
+      type: "words",
+      wordsClass: "hw",
+    });
+
+    // Animate
+    gsap.from(split.words, {
+      yPercent: 120,
+      opacity: 0,
+      rotateX: -35,
+      transformOrigin: "50% 100%",
+      duration: 0.9,
+      ease: "back.out(1.7)",
+      stagger: 0.04,
+      scrollTrigger: {
+        trigger: heading,
+        start: "top 85%",
+        once: true,
+      },
+    });
+  });
+});

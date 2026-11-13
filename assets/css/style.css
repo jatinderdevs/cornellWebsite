@@ -172,7 +172,8 @@ h1 {
 }
 
 h2 {
-  font-size: var(--fs-h2);
+  /* font-size: var(--fs-h2); */
+  font-size: clamp(1.6rem, 2.6vw, 2.1rem);
   letter-spacing: -0.015em;
   margin-bottom: var(--space-md);
 }
@@ -202,11 +203,11 @@ h6 {
 .heading {
   font-weight: bold;
 }
-.heading > span {
+/* .heading > span {
   background-color: var(--color-accent);
   padding: 0 0.5rem;
   border-radius: 0.9rem;
-}
+} */
 
 p {
   margin-bottom: var(--space-md);

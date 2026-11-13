@@ -1,0 +1,627 @@
+/* ============================================
+   Education Agents Page
+   ============================================ */
+
+/* Page Header (shared pattern) */
+.page-header {
+  position: relative;
+  padding: clamp(5.5rem, 10vw, 8rem) 0 clamp(3.5rem, 6vw, 5rem);
+  color: #fff;
+  overflow: hidden;
+}
+
+.page-header-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+}
+
+.page-header-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(11, 29, 54, 0.92) 0%,
+    rgba(30, 58, 95, 0.85) 55%,
+    rgba(11, 29, 54, 0.78) 100%
+  );
+  z-index: 1;
+}
+
+.page-header .container {
+  position: relative;
+  z-index: 2;
+}
+
+.page-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: var(--fs-small);
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: var(--space-lg);
+}
+
+.page-breadcrumb a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.page-breadcrumb a:hover {
+  color: var(--color-accent);
+}
+
+.page-header-content {
+  max-width: 720px;
+}
+
+.page-label {
+  display: inline-block;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-md);
+}
+
+.page-header .heading {
+  font-family: var(--font-heading);
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #fff;
+  margin: 0 0 var(--space-md);
+}
+
+.page-header .heading span {
+  color: var(--color-accent);
+  background: none;
+  padding: 0;
+}
+
+.page-header p {
+  font-size: clamp(1.05rem, 1.2vw + 0.9rem, 1.2rem);
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.88);
+  max-width: 54ch;
+  margin: 0 0 1.5rem;
+}
+
+.header-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* Soft button on dark header */
+.page-header .btn-pill-soft {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+
+.page-header .btn-pill-soft .btn-icon {
+  background: #fff;
+  color: var(--color-primary);
+}
+
+.page-header .btn-pill-soft:hover {
+  background: #fff;
+  color: var(--color-primary);
+}
+
+/* ---------- Sections ---------- */
+.ag-section {
+  padding: var(--space-2xl) 0;
+}
+
+.ag-section-alt {
+  background: var(--color-bg-alt);
+}
+
+.ag-section-header {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 2.5rem;
+}
+
+.ag-section-header .heading {
+  margin-bottom: 0.6rem;
+}
+
+.ag-section-header p {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+/* ---------- About + Stats ---------- */
+.ag-about-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.ag-about-content .heading {
+  margin-bottom: 1rem;
+}
+
+.ag-about-content p {
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+  max-width: 58ch;
+}
+
+.ag-check-list {
+  list-style: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+}
+
+.ag-check-list li {
+  position: relative;
+  padding-left: 1.6rem;
+  margin-bottom: 0.55rem;
+  font-size: var(--fs-small);
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.ag-check-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+  font-weight: 700;
+}
+
+.ag-check-list.light li {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.ag-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.ag-stat-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+}
+
+.ag-stat-number {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin-bottom: 0.25rem;
+}
+
+.ag-stat-label {
+  font-size: var(--fs-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Partner Box ---------- */
+.ag-partner-box {
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius-xl);
+  padding: clamp(2rem, 4vw, 3rem);
+}
+
+.ag-partner-content {
+  max-width: 680px;
+}
+
+.ag-partner-box .section-label {
+  color: var(--color-accent);
+}
+
+.ag-partner-box .heading {
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.ag-partner-box .heading span {
+  color: var(--color-accent);
+  background: none;
+  padding: 0;
+}
+
+.ag-partner-box p {
+  color: rgba(255, 255, 255, 0.88);
+  margin-bottom: 1.25rem;
+  max-width: 58ch;
+}
+
+.ag-partner-box .btn-pill {
+  margin-top: 0.5rem;
+}
+
+/* ---------- Benefits ---------- */
+.ag-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.ag-benefit-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 1.6rem 1.4rem;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.ag-benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.ag-benefit-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: rgba(11, 29, 54, 0.06);
+  color: var(--color-primary);
+  border-radius: var(--radius-lg);
+  margin-bottom: 1rem;
+}
+
+.ag-benefit-card h3 {
+  font-size: var(--fs-h5);
+  color: var(--color-primary);
+  margin: 0 0 0.4rem;
+}
+
+.ag-benefit-card p {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* ---------- Courses ---------- */
+.ag-courses-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.ag-course-card {
+  display: block;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem 1.6rem;
+  text-decoration: none;
+  color: inherit;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.ag-course-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.ag-course-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.6rem;
+}
+
+.ag-course-card h3 {
+  font-size: var(--fs-h5);
+  color: var(--color-primary);
+  margin: 0 0 0.5rem;
+}
+
+.ag-course-card p {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin: 0 0 1rem;
+  line-height: 1.55;
+}
+
+.ag-course-link {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.ag-course-card:hover .ag-course-link {
+  color: var(--color-accent);
+}
+
+.ag-courses-cta {
+  text-align: center;
+}
+
+/* ---------- Campuses ---------- */
+.ag-campuses-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.ag-campus-card {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.ag-campus-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.ag-campus-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.ag-campus-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.45s ease;
+}
+
+.ag-campus-card:hover .ag-campus-image img {
+  transform: scale(1.06);
+}
+
+.ag-campus-body {
+  padding: 1.4rem 1.5rem 1.6rem;
+}
+
+.ag-campus-label {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 0.4rem;
+}
+
+.ag-campus-body h3 {
+  font-size: var(--fs-h5);
+  color: var(--color-primary);
+  margin: 0 0 0.25rem;
+}
+
+.ag-campus-body p {
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  margin: 0 0 0.85rem;
+}
+
+.ag-campus-link {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.ag-campus-link:hover {
+  color: var(--color-accent);
+}
+
+/* ---------- FAQ ---------- */
+.ag-faq-list {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.ag-faq-item {
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 0.75rem;
+  overflow: hidden;
+}
+
+.ag-faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.15rem 1.35rem;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.ag-faq-question:hover {
+  background: rgba(11, 29, 54, 0.03);
+}
+
+.ag-faq-icon {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  position: relative;
+}
+
+.ag-faq-icon::before,
+.ag-faq-icon::after {
+  content: "";
+  position: absolute;
+  background: var(--color-primary);
+  transition: transform 0.25s ease;
+}
+
+.ag-faq-icon::before {
+  width: 12px;
+  height: 2px;
+  top: 10px;
+  left: 5px;
+}
+
+.ag-faq-icon::after {
+  width: 2px;
+  height: 12px;
+  top: 5px;
+  left: 10px;
+}
+
+.ag-faq-item.active .ag-faq-icon::after {
+  transform: rotate(90deg);
+  opacity: 0;
+}
+
+.ag-faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease;
+}
+
+.ag-faq-item.active .ag-faq-answer {
+  max-height: 300px;
+}
+
+.ag-faq-answer p {
+  padding: 0 1.35rem 1.25rem;
+  margin: 0;
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+  line-height: 1.65;
+}
+
+.ag-faq-answer a {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.ag-faq-answer a:hover {
+  color: var(--color-accent);
+}
+
+/* ---------- CTA ---------- */
+.ag-cta {
+  padding: var(--space-2xl) 0;
+  background: var(--color-bg);
+}
+
+.ag-cta-box {
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: var(--radius-xl);
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.ag-cta-box h2 {
+  color: #fff;
+  margin: 0 0 0.4rem;
+  font-size: var(--fs-h3);
+}
+
+.ag-cta-box p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 48ch;
+}
+
+.ag-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.ag-cta .btn-pill-secondary {
+  background: transparent;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  color: #fff;
+}
+
+.ag-cta .btn-pill-secondary .btn-icon {
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--color-primary);
+}
+
+.ag-cta .btn-pill-secondary:hover {
+  background: #fff;
+  border-color: #fff;
+  color: var(--color-primary);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 1000px) {
+  .ag-about-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .ag-benefits-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .ag-benefits-grid,
+  .ag-courses-grid,
+  .ag-campuses-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ag-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .header-actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .ag-cta-box {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .ag-cta-actions {
+    width: 100%;
+    justify-content: center;
+  }
+}

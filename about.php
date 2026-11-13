@@ -19,6 +19,7 @@
 
     <?php include_once('includes/stylesheets.php') ?>
     <link rel="stylesheet" href="assets/css/page/about.css" />
+    <link rel="stylesheet" href="assets/css/sections/campuses.css" />
 </head>
 
 <body>
@@ -52,24 +53,25 @@
         <div class="container">
             <div class="about-intro-grid">
                 <div class="about-intro-heading">
-                    <h2>Achieve Your Goals Your Goals</h2>
+                    <h2 class="heading">Achieve Your Goals</h2>
                 </div>
-
-            </div>
-            <div class="about-intro-text">
-                <p>
-                    At the Cornell Institute of Training, we believe that education is the key to unlocking your full
-                    potential.
-                    That’s why we offer a diverse range of training courses, workshops, and programs designed to help
-                    you develop
-                    the skills, knowledge, and expertise you need to succeed in today’s rapidly changing world.
-                </p>
-                <p>
-                    Established with a vision to empower individuals, we deliver industry-focused courses in commercial
-                    cookery,
-                    cabinet making, building & construction, and more — all tailored to meet the needs of today’s
-                    workforce.
-                </p>
+                <div class="about-intro-text">
+                    <p>
+                        At the Cornell Institute of Training, we believe that education is the key to unlocking your
+                        full
+                        potential. That’s why we offer a diverse range of training courses, workshops, and programs
+                        designed to help
+                        you develop the skills, knowledge, and expertise you need to succeed in today’s rapidly changing
+                        world.
+                    </p>
+                    <p>
+                        Established with a vision to empower individuals, we deliver industry-focused courses in
+                        commercial
+                        cookery, cabinet making, building & construction, and more — all tailored to meet the needs of
+                        today’s
+                        workforce.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -80,37 +82,8 @@
                 poster="assets/images/campus/campus.jpg"></video>
         </div>
     </section>
-    <!-- ===================== CAMPUSES ===================== -->
-    <section class="about-campuses">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-label">Our Locations</span>
-                <h2>Visit Our Campuses</h2>
-            </div>
 
-            <div class="campuses-grid">
-                <div class="campus-card">
-                    <div class="campus-label">Melbourne Campus</div>
-                    <h3>Level 5, 440 Elizabeth Street</h3>
-                    <p>Melbourne VIC 3000</p>
-                    <a href="https://maps.google.com/?q=Level+5,+440+Elizabeth+Street,+Melbourne+VIC+3000"
-                        target="_blank" rel="noopener" class="campus-link">
-                        Get directions →
-                    </a>
-                </div>
-
-                <div class="campus-card">
-                    <div class="campus-label">Brisbane Campus</div>
-                    <h3>161 Brunswick Street</h3>
-                    <p>Fortitude Valley QLD 4006</p>
-                    <a href="https://maps.google.com/?q=161+Brunswick+Street,+Fortitude+Valley+QLD+4006" target="_blank"
-                        rel="noopener" class="campus-link">
-                        Get directions →
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php include_once('includes/campuses.php') ?>
 
     <!-- ===================== CTA ===================== -->
     <section class="about-cta">

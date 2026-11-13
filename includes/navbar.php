@@ -28,30 +28,33 @@
                              <div class="mega-col">
                                  <h4 class="mega-title">Student Resources</h4>
                                  <ul>
-                                     <li><a href="#">Student Handbook</a></li>
-                                     <li><a href="#">Policies & Procedures</a></li>
-                                     <li><a href="#">Fees & Refunds</a></li>
-                                     <li><a href="#">Timetables</a></li>
+                                     <li><a href="student-support.php#resources">Student Handbook</a></li>
+                                     <li><a href="student-support.php#policies">Policies &amp; Procedures</a></li>
+                                     <li><a href="student-support.php#policies">Fees &amp; Refunds</a></li>
+                                     <li><a href="student-support.php#resources">Timetables</a></li>
                                  </ul>
                              </div>
 
                              <div class="mega-col">
                                  <h4 class="mega-title">Support Services</h4>
                                  <ul>
-                                     <li><a href="#">Academic Support</a></li>
-                                     <li><a href="#">Wellbeing & Counselling</a></li>
-                                     <li><a href="#">Disability Support</a></li>
-                                     <li><a href="#">Career Guidance</a></li>
+                                     <li><a href="student-support.php#support-services">Academic Support</a></li>
+                                     <li><a href="student-support.php#support-services">Wellbeing &amp; Counselling</a>
+                                     </li>
+                                     <li><a href="student-support.php#support-services">Disability Support</a></li>
+                                     <li><a href="student-support.php#support-services">Career Guidance</a></li>
                                  </ul>
                              </div>
 
                              <div class="mega-col">
                                  <h4 class="mega-title">International Students</h4>
                                  <ul>
-                                     <li><a href="#">Visa & ESOS Information</a></li>
-                                     <li><a href="#">Orientation</a></li>
-                                     <li><a href="#">Overseas Student Health Cover</a></li>
-                                     <li><a href="#">Contact International Team</a></li>
+                                     <li><a href="student-support.php#support-services">Visa &amp; ESOS Information</a>
+                                     </li>
+                                     <li><a href="student-support.php#support-services">Orientation</a></li>
+                                     <li><a href="student-support.php#support-services">Overseas Student Health
+                                             Cover</a></li>
+                                     <li><a href="student-support.php#contacts">Contact International Team</a></li>
                                  </ul>
                              </div>
 
@@ -61,7 +64,8 @@
                                      Our student support team is here to assist you with any
                                      questions.
                                  </p>
-                                 <a href="contact.html" class="btn-pill btn-pill-primary" style="margin-top: 1rem">
+                                 <a href="student-support.php" class="btn-pill btn-pill-primary"
+                                     style="margin-top: 1rem">
                                      Contact Support
                                      <span class="btn-icon">↗</span>
                                  </a>

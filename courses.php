@@ -66,43 +66,58 @@ foreach ($courses as $key => $course) {
             </div>
         </div>
     </section>
-    <!-- Courses Grid -->
+    <!-- Filter Bar -->
+    <section class="courses-filter-bar">
+        <div class="container">
+            <div class="filter-pills" role="tablist" aria-label="Filter courses by category">
+                <button type="button" class="filter-pill active" data-filter="all" aria-pressed="true">
+                    All Courses
+                </button>
+                <button type="button" class="filter-pill" data-filter="Construction" aria-pressed="false">
+                    Construction
+                </button>
+                <button type="button" class="filter-pill" data-filter="Hospitality" aria-pressed="false">
+                    Hospitality
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses Grid – all cards together -->
     <section class="courses-listing">
         <div class="container">
+            <div class="courseCards">
+                <?php foreach ($courses as $key => $course): ?>
+                <a href="course.php?course=<?= urlencode($key) ?>" class="courseCard"
+                    data-category="<?= htmlspecialchars($course['category'] ?? 'Other') ?>">
+                    <div class="card-image-wrapper">
+                        <img src="assets/images/courses/<?= htmlspecialchars($course['hero_image']) ?>"
+                            alt="<?= htmlspecialchars($course['title']) ?>" class="card-image" loading="lazy" />
+                        <div class="card-gradient"></div>
+                    </div>
 
-            <?php foreach ($categories as $categoryName => $categoryCourses): ?>
-            <div class="courses-category-block">
-                <h2 class="category-title"><?= htmlspecialchars($categoryName) ?></h2>
-
-                <div class="courseCards">
-                    <?php foreach ($categoryCourses as $key => $course): ?>
-                    <a href="course.php?course=<?= urlencode($key) ?>" class="courseCard">
-                        <div class="card-image-wrapper">
-                            <img src="assets/images/courses/<?= $course['hero_image']?>"
-                                alt="<?= htmlspecialchars($course['title']) ?>" class="card-image" loading="lazy" />
-                            <div class="card-gradient"></div>
+                    <div class="card-content">
+                        <h3 class="main-text">
+                            <?= htmlspecialchars($course['code']) ?>
+                            <?= htmlspecialchars($course['title']) ?>
+                        </h3>
+                        <div class="cTags">
+                            <div class="ctag"><?= (int)$course['duration_weeks'] ?> weeks</div>
+                            <div class="ctag">CRICOS <?= htmlspecialchars($course['cricos']) ?></div>
+                            <div class="ctag">Intake open</div>
                         </div>
-
-                        <div class="card-content">
-                            <h3 class="main-text"><?= htmlspecialchars($course['code']) ?>
-                                <?= htmlspecialchars($course['title']) ?></h3>
-                            <div class="cTags">
-                                <div class="ctag"><?= (int)$course['duration_weeks'] ?> weeks</div>
-                                <div class="ctag">CRICOS <?= htmlspecialchars($course['cricos']) ?></div>
-                                <div class="ctag ">Intake open</div>
-                            </div>
-                        </div>
-                    </a>
-                    <?php endforeach; ?>
-                </div>
+                    </div>
+                </a>
+                <?php endforeach; ?>
             </div>
-            <?php endforeach; ?>
-
         </div>
     </section>
 
     <?php include_once('includes/footer.php') ?>
     <?php include_once('includes/scripts.php') ?>
+
+    <script src="assets/js/courses-page.js"></script>
+
 </body>
 
 </html>

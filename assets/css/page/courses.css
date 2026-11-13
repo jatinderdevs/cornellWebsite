@@ -1,6 +1,5 @@
-
-      /* Testimonial Card CSS */
-      /* ---------- Courses Page Header ---------- */
+/* Testimonial Card CSS */
+/* ---------- Courses Page Header ---------- */
 .courses-header-section {
   position: relative;
   padding: clamp(5.5rem, 10vw, 8rem) 0 clamp(3.5rem, 6vw, 5rem);
@@ -102,105 +101,221 @@
     padding-top: clamp(5rem, 18vw, 6.5rem);
   }
 }
-      .courseCards {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 30px;
-        align-items: center;
-        flex-wrap: wrap;
-        justify-content: space-around;
-      }
-      .catetag{
-        background-color: red;
-      }
-      .courseCard {
-        width: 100%;
-        /* max-width: 380px; */
-        background-color: #ffffff;
-        border-radius: 20px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-        border: 1px solid #f0f0f0;
-        overflow: hidden;
-        font-family: var(--font-body);
-        margin: 0 auto;
-      }
+.courseCards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+.catetag {
+  background-color: red;
+}
+.courseCard {
+  width: 100%;
+  /* max-width: 380px; */
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  border: 1px solid #f0f0f0;
+  overflow: hidden;
+  font-family: var(--font-body);
+  margin: 0 auto;
+}
 
-      .card-image-wrapper {
-        position: relative;
-        width: 100%;
-        height: 260px;
-        overflow: hidden;
-      }
-      .cBtn {
-        padding: 20px 0;
-      }
-      .card-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-      }
+.card-image-wrapper {
+  position: relative;
+  width: 100%;
+  height: 260px;
+  overflow: hidden;
+}
+.cBtn {
+  padding: 20px 0;
+}
+.card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 
-      .card-gradient {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-          to bottom,
-          rgba(255, 255, 255, 0) 40%,
-          rgba(255, 255, 255, 0.7) 75%,
-          rgba(255, 255, 255, 1) 100%
-        );
-        pointer-events: none;
-      }
+.card-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, 0.7) 75%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  pointer-events: none;
+}
 
-      .card-content {
-        padding: 0 28px 28px 28px;
-        margin-top: -15px;
-        position: relative;
-        z-index: 2;
-      }
+.card-content {
+  padding: 0 28px 28px 28px;
+  margin-top: -15px;
+  position: relative;
+  z-index: 2;
+}
 
-      .main-text {
-        font-family: var(--font-heading);
+.main-text {
+  font-family: var(--font-heading);
 
-        font-size: 1.1rem;
-        line-height: 1.45;
-        color: #111111;
-        font-weight: 600;
-        
-        text-wrap: balance;
-        letter-spacing: -0.2px;
-      }
+  font-size: 1.1rem;
+  line-height: 1.45;
+  color: #111111;
+  font-weight: 600;
 
-      .ctag {
-        text-align: center;
-        font-size: 14px;
-        color: #111144bd;
-        font-weight: 500;
-        padding: 0.2rem;
-      }
-      .cTags {
-        border-top: 1px solid #dfdfdf;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-      }
-      /* Optional responsive adjust for smaller screens */
-      @media (max-width: 480px) {
-        .testimonial-card {
-          max-width: 100%;
-        }
+  text-wrap: balance;
+  letter-spacing: -0.2px;
+}
 
-        .card-image-wrapper {
-          height: 220px;
-        }
+.ctag {
+  text-align: center;
+  font-size: 14px;
+  color: #111144bd;
+  font-weight: 500;
+  padding: 0.2rem;
+}
+.cTags {
+  border-top: 1px solid #dfdfdf;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+/* Optional responsive adjust for smaller screens */
+@media (max-width: 480px) {
+  .testimonial-card {
+    max-width: 100%;
+  }
 
-        .card-content {
-          padding: 0 20px 20px 20px;
-        }
-      }
-    
-      
+  .card-image-wrapper {
+    height: 220px;
+  }
+
+  .card-content {
+    padding: 0 20px 20px 20px;
+  }
+}
+
+/* ========== Filter Bar ========== */
+.courses-filter-bar {
+  padding: 1.5rem 0 0.5rem;
+  background: var(--color-bg-alt, #f7f9fc);
+  border-bottom: 1px solid var(--color-border, #e2e8f0);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.filter-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.filter-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 1.35rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: 1.5px solid var(--color-border-dark, #cbd5e0);
+  background: #fff;
+  color: var(--color-primary, #0b1d36);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.filter-pill:hover {
+  border-color: var(--color-primary, #0b1d36);
+  background: #f0f4f8;
+}
+
+.filter-pill.active {
+  background: var(--color-primary, #0b1d36);
+  border-color: var(--color-primary, #0b1d36);
+  color: #fff;
+}
+
+/* ========== Course Cards – hover scale ========== */
+.courseCard {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.courseCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+}
+
+.card-image-wrapper {
+  overflow: hidden; /* already present, keep it */
+}
+
+.card-image {
+  transition: transform 0.45s ease;
+}
+
+.courseCard:hover .card-image {
+  transform: scale(1.07);
+}
+
+/* ========== Better Responsive Grid ========== */
+.courseCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.75rem;
+}
+
+.courses-category-block {
+  margin-bottom: 3.5rem;
+}
+
+.category-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  color: var(--color-primary);
+  margin-bottom: 1.5rem;
+}
+
+/* Tablet */
+@media (max-width: 992px) {
+  .courseCards {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .courseCards {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .card-image-wrapper {
+    height: 220px;
+  }
+
+  .filter-pills {
+    gap: 0.5rem;
+  }
+
+  .filter-pill {
+    padding: 0.45rem 1.1rem;
+    font-size: 0.875rem;
+  }
+
+  .courses-filter-bar {
+    padding: 1rem 0 0.25rem;
+  }
+}
