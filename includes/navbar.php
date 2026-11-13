@@ -1,33 +1,22 @@
  <header class="header" id="header">
      <div class="container header-container">
          <!-- Logo -->
-         <a href="index.html" class="header-logo">
-             <img
-                 src="https://www.cornell.vic.edu.au/img/logotxt.png"
-                 alt="Cornell Institute of Training"
+         <a href="index.php" class="header-logo">
+             <img src="https://www.cornell.vic.edu.au/img/logotxt.png" alt="Cornell Institute of Training"
                  class="header-logo-img" />
          </a>
 
          <!-- Desktop Navigation -->
          <nav class="header-nav" id="headerNav">
              <ul class="header-menu">
-                 <li><a href="index.html" class="header-link active">Home</a></li>
-                 <li><a href="courses.html" class="header-link">Courses</a></li>
-                 <li><a href="about.html" class="header-link">About</a></li>
-                 <li>
-                     <a href="admissions.html" class="header-link">Admissions</a>
-                 </li>
+                 <li><a href="index.php" class="header-link active">Home</a></li>
+                 <li><a href="courses.php" class="header-link">Courses</a></li>
 
                  <!-- Mega Menu Item -->
                  <li class="has-mega">
                      <button class="header-link mega-trigger" aria-expanded="false">
                          Student Support
-                         <svg
-                             width="12"
-                             height="12"
-                             viewBox="0 0 24 24"
-                             fill="none"
-                             stroke="currentColor"
+                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                              stroke-width="2.5">
                              <path d="M6 9l6 6 6-6" />
                          </svg>
@@ -72,10 +61,7 @@
                                      Our student support team is here to assist you with any
                                      questions.
                                  </p>
-                                 <a
-                                     href="contact.html"
-                                     class="btn-pill btn-pill-primary"
-                                     style="margin-top: 1rem">
+                                 <a href="contact.html" class="btn-pill btn-pill-primary" style="margin-top: 1rem">
                                      Contact Support
                                      <span class="btn-icon">↗</span>
                                  </a>
@@ -83,22 +69,23 @@
                          </div>
                      </div>
                  </li>
+                 <li>
+                     <a href="admissions.html" class="header-link">Agents Hub</a>
+                 </li>
+                 <li><a href="about.php" class="header-link">About</a></li>
 
-                 <li><a href="contact.html" class="header-link">Contact</a></li>
+
              </ul>
          </nav>
 
          <!-- CTA Button -->
-         <a href="#enquire" class="btn-pill btn-pill-primary header-cta">
-             Enquire Now
+         <a href="#enquire" class="btn-pill btn-pill-accent header-cta">
+             Contact Now
              <span class="btn-icon">↗</span>
          </a>
 
          <!-- Mobile Toggle -->
-         <button
-             class="header-toggle"
-             id="headerToggle"
-             aria-label="Toggle menu">
+         <button class="header-toggle" id="headerToggle" aria-label="Toggle menu">
              <span></span>
              <span></span>
              <span></span>

@@ -6,12 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>About Us | Cornell Institute of Training</title>
-    <meta name="description" content="Learn about Cornell Institute of Training – a nationally recognised RTO (TOID 6074 | CRICOS 03892A) delivering practical, industry-focused vocational education in Melbourne and Brisbane." />
+    <meta name="description"
+        content="Learn about Cornell Institute of Training – a nationally recognised RTO (TOID 6074 | CRICOS 03892A) delivering practical, industry-focused vocational education in Melbourne and Brisbane." />
     <link rel="canonical" href="https://www.cornell.vic.edu.au/about.php" />
 
     <!-- Open Graph -->
     <meta property="og:title" content="About Us | Cornell Institute of Training" />
-    <meta property="og:description" content="Empowering students through high-quality vocational education and training." />
+    <meta property="og:description"
+        content="Empowering students through high-quality vocational education and training." />
     <meta property="og:url" content="https://www.cornell.vic.edu.au/about.php" />
     <meta property="og:type" content="website" />
 
@@ -24,10 +26,7 @@
 
     <!-- ===================== PAGE HEADER ===================== -->
     <section class="page-header">
-        <img
-            class="page-header-bg"
-            src="assets/images/about/about-header.jpg"
-            alt="" />
+        <img class="page-header-bg" src="https://shorturl.at/rGwlB" alt="" />
         <div class="page-header-overlay"></div>
 
         <div class="container">
@@ -38,7 +37,7 @@
             </nav>
 
             <div class="page-header-content">
-                <span class="page-label">Who We Are</span>
+                <!-- <span class="page-label">Who We Are</span> -->
                 <h1 class="heading">About <span>Cornell</span></h1>
                 <p>
                     Empowering students through high-quality vocational education and training.
@@ -59,13 +58,17 @@
             </div>
             <div class="about-intro-text">
                 <p>
-                    At the Cornell Institute of Training, we believe that education is the key to unlocking your full potential.
-                    That’s why we offer a diverse range of training courses, workshops, and programs designed to help you develop
+                    At the Cornell Institute of Training, we believe that education is the key to unlocking your full
+                    potential.
+                    That’s why we offer a diverse range of training courses, workshops, and programs designed to help
+                    you develop
                     the skills, knowledge, and expertise you need to succeed in today’s rapidly changing world.
                 </p>
                 <p>
-                    Established with a vision to empower individuals, we deliver industry-focused courses in commercial cookery,
-                    cabinet making, building & construction, and more — all tailored to meet the needs of today’s workforce.
+                    Established with a vision to empower individuals, we deliver industry-focused courses in commercial
+                    cookery,
+                    cabinet making, building & construction, and more — all tailored to meet the needs of today’s
+                    workforce.
                 </p>
             </div>
         </div>
@@ -73,12 +76,7 @@
 
     <section class="about-img">
         <div class="about-img-inner">
-            <video
-                src="assets/images/videos/about.mp4"
-                autoplay
-                muted
-                loop
-                playsinline
+            <video src="assets/images/videos/about.mp4" autoplay muted loop playsinline
                 poster="assets/images/campus/campus.jpg"></video>
         </div>
     </section>
@@ -95,11 +93,8 @@
                     <div class="campus-label">Melbourne Campus</div>
                     <h3>Level 5, 440 Elizabeth Street</h3>
                     <p>Melbourne VIC 3000</p>
-                    <a
-                        href="https://maps.google.com/?q=Level+5,+440+Elizabeth+Street,+Melbourne+VIC+3000"
-                        target="_blank"
-                        rel="noopener"
-                        class="campus-link">
+                    <a href="https://maps.google.com/?q=Level+5,+440+Elizabeth+Street,+Melbourne+VIC+3000"
+                        target="_blank" rel="noopener" class="campus-link">
                         Get directions →
                     </a>
                 </div>
@@ -108,11 +103,8 @@
                     <div class="campus-label">Brisbane Campus</div>
                     <h3>161 Brunswick Street</h3>
                     <p>Fortitude Valley QLD 4006</p>
-                    <a
-                        href="https://maps.google.com/?q=161+Brunswick+Street,+Fortitude+Valley+QLD+4006"
-                        target="_blank"
-                        rel="noopener"
-                        class="campus-link">
+                    <a href="https://maps.google.com/?q=161+Brunswick+Street,+Fortitude+Valley+QLD+4006" target="_blank"
+                        rel="noopener" class="campus-link">
                         Get directions →
                     </a>
                 </div>
