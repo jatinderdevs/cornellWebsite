@@ -1,0 +1,96 @@
+/* ================================
+   CTA SECTION
+   ================================ */
+
+.cta-section {
+  background: var(--color-primary);
+  padding: 90px 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 24px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+.cta-label {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: 18px;
+}
+
+.cta-title {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: #ffffff;
+  margin: 0 0 20px;
+}
+
+.cta-desc {
+  font-size: 17px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 580px;
+  margin: 0 auto 36px;
+}
+
+/* Optional subtle background shape */
+.cta-section::before {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(
+    circle,
+    rgba(42, 157, 143, 0.12) 0%,
+    transparent 70%
+  );
+  top: -150px;
+  right: -100px;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* ================================
+   RESPONSIVE
+   ================================ */
+
+@media (max-width: 768px) {
+  .cta-section {
+    padding: 70px 0;
+  }
+
+  .cta-title {
+    font-size: 32px;
+  }
+
+  .cta-desc {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .cta-title {
+    font-size: 28px;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-btn {
+    width: 100%;
+    max-width: 280px;
+  }
+}

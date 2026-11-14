@@ -8,8 +8,8 @@
 
           <div class="campuses-grid">
               <!-- Melbourne -->
-              <a href="https://maps.google.com/?q=Level+5,+440+Elizabeth+Street,+Melbourne+VIC+3000" target="_blank"
-                  rel="noopener" class="campus-card">
+              <a href="https://maps.google.com/?q=Level+5,+440+Elizabeth+Street,+Melbourne+VIC+3000" style="padding: 0;"
+                  target="_blank" rel="noopener" class="campus-card">
                   <div class="campus-image-wrap">
                       <img src="assets/images/campus/campus.jpg" alt="Melbourne Campus – Cornell Institute of Training"
                           loading="lazy" />
@@ -24,8 +24,8 @@
               </a>
 
               <!-- Brisbane -->
-              <a href="https://maps.google.com/?q=161+Brunswick+Street,+Fortitude+Valley+QLD+4006" target="_blank"
-                  rel="noopener" class="campus-card">
+              <a href="https://maps.google.com/?q=161+Brunswick+Street,+Fortitude+Valley+QLD+4006" style="padding: 0;"
+                  target="_blank" rel="noopener" class="campus-card">
                   <div class="campus-image-wrap">
                       <img src="assets/images/campus/class.jpg" alt="Brisbane Campus – Cornell Institute of Training"
                           loading="lazy" />

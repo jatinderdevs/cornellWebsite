@@ -126,11 +126,11 @@
 }
 
 .mega-title {
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-text-muted);
+  color: var(--color-primary);
   margin-bottom: 0.9rem;
 }
 
@@ -139,17 +139,18 @@
 }
 
 .mega-col ul li {
-  margin-bottom: 0.45rem;
+  margin: 1.5rem 0;
+  border-bottom: 1px solid transparent;
 }
 
 .mega-col ul a {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--color-text);
   transition: color 0.2s ease;
 }
 
-.mega-col ul a:hover {
-  color: var(--color-primary);
+.mega-col ul li:hover {
+  border-bottom: 1px solid var(--color-primary);
 }
 
 .mega-col-highlight {

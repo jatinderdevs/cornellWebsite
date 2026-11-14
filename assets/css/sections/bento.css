@@ -5,7 +5,7 @@
    ========================================================= */
 
 .campus-section {
-  background: var(--color-bg-alt);
+  /* background: var(--color-bg-alt); */
 }
 
 /* ---------- Header ---------- */
@@ -15,8 +15,6 @@
   padding-bottom: var(--space-xl);
   text-align: center;
 }
-
-
 
 .campus-subtitle {
   margin-inline: auto;

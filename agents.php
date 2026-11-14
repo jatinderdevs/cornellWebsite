@@ -18,6 +18,8 @@
 
     <?php include_once('includes/stylesheets.php') ?>
     <link rel="stylesheet" href="assets/css/page/agents.css" />
+    <link rel="stylesheet" href="assets/css/sections/campuses.css" />
+
 </head>
 
 <body>
@@ -230,47 +232,8 @@
         </div>
     </section>
 
-    <!-- ===================== CAMPUSES ===================== -->
-    <section class="ag-section" id="campuses">
-        <div class="container">
-            <div class="ag-section-header">
-                <span class="section-label">Locations</span>
-                <h2 class="heading">Our <span>campuses</span></h2>
-            </div>
+    <?php include_once('includes/campuses.php') ?>
 
-            <div class="ag-campuses-grid">
-                <div class="ag-campus-card">
-                    <div class="ag-campus-image">
-                        <img src="assets/images/campus/campus.jpg" alt="Melbourne Campus" loading="lazy" />
-                    </div>
-                    <div class="ag-campus-body">
-                        <span class="ag-campus-label">Melbourne</span>
-                        <h3>Level 5, 440 Elizabeth Street</h3>
-                        <p>Melbourne VIC 3000</p>
-                        <a href="https://maps.google.com/?q=Level+5,+440+Elizabeth+Street,+Melbourne+VIC+3000"
-                            target="_blank" rel="noopener" class="ag-campus-link">
-                            Get directions →
-                        </a>
-                    </div>
-                </div>
-
-                <div class="ag-campus-card">
-                    <div class="ag-campus-image">
-                        <img src="assets/images/campus/class.jpg" alt="Brisbane Campus" loading="lazy" />
-                    </div>
-                    <div class="ag-campus-body">
-                        <span class="ag-campus-label">Brisbane</span>
-                        <h3>161 Brunswick Street</h3>
-                        <p>Fortitude Valley QLD 4006</p>
-                        <a href="https://maps.google.com/?q=161+Brunswick+Street,+Fortitude+Valley+QLD+4006"
-                            target="_blank" rel="noopener" class="ag-campus-link">
-                            Get directions →
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- ===================== FAQ ===================== -->
     <section class="ag-section ag-section-alt" id="faq">

@@ -109,6 +109,7 @@ function cc_icon($name) {
     <?php include_once('includes/stylesheets.php') ?>
     <link rel="stylesheet" href="assets/css/page/course-page.css" />
     <link rel="stylesheet" href="assets/css/sections/campuses.css" />
+    <link rel="stylesheet" href="assets/css/sections/cta.css">
 
     <!-- Structured Data (Course) -->
     <script type="application/ld+json">
@@ -614,22 +615,7 @@ function cc_icon($name) {
         </div>
     </section>
 
-    <!-- ===================== CTA ===================== -->
-    <section class="course-cta" id="enquire">
-        <div class="container">
-            <div class="cta-box">
-                <div>
-                    <h2>Start your career with <?= htmlspecialchars($course['title']) ?></h2>
-                    <p>Multiple intakes available throughout the year. Contact us for the next available start date and
-                        current tuition fees.</p>
-                </div>
-                <div class="cta-actions">
-                    <a href="tel:1300195612" class="btn-pill btn-pill-accent">Call 1300 195 612</a>
-                    <a href="mailto:info@cornell.vic.edu.au" class="btn-pill btn-pill-secondary">Email Us</a>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php include_once('includes/cta.php') ?>
 
     <?php include_once('includes/footer.php') ?>
     <?php include_once('includes/scripts.php') ?>

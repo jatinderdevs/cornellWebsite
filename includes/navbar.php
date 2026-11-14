@@ -74,7 +74,7 @@
                      </div>
                  </li>
                  <li>
-                     <a href="admissions.html" class="header-link">Agents Hub</a>
+                     <a href="agents.php" class="header-link">Agents Hub</a>
                  </li>
                  <li><a href="about.php" class="header-link">About</a></li>
 

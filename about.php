@@ -20,6 +20,9 @@
     <?php include_once('includes/stylesheets.php') ?>
     <link rel="stylesheet" href="assets/css/page/about.css" />
     <link rel="stylesheet" href="assets/css/sections/campuses.css" />
+    <link rel="stylesheet" href="assets/css/sections/reviews.css">
+    <link rel="stylesheet" href="assets/css/sections/cta.css">
+
 </head>
 
 <body>
@@ -52,10 +55,9 @@
     <section class="about-intro">
         <div class="container">
             <div class="about-intro-grid">
-                <div class="about-intro-heading">
-                    <h2 class="heading">Achieve Your Goals</h2>
-                </div>
+                <img src="assets/images/courses/about.svg" alt="">
                 <div class="about-intro-text">
+                    <h2 class="heading">Achieve Your Goals</h2>
                     <p>
                         At the Cornell Institute of Training, we believe that education is the key to unlocking your
                         full
@@ -82,32 +84,28 @@
                 poster="assets/images/campus/campus.jpg"></video>
         </div>
     </section>
+    <?php
+$reviewsOpts = [
+  'json'       => __DIR__ . '/reviews/reviews-cache.json',
+  'title'      => 'What our students say',
+  'limit'      => 6,
+  'min_rating' => 4,
+  'exclude'    => [],   // author names to hide
+];
+include 'includes/reviews.php';
+?>
 
     <?php include_once('includes/campuses.php') ?>
 
-    <!-- ===================== CTA ===================== -->
-    <section class="about-cta">
-        <div class="container">
-            <div class="cta-box">
-                <div>
-                    <h2>Ready to start your journey?</h2>
-                    <p>Explore our nationally recognised courses or speak with our team about the next intake.</p>
-                </div>
-                <div class="cta-actions">
-                    <a href="courses.php" class="btn-pill btn-pill-accent">
-                        View Courses <span class="btn-icon">→</span>
-                    </a>
-                    <a href="contact.php" class="btn-pill btn-pill-secondary">
-                        Contact Us <span class="btn-icon">→</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
+
+    <?php include_once('includes/cta.php') ?>
+
+
 
     <?php include_once('includes/footer.php') ?>
     <?php include_once('includes/scripts.php') ?>
     <script src="assets/js/about.js"></script>
+    <script src="assets/js/reviews.js" defer></script>
 </body>
 
 </html>

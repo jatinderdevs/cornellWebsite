@@ -1,0 +1,405 @@
+/* ============================================
+   Google Reviews section
+   Uses tokens from style.css (--color-*, --font-*, --radius-*, --shadow-*)
+   ============================================ */
+.rv {
+  background: var(--color-bg-alt);
+  padding-block: var(--space-2xl);
+  overflow: hidden;
+}
+
+.rv-layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+/* ---------- Summary ---------- */
+.rv-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.rv-eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 3px;
+  border-radius: 3px;
+  background: var(--color-accent);
+}
+
+.rv-title {
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  font-weight: 700;
+  margin-bottom: var(--space-md);
+}
+
+.rv-score {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: var(--space-md);
+}
+
+.rv-score-num {
+  font-family: var(--font-heading);
+  font-size: clamp(3rem, 5vw, 3.75rem);
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-primary);
+}
+
+.rv-score-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: var(--fs-small);
+  color: var(--color-text-muted);
+}
+
+.rv-powered {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: var(--space-md);
+  font-size: var(--fs-xs);
+  color: var(--color-text-light);
+}
+
+.rv-g {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+/* ---------- Stars ---------- */
+.rv-stars {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.rv-stars svg {
+  width: 18px;
+  height: 18px;
+  fill: var(--color-border-dark);
+}
+
+.rv-stars svg.is-on {
+  fill: var(--color-accent);
+}
+
+/* ---------- Carousel ---------- */
+.rv-carousel {
+  min-width: 0;
+}
+
+.rv-track {
+  --rv-gap: 1.25rem;
+  display: flex;
+  gap: var(--rv-gap);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding: 0.5rem 0.25rem 1.25rem;
+  margin: -0.5rem -0.25rem 0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.rv-track::-webkit-scrollbar {
+  display: none;
+}
+
+.rv-track:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-lg);
+}
+
+.rv-card {
+  flex: 0 0 calc((100% - var(--rv-gap)) / 2);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  padding: 1.6rem;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-sm);
+  transition:
+    transform var(--transition-slow),
+    box-shadow var(--transition-slow);
+}
+
+.rv-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.rv-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.rv-text {
+  position: relative;
+  margin: 0;
+}
+
+.rv-text p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+  overflow: hidden;
+  max-width: none;
+  font-size: var(--fs-small);
+  line-height: 1.7;
+  color: #444;
+}
+
+.rv-card.is-open .rv-text p {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+
+.rv-more {
+  align-self: flex-start;
+  margin-top: 0.6rem;
+  padding: 0;
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-accent);
+  line-height: 1.3;
+}
+
+.rv-more:hover {
+  color: var(--color-secondary);
+}
+
+.rv-more[hidden] {
+  display: none;
+}
+
+.rv-author {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+}
+
+.rv-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
+.rv-avatar::before {
+  content: attr(data-initial);
+}
+
+.rv-avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.rv-author-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.rv-author-name {
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-primary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+a.rv-author-name:hover {
+  color: var(--color-accent-hover);
+}
+
+.rv-date {
+  font-size: var(--fs-xs);
+  color: var(--color-text-light);
+}
+
+/* ---------- Controls ---------- */
+.rv-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.rv-dots {
+  display: flex;
+  gap: 0.45rem;
+}
+
+.rv-dot {
+  width: 10px;
+  height: 10px;
+  padding: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-border-dark);
+  transition:
+    width var(--transition-slow),
+    background var(--transition);
+}
+
+.rv-dot:hover {
+  background: var(--color-text-light);
+}
+
+.rv-dot.is-active {
+  width: 28px;
+  background: var(--color-accent);
+}
+
+.rv-arrows {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.rv-arrow {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  box-shadow: var(--shadow-md);
+  transition:
+    background var(--transition),
+    color var(--transition),
+    opacity var(--transition),
+    transform var(--transition);
+}
+
+.rv-arrow svg {
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.rv-arrow:hover:not(:disabled) {
+  background: var(--color-accent);
+  color: var(--color-primary);
+  transform: translateY(-2px);
+}
+
+.rv-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+/* Hide controls when everything fits */
+.rv-carousel.is-static .rv-controls {
+  display: none;
+}
+
+/* Button text colour (base CSS leaves it to link colour) */
+.rv .btn-pill-primary {
+  color: #fff;
+}
+
+.rv .btn-pill-primary:hover {
+  color: var(--color-primary);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 980px) {
+  .rv-layout {
+    grid-template-columns: 1fr;
+    align-items: start;
+  }
+
+  .rv-summary {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.25rem 2rem;
+    align-items: center;
+  }
+
+  .rv-eyebrow,
+  .rv-title {
+    grid-column: 1 / -1;
+  }
+
+  .rv-score {
+    margin-bottom: 0;
+  }
+
+  .rv-powered {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .rv-summary {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+
+  .rv-summary .btn-pill {
+    justify-self: start;
+    margin-top: 0.5rem;
+  }
+
+  .rv-card {
+    flex-basis: 88%;
+    padding: 1.3rem;
+  }
+
+  .rv-arrows {
+    display: none; /* swipe on touch */
+  }
+
+  .rv-controls {
+    justify-content: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-track {
+    scroll-behavior: auto;
+  }
+
+  .rv-card,
+  .rv-arrow,
+  .rv-dot {
+    transition: none;
+  }
+}
