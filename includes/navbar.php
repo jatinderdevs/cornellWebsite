@@ -83,7 +83,7 @@
          </nav>
 
          <!-- CTA Button -->
-         <a href="#enquire" class="btn-pill btn-pill-accent header-cta">
+         <a href="contact.php#enquire" class="btn-pill btn-pill-accent header-cta">
              Contact Now
              <span class="btn-icon">↗</span>
          </a>

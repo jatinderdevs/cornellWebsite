@@ -157,7 +157,7 @@
 
                 <div class="course-wrapper">
                     <div class="course-left">
-                        <span class="course-label">COURSE 02</span>
+                        <span class="course-label">Intake Available</span>
                         <h2 class="course-title">Construction and Building</h2>
                         <div class="course-overview">
                             <h5>OVERVIEW</h5>
@@ -199,7 +199,7 @@
 
                 <div class="course-wrapper">
                     <div class="course-left">
-                        <span class="course-label">COURSE 03</span>
+                        <span class="course-label">Intake Available</span>
                         <h2 class="course-title">painting and Carpentry</h2>
                         <div class="course-overview">
                             <h5>OVERVIEW</h5>

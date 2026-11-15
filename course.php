@@ -256,7 +256,7 @@ function cc_icon($name) {
 
                 <!-- Overview -->
                 <section class="cc-block" id="overview" data-spy>
-                    <p class="cc-eyebrow">Overview</p>
+
                     <h2 class="cc-h2">About this course</h2>
 
                     <ul class="cc-stats">
@@ -350,8 +350,8 @@ function cc_icon($name) {
                 <!-- Entry Requirements -->
                 <section class="cc-block" id="requirements" data-spy>
 
-                    <p class="cc-eyebrow">Entry requirements</p>
-                    <h2 class="cc-h2">Can I enrol?</h2>
+
+                    <h2 class="cc-h2">Entry requirements</h2>
 
                     <div class="cc-req-grid">
                         <div class="cc-req">
@@ -453,8 +453,8 @@ function cc_icon($name) {
 
                 <!-- Assessment & Delivery -->
                 <section class="cc-block" id="assessment" data-spy>
-                    <p class="cc-eyebrow">Assessment &amp; delivery</p>
-                    <h2 class="cc-h2">How you'll learn</h2>
+
+                    <h2 class="cc-h2">Assessment &amp; delivery</h2>
 
                     <div class="cc-split">
                         <div class="cc-panel">
@@ -490,7 +490,7 @@ function cc_icon($name) {
 
                 <!-- RPL & Credit -->
                 <section class="cc-block" id="rpl" data-spy>
-                    <p class="cc-eyebrow">Save time &amp; money</p>
+
                     <h2 class="cc-h2">RPL &amp; credit transfer</h2>
 
                     <div class="cc-split">

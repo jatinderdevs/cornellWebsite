@@ -6,6 +6,9 @@
   padding: 3rem 0;
   gap: 15px;
 }
+.about-bar h2 {
+  font-size: clamp(1.6rem, 2.6vw, 3.1rem);
+}
 .aboutcta {
   text-align: right;
 }
