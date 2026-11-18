@@ -1,0 +1,30 @@
+# Cornell Institute of Training
+# https://cornell.vic.edu.au
+
+User-agent: *
+Allow: /
+
+# Disallow internal / technical paths
+Disallow: /data/
+Disallow: /includes/
+Disallow: /reviews/
+Disallow: /config.php
+Disallow: /env.php
+Disallow: /test.php
+Disallow: /*.php$          # Prefer clean URLs; .php files should redirect
+
+# Sitemap
+Sitemap: https://cornell.vic.edu.au/sitemap.xml
+
+# Optional: be polite to AI crawlers (they still respect robots.txt)
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /

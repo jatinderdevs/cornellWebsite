@@ -18,7 +18,7 @@ $courses = [
         'code'            => 'CPC30220',
         'title'           => 'Certificate III in Carpentry',
         'cricos'          => '117651D',
-        'category'        => 'Construction',
+        'category'        => 'trade',
         'duration_weeks'  => 54,
         'contact_weeks'   => 48,
         'hours_per_week'  => 20,
@@ -170,7 +170,7 @@ $courses = [
         'code'            => 'CPC30620',
         'title'           => 'Certificate III in Painting and Decorating',
         'cricos'          => '119424K',
-        'category'        => 'Construction',
+        'category'        => 'trade',
         'duration_weeks'  => 54,
         'contact_weeks'   => 48,
         'hours_per_week'  => 20,
@@ -511,10 +511,23 @@ $courses = [
 ];
 
 /**
- * Helper – get a single course by key
+ * Helper – get a single course by slug from key
  */
 function get_course(string $key): ?array
 {
     global $courses;
-    return $courses[$key] ?? null;
+
+    // Direct key match (msf30322)
+    if (isset($courses[$key])) {
+        return $courses[$key];
+    }
+
+    // Slug match (certificate-iii-cabinet-making)
+    foreach ($courses as $course) {
+        if (($course['slug'] ?? '') === $key) {
+            return $course;
+        }
+    }
+
+    return null;
 }

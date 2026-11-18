@@ -29,7 +29,7 @@ if (!$course) {
 // Helper values
 $pageTitle       = $course['title'] . ' | Cornell Institute of Training';
 $pageDescription = $course['short_desc'] ?? substr(strip_tags($course['description']), 0, 155);
-$canonicalUrl    = 'https://www.cornell.vic.edu.au/course/' . ($course['slug'] ?? $courseKey);
+$canonicalUrl    = 'https://cornell.vic.edu.au/course/' . ($course['slug'] ?? $courseKey);
 $heroImage       = "assets/images/courses/".$course['hero_image'];
 $unitsCount      = count($course['units'] ?? []);
 $visibleUnits    = 8;

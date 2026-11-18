@@ -4,6 +4,7 @@ require_once 'data/dbcourses.php';
 // Separate groups
 $construction = [];
 $hospitality  = [];
+$trade  = [];
 
 foreach ($courses as $key => $course) {
     $cat = strtolower(trim($course['category'] ?? ''));
@@ -12,6 +13,8 @@ foreach ($courses as $key => $course) {
         $construction[$key] = $course;
     } elseif ($cat === 'hospitality') {
         $hospitality[$key] = $course;
+    }elseif ($cat === 'trade') {
+        $trade[$key] = $course;
     }
 }
 
@@ -356,6 +359,24 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
                     <h3>Building &amp; Trades</h3>
                     <ul class="ag-chips">
                         <?php foreach ($construction as $key => $course): ?>
+                        <li class="course_chip">
+                            <a class="course_chip" href="course.php?course=<?= urlencode($key) ?>">
+                                <?= htmlspecialchars($course['code'] ?? $key) ?> -
+                                <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
+                            </a>
+
+
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <span class="ag-course-link">View courses →</span>
+                </div>
+                <!-- trade -->
+                <div class="ag-course-card">
+                    <div class="ag-course-tag">Construction</div>
+                    <h3>Painting and Carpentry</h3>
+                    <ul class="ag-chips">
+                        <?php foreach ($trade as $key => $course): ?>
                         <li class="course_chip">
                             <a class="course_chip" href="course.php?course=<?= urlencode($key) ?>">
                                 <?= htmlspecialchars($course['code'] ?? $key) ?> -

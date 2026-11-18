@@ -1,3 +1,23 @@
+<?php
+require_once 'data/dbcourses.php';
+
+// Separate groups
+$construction = [];
+$hospitality  = [];
+$trade  = [];
+
+foreach ($courses as $key => $course) {
+    $cat = strtolower(trim($course['category'] ?? ''));
+
+    if ($cat === 'construction') {
+        $construction[$key] = $course;
+    } elseif ($cat === 'hospitality') {
+        $hospitality[$key] = $course;
+    }elseif ($cat === 'trade') {
+        $trade[$key] = $course;
+    }
+}
+?>
 <!doctype html>
 <html lang="en">
 
@@ -123,18 +143,15 @@
                     <div class="course-right">
                         <h5 class="included-title">COURSES AVAILABLE</h5>
                         <ul class="included-list">
+                            <?php foreach ($hospitality  as $key => $course): ?>
                             <li>
-                                <a href="">SIT30821 - Certificate III Commercial Cookery</a>
+                                <a href="course.php?course=<?= urlencode($key) ?>">
+                                    <?= htmlspecialchars($course['code'] ?? $key) ?> -
+                                    <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
+                                </a>
                             </li>
-                            <li>
-                                <a href="">SIT40521 - Certificate IV in Kitchen Management</a>
-                            </li>
-                            <li>
-                                <a href="">SIT50422 - Diploma of Hospitality Management</a>
-                            </li>
-                            <li>
-                                <a href="">SIT60322 - Advanced Diploma of Hospitality Management</a>
-                            </li>
+                            <?php endforeach; ?>
+
                         </ul>
                         <div class="course-actions">
                             <a href="" class="btn-pill btn-pill-accent">
@@ -171,12 +188,17 @@
                     <div class="course-right">
                         <h5 class="included-title">COURSES AVAILABLE</h5>
                         <ul class="included-list">
-                            <li>
-                                <a href="">CPC40120 Certificate IV in Building and Construction</a>
-                            </li>
-                            <li>
-                                <a href="">CPC50220 Diploma of Building and Construction</a>
-                            </li>
+                            <ul class="included-list">
+                                <?php foreach ($construction  as $key => $course): ?>
+                                <li>
+                                    <a href="course.php?course=<?= urlencode($key) ?>">
+                                        <?= htmlspecialchars($course['code'] ?? $key) ?> -
+                                        <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
+                                    </a>
+                                </li>
+                                <?php endforeach; ?>
+
+                            </ul>
                         </ul>
                         <div class="course-actions">
                             <a href="" class="btn-pill btn-pill-accent">
@@ -213,14 +235,15 @@
                     <div class="course-right">
                         <h5 class="included-title">COURSES AVAILABLE</h5>
                         <ul class="included-list">
+                            <?php foreach ($trade  as $key => $course): ?>
                             <li>
-                                <a href="">CPC30620 Certificate III in Painting and Decorating</a>
+                                <a href="course.php?course=<?= urlencode($key) ?>">
+                                    <?= htmlspecialchars($course['code'] ?? $key) ?> -
+                                    <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
+                                </a>
                             </li>
-                            <li><a href="">CPC30220 Certificate III in Carpentry</a></li>
-                            <li>
-                                <a href="">MSF30322 - Certificate III in Cabinet Making and Timber
-                                    Technology</a>
-                            </li>
+                            <?php endforeach; ?>
+
                         </ul>
                         <div class="course-actions">
                             <a href="" class="btn-pill btn-pill-accent">

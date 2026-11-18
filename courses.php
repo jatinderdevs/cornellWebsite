@@ -88,7 +88,7 @@ foreach ($courses as $key => $course) {
         <div class="container">
             <div class="courseCards">
                 <?php foreach ($courses as $key => $course): ?>
-                <a href="course.php?course=<?= urlencode($key) ?>" class="courseCard"
+                <a href="/course/<?= htmlspecialchars($course['slug']) ?>" class="courseCard"
                     data-category="<?= htmlspecialchars($course['category'] ?? 'Other') ?>">
                     <div class="card-image-wrapper">
                         <img src="assets/images/courses/<?= htmlspecialchars($course['hero_image']) ?>"

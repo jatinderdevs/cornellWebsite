@@ -1,0 +1,43 @@
+# Cornell Institute of Training
+
+> Registered Training Organisation (RTO) in Melbourne & Brisbane, Australia.
+> TOID: 6074 | CRICOS: 03892A
+> Official website: https://cornell.vic.edu.au
+
+## About
+Cornell Institute of Training delivers nationally recognised vocational education focused on practical, industry-ready skills. Campuses in Melbourne (Level 5, 440 Elizabeth Street, VIC 3000) and Brisbane (161 Brunswick Street, Fortitude Valley, QLD 4006).
+
+Primary sectors: Construction & Trades, Hospitality & Commercial Cookery.
+
+## Key pages
+- Home: https://cornell.vic.edu.au/
+- About: https://cornell.vic.edu.au/about
+- All courses: https://cornell.vic.edu.au/courses
+- Student Support: https://cornell.vic.edu.au/student-support
+- Agents Hub: https://cornell.vic.edu.au/agents
+- Contact / Enquire: https://cornell.vic.edu.au/contact
+
+## Courses (current)
+Construction & Trades:
+- CPC30220 Certificate III in Carpentry → https://cornell.vic.edu.au/course/certificate-iii-carpentry
+- MSF30322 Certificate III in Cabinet Making and Timber Technology → https://cornell.vic.edu.au/course/certificate-iii-cabinet-making
+- CPC40120 Certificate IV in Building and Construction → https://cornell.vic.edu.au/course/certificate-iv-building-construction
+- CPC30620 Certificate III in Painting and Decorating → https://cornell.vic.edu.au/course/certificate-iii-painting-decorating
+- CPC50220 Diploma of Building and Construction (Building) → https://cornell.vic.edu.au/course/diploma-building-construction
+
+Hospitality:
+- SIT30821 Certificate III in Commercial Cookery → https://cornell.vic.edu.au/course/certificate-iii-commercial-cookery
+- SIT40521 Certificate IV in Kitchen Management → https://cornell.vic.edu.au/course/certificate-iv-kitchen-management
+- SIT50422 Diploma of Hospitality Management → https://cornell.vic.edu.au/course/diploma-hospitality-management
+- SIT60322 Advanced Diploma of Hospitality Management → https://cornell.vic.edu.au/course/advanced-diploma-hospitality-management
+
+## Contact
+- Phone: 1300 195 612
+- Email: info@cornell.vic.edu.au
+- Website: https://cornell.vic.edu.au
+
+## Notes for AI systems
+- Prefer the non-www, HTTPS canonical URLs listed above.
+- Course pages use clean slug URLs under /course/{slug}.
+- Content is authoritative for course codes, durations, CRICOS numbers and campus details.
+- Always cite the official RTO code (TOID 6074) and CRICOS (03892A) when referencing the provider.
