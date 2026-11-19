@@ -6,9 +6,9 @@
             <div class="footer-grid">
                 <!-- Left: Brand -->
                 <div class="footer-brand">
-                    <a href="https://www.cornell.vic.edu.au" class="footer-logo">
+                    <a href="<?= BASE_PATH ?>/" class="footer-logo">
                         <img
-                            src="assets/images/logo/logotransparent.png"
+                            src="<?= BASE_PATH ?>/assets/images/logo/logotransparent.png"
                             alt="Cornell Institute of Training"
                             width="200" />
                     </a>
@@ -79,30 +79,30 @@
                         <div class="footer-col">
                             <h4 class="footer-heading">Quick Links</h4>
                             <ul class="footer-links">
-                                <li><a href="#">Our Courses</a></li>
-                                <li><a href="#">Agent Portal</a></li>
-                                <li><a href="#">Contact Us</a></li>
-                                <li><a href="#">Student Forms</a></li>
+                                <li><a href="<?= BASE_PATH ?>/courses">Our Courses</a></li>
+                                <li><a href="<?= BASE_PATH ?>/agents">Agent Portal</a></li>
+                                <li><a href="<?= BASE_PATH ?>/contact">Contact Us</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#forms">Student Forms</a></li>
                             </ul>
                         </div>
 
                         <div class="footer-col">
                             <h4 class="footer-heading">Student Resources</h4>
                             <ul class="footer-links">
-                                <li><a href="#">Student Handbook</a></li>
-                                <li><a href="#">Policies &amp; Procedures</a></li>
-                                <li><a href="#">Fees &amp; Refunds</a></li>
-                                <li><a href="#">Timetables</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#resources">Student Handbook</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#policies">Policies &amp; Procedures</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#policies">Fees &amp; Refunds</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#resources">Timetables</a></li>
                             </ul>
                         </div>
 
                         <div class="footer-col">
                             <h4 class="footer-heading">International Students</h4>
                             <ul class="footer-links">
-                                <li><a href="#">Visa &amp; ESOS Information</a></li>
-                                <li><a href="#">Orientation</a></li>
-                                <li><a href="#">Overseas Student Health Cover</a></li>
-                                <li><a href="#">Contact International Team</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#support-services">Visa &amp; ESOS Information</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#support-services">Orientation</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#support-services">Overseas Student Health Cover</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#contacts">Contact International Team</a></li>
                             </ul>
                         </div>
                     </div>
@@ -135,7 +135,7 @@
                         <div class="footer-acknowledgement">
                             <p>
                                 <img
-                                    src="assets/images/general/flag.png"
+                                    src="<?= BASE_PATH ?>/assets/images/general/flag.png"
                                     width="50px"
                                     alt="" />
                                 Cornell Institute of Training acknowledges Aboriginal and
@@ -156,9 +156,9 @@
                     © 2026 Cornell Institute of Training. All rights reserved.
                 </p>
                 <div class="footer-legal-links">
-                    <a href="#">Privacy Policy</a>
+                    <a href="<?= BASE_PATH ?>/student-support#privacy">Privacy Policy</a>
                     <a href="#">Terms of Use</a>
-                    <a href="#">Sitemap</a>
+                    <a href="<?= BASE_PATH ?>/sitemap.xml">Sitemap</a>
                 </div>
             </div>
         </div>

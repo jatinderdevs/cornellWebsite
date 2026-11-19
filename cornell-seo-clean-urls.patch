@@ -1,0 +1,1698 @@
+diff -ruN a/.htaccess b/.htaccess
+--- a/.htaccess
++++ b/.htaccess
+@@ -1,49 +1,70 @@
++# ==================================================================
++# Cornell Institute of Training - Apache rules
++# Canonical host: https://cornell.vic.edu.au  (HTTPS, no www, no .php)
++# ==================================================================
+ RewriteEngine On
++Options -MultiViews -Indexes
++
++ErrorDocument 404 /404.php
+ 
+ # --------------------------------------------------
+-# Optional: Force HTTPS + remove www (uncomment on live)
++# 1. www -> non-www (always HTTPS). Needs a certificate covering www.
+ # --------------------------------------------------
+-# RewriteCond %{HTTPS} off [OR]
+-# RewriteCond %{HTTP_HOST} ^www\. [NC]
+-# RewriteRule ^ https://cornell.vic.edu.au%{REQUEST_URI} [L,R=301]
++RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
++RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+ 
+ # --------------------------------------------------
+-# Block sensitive folders
++# 2. http -> https (live only: skipped for localhost / *.local / *.test)
++#    Also honours X-Forwarded-Proto for hosts behind a proxy / Cloudflare.
++# --------------------------------------------------
++RewriteCond %{HTTPS} off
++RewriteCond %{HTTP:X-Forwarded-Proto} !https
++RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$ [NC]
++RewriteCond %{HTTP_HOST} !\.(local|test|localhost)(:\d+)?$ [NC]
++RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
++
++# --------------------------------------------------
++# 3. Block sensitive folders
+ # --------------------------------------------------
+ RewriteRule ^(includes|data|reviews)(/|$) - [F,L]
+ 
+ # --------------------------------------------------
+-# Homepage: /index and /index.php → /
++# 4. Strip trailing slash (/about/ -> /about) for non-directories
++# --------------------------------------------------
++RewriteCond %{REQUEST_FILENAME} !-d
++RewriteRule ^(.+)/$ /$1 [R=301,L]
++
++# --------------------------------------------------
++# 5. Homepage: /index and /index.php -> /
+ # --------------------------------------------------
+ RewriteCond %{THE_REQUEST} \s/+index(\.php)?[\s?] [NC]
+ RewriteRule ^ / [R=301,L]
+ 
+ # --------------------------------------------------
+-# Course detail pages
+-# Example: /course/certificate-iii-cabinet-making
++# 6. Course detail pages
++#    /course/certificate-iii-cabinet-making -> course.php?course=...
+ # --------------------------------------------------
+ RewriteRule ^course/([a-z0-9-]+)/?$ course.php?course=$1 [L,QSA]
+ 
+ # --------------------------------------------------
+-# Serve pages without .php extension
+-# Example: /contact  →  contact.php
++# 7. Serve pages without .php   (/contact -> contact.php)
+ # --------------------------------------------------
+ RewriteCond %{REQUEST_FILENAME}.php -f
+ RewriteCond %{REQUEST_FILENAME} !-d
+ RewriteRule ^(.*)$ $1.php [L]
+ 
+ # --------------------------------------------------
+-# Redirect direct .php requests to clean URL
+-# Example: /contact.php  →  /contact
++# 8. Direct .php requests -> clean URL (GET/HEAD only, so a stray
++#    form POST to /contact.php is never turned into a GET)
++#    /contact.php -> /contact
+ # --------------------------------------------------
++RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
+ RewriteCond %{THE_REQUEST} \s/+(.+)\.php[\s?] [NC]
+ RewriteRule ^ /%1 [R=301,L]
+ 
+ # --------------------------------------------------
+ # Security
+ # --------------------------------------------------
+-Options -Indexes
+-
+-<FilesMatch "^\.|^(env|config)\.php$|\.(env|sql|log|bak|ini)$">
++<FilesMatch "^\.|^(env|config|test)\.php$|\.(env|sql|log|bak|ini)$">
+     Require all denied
+ </FilesMatch>
+diff -ruN a/404.php b/404.php
+--- a/404.php
++++ b/404.php
+@@ -1 +1,48 @@
+-<h1>not found</h1>
+\ No newline at end of file
++<?php
++require_once __DIR__ . '/config.php';
++http_response_code(404);
++
++$seo = [
++    'title'       => 'Page Not Found | Cornell Institute of Training',
++    'description' => 'The page you are looking for could not be found. Browse our courses or contact Cornell Institute of Training.',
++    'path'        => '/404',
++    'robots'      => 'noindex, follow',
++];
++?>
++<!doctype html>
++<html lang="en">
++
++<head>
++    <meta charset="UTF-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
++<?php require __DIR__ . '/includes/seo.php'; ?>
++    <?php include_once __DIR__ . '/includes/stylesheets.php' ?>
++</head>
++
++<body>
++    <?php include_once __DIR__ . '/includes/navbar.php' ?>
++
++    <main class="container" style="padding: 9rem 1rem 6rem; text-align: center;">
++        <h1 class="heading">Page <span>not found</span></h1>
++        <p style="max-width: 36rem; margin: 1rem auto 2rem;">
++            Sorry, we couldn&rsquo;t find the page you were looking for. It may have moved, or the
++            course you want may have a new address.
++        </p>
++        <div class="cta-actions" style="justify-content: center;">
++            <a href="<?= BASE_PATH ?>/courses" class="btn-pill btn-pill-accent">
++                View Courses <span class="btn-icon">&rarr;</span>
++            </a>
++            <a href="<?= BASE_PATH ?>/" class="btn-pill btn-pill-secondary">
++                Back to Home <span class="btn-icon">&rarr;</span>
++            </a>
++            <a href="<?= BASE_PATH ?>/contact" class="btn-pill btn-pill-secondary">
++                Contact Us <span class="btn-icon">&rarr;</span>
++            </a>
++        </div>
++    </main>
++
++    <?php include_once __DIR__ . '/includes/footer.php' ?>
++    <?php include_once __DIR__ . '/includes/scripts.php' ?>
++</body>
++
++</html>
+diff -ruN a/about.php b/about.php
+--- a/about.php
++++ b/about.php
+@@ -1,3 +1,13 @@
++<?php
++require_once __DIR__ . '/config.php';
++$seo = [
++    'title' => 'About Us | Cornell Institute of Training',
++    'description' => 'Cornell Institute of Training is a nationally recognised RTO (TOID 6074, CRICOS 03892A) offering practical vocational education in Melbourne and Brisbane.',
++    'path' => '/about',
++    'breadcrumbs' => [['Home', '/'], ['About', '/about']],
++    'org' => true,
++];
++?>
+ <!doctype html>
+ <html lang="en">
+ 
+@@ -5,23 +15,13 @@
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ 
+-    <title>About Us | Cornell Institute of Training</title>
+-    <meta name="description"
+-        content="Learn about Cornell Institute of Training – a nationally recognised RTO (TOID 6074 | CRICOS 03892A) delivering practical, industry-focused vocational education in Melbourne and Brisbane." />
+-    <link rel="canonical" href="https://www.cornell.vic.edu.au/about.php" />
+-
+-    <!-- Open Graph -->
+-    <meta property="og:title" content="About Us | Cornell Institute of Training" />
+-    <meta property="og:description"
+-        content="Empowering students through high-quality vocational education and training." />
+-    <meta property="og:url" content="https://www.cornell.vic.edu.au/about.php" />
+-    <meta property="og:type" content="website" />
++    <?php require __DIR__ . '/includes/seo.php'; ?>
+ 
+     <?php include_once('includes/stylesheets.php') ?>
+-    <link rel="stylesheet" href="assets/css/page/about.css" />
+-    <link rel="stylesheet" href="assets/css/sections/campuses.css" />
+-    <link rel="stylesheet" href="assets/css/sections/reviews.css">
+-    <link rel="stylesheet" href="assets/css/sections/cta.css">
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/about.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/campuses.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/reviews.css">
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/cta.css">
+ 
+ </head>
+ 
+@@ -35,7 +35,7 @@
+ 
+         <div class="container">
+             <nav class="page-breadcrumb" aria-label="Breadcrumb">
+-                <a href="index.php">Home</a>
++                <a href="<?= BASE_PATH ?>/">Home</a>
+                 <span>/</span>
+                 <span>About Us</span>
+             </nav>
+@@ -55,7 +55,7 @@
+     <section class="about-intro">
+         <div class="container">
+             <div class="about-intro-grid">
+-                <img src="assets/images/courses/about.svg" alt="">
++                <img src="<?= BASE_PATH ?>/assets/images/courses/about.svg" alt="">
+                 <div class="about-intro-text">
+                     <h2 class="heading">Achieve Your Goals</h2>
+                     <p>
+@@ -80,8 +80,8 @@
+ 
+     <section class="about-img">
+         <div class="about-img-inner">
+-            <video src="assets/images/videos/about.mp4" autoplay muted loop playsinline
+-                poster="assets/images/campus/campus.jpg"></video>
++            <video src="<?= BASE_PATH ?>/assets/images/videos/about.mp4" autoplay muted loop playsinline
++                poster="<?= BASE_PATH ?>/assets/images/campus/campus.jpg"></video>
+         </div>
+     </section>
+     <?php
+@@ -104,8 +104,8 @@
+ 
+     <?php include_once('includes/footer.php') ?>
+     <?php include_once('includes/scripts.php') ?>
+-    <script src="assets/js/about.js"></script>
+-    <script src="assets/js/reviews.js" defer></script>
++    <script src="<?= BASE_PATH ?>/assets/js/about.js"></script>
++    <script src="<?= BASE_PATH ?>/assets/js/reviews.js" defer></script>
+ </body>
+ 
+ </html>
+\ No newline at end of file
+diff -ruN a/agents.php b/agents.php
+--- a/agents.php
++++ b/agents.php
+@@ -1,5 +1,13 @@
+ <?php
+-require_once 'data/dbcourses.php';
++require_once __DIR__ . '/config.php';
++require_once __DIR__ . '/data/dbcourses.php';
++
++$seo = [
++    'title' => 'Education Agents | Cornell Institute of Training',
++    'description' => 'Find a Cornell Institute of Training education agent or become a partner. Nationally recognised vocational courses in Melbourne & Brisbane.',
++    'path' => '/agents',
++    'breadcrumbs' => [['Home', '/'], ['Agents', '/agents']],
++];
+ 
+ // Separate groups
+ $construction = [];
+@@ -59,20 +67,11 @@
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ 
+-    <title>Education Agents | Cornell Institute of Training</title>
+-    <meta name="description"
+-        content="Find a Cornell Institute of Training education agent or become a partner. Nationally recognised vocational courses in Melbourne & Brisbane." />
+-    <link rel="canonical" href="https://www.cornell.vic.edu.au/agents.php" />
+-
+-    <meta property="og:title" content="Education Agents | Cornell Institute of Training" />
+-    <meta property="og:description"
+-        content="Find a Cornell education agent or become a partner – nationally recognised vocational courses in Melbourne & Brisbane." />
+-    <meta property="og:url" content="https://www.cornell.vic.edu.au/agents.php" />
+-    <meta property="og:type" content="website" />
++    <?php require __DIR__ . '/includes/seo.php'; ?>
+ 
+     <?php include_once('includes/stylesheets.php') ?>
+-    <link rel="stylesheet" href="assets/css/page/agents.css" />
+-    <link rel="stylesheet" href="assets/css/sections/campuses.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/agents.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/campuses.css" />
+ 
+ </head>
+ 
+@@ -88,7 +87,7 @@
+ 
+         <div class="container">
+             <nav class="page-breadcrumb" aria-label="Breadcrumb">
+-                <a href="index.php">Home</a>
++                <a href="<?= BASE_PATH ?>/">Home</a>
+                 <span>/</span>
+                 <span>Education Agents</span>
+             </nav>
+@@ -185,7 +184,7 @@
+                     <header class="ag-agent-head">
+                         <div class="ag-agent-avatar">
+                             <?php if ($logo !== ''): ?>
+-                            <img src="assets/img/agents/<?= ag_e(rawurlencode($logo)) ?>" alt="" loading="lazy" />
++                            <img src="<?= BASE_PATH ?>/assets/img/agents/<?= ag_e(rawurlencode($logo)) ?>" alt="<?= ag_e($name) ?> logo" loading="lazy" />
+                             <?php else: ?>
+                             <span><?= ag_e(agent_initials($name)) ?></span>
+                             <?php endif; ?>
+@@ -344,7 +343,7 @@
+                     <ul class="ag-chips">
+                         <?php foreach ($hospitality  as $key => $course): ?>
+                         <li class="course_chip">
+-                            <a href="course.php?course=<?= urlencode($key) ?>">
++                            <a href="<?= course_url($key) ?>">
+                                 <?= htmlspecialchars($course['code'] ?? $key) ?> -
+                                 <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
+                             </a>
+@@ -360,7 +359,7 @@
+                     <ul class="ag-chips">
+                         <?php foreach ($construction as $key => $course): ?>
+                         <li class="course_chip">
+-                            <a class="course_chip" href="course.php?course=<?= urlencode($key) ?>">
++                            <a class="course_chip" href="<?= course_url($key) ?>">
+                                 <?= htmlspecialchars($course['code'] ?? $key) ?> -
+                                 <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
+                             </a>
+@@ -378,7 +377,7 @@
+                     <ul class="ag-chips">
+                         <?php foreach ($trade as $key => $course): ?>
+                         <li class="course_chip">
+-                            <a class="course_chip" href="course.php?course=<?= urlencode($key) ?>">
++                            <a class="course_chip" href="<?= course_url($key) ?>">
+                                 <?= htmlspecialchars($course['code'] ?? $key) ?> -
+                                 <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
+                             </a>
+@@ -422,7 +421,7 @@
+                     </button>
+                     <div class="ag-faq-answer">
+                         <p>All our CRICOS-registered Hospitality and Construction courses. See the
+-                            <a href="courses.php">Courses page</a> for details.
++                            <a href="<?= BASE_PATH ?>/courses">Courses page</a> for details.
+                         </p>
+                     </div>
+                 </div>
+@@ -499,7 +498,7 @@
+ 
+     <?php include_once('includes/footer.php') ?>
+     <?php include_once('includes/scripts.php') ?>
+-    <script src="assets/js/agents.js"></script>
++    <script src="<?= BASE_PATH ?>/assets/js/agents.js"></script>
+ </body>
+ 
+ </html>
+\ No newline at end of file
+diff -ruN a/assets/js/student-support.js b/assets/js/student-support.js
+--- a/assets/js/student-support.js
++++ b/assets/js/student-support.js
+@@ -4,7 +4,7 @@
+   console.log(formUl);
+ 
+   formUl.forEach((li) => {
+-    return (li.innerHTML += `<img src="assets/images/icons/pdf.png" alt="">`);
++    return (li.innerHTML += `<img src="${window.BASE_PATH || ""}/assets/images/icons/pdf.png" alt="">`);
+   });
+ 
+   // Smooth scroll for jump links
+diff -ruN a/contact.php b/contact.php
+--- a/contact.php
++++ b/contact.php
+@@ -7,7 +7,8 @@
+ 
+ session_start();
+ 
+-require_once 'data/dbcourses.php';
++require_once __DIR__ . '/config.php';
++require_once __DIR__ . '/data/dbcourses.php';
+ require_once 'includes/contact-handler.php';
+ 
+ if (empty($_SESSION['contact_csrf'])) {
+@@ -32,6 +33,13 @@
+   }
+ }
+ 
++$seo = [
++    'title' => 'Contact Us | Cornell Institute of Training',
++    'description' => 'Contact Cornell Institute of Training - enrolment, course and international student enquiries, feedback and FAQs. Melbourne & Brisbane campuses.',
++    'path' => '/contact',
++    'breadcrumbs' => [['Home', '/'], ['Contact', '/contact']],
++];
++
+ /* ---------- View helpers ---------- */
+ function ct_e($v)
+ {
+@@ -68,11 +76,11 @@
+ $faqs = [
+   [
+     'q' => 'How do I enrol?',
+-    'a' => 'Send us an enquiry using the form above or call <a href="tel:1300195612">1300 195 612</a>. Our team will guide you through the next available intake. International students can also download the application form from <a href="student-support.php#forms">Student Forms</a>.',
++    'a' => 'Send us an enquiry using the form above or call <a href="tel:1300195612">1300 195 612</a>. Our team will guide you through the next available intake. International students can also download the application form from <a href="' . BASE_PATH . '/student-support#forms">Student Forms</a>.',
+   ],
+   [
+     'q' => 'Which courses can I study?',
+-    'a' => 'We offer nationally recognised Hospitality and Construction qualifications, from Certificate III to Advanced Diploma. See <a href="courses.php">Courses</a> for duration, units and pathways.',
++    'a' => 'We offer nationally recognised Hospitality and Construction qualifications, from Certificate III to Advanced Diploma. See <a href="' . BASE_PATH . '/courses">Courses</a> for duration, units and pathways.',
+   ],
+   [
+     'q' => 'Where are your campuses?',
+@@ -80,15 +88,15 @@
+   ],
+   [
+     'q' => 'Can I get credit for previous study or work experience?',
+-    'a' => 'You may be able to. We offer Recognition of Prior Learning (RPL) and credit transfer. The forms are on <a href="student-support.php#forms">Student Forms</a>, or tell us about your background in the form above and we will advise.',
++    'a' => 'You may be able to. We offer Recognition of Prior Learning (RPL) and credit transfer. The forms are on <a href="' . BASE_PATH . '/student-support#forms">Student Forms</a>, or tell us about your background in the form above and we will advise.',
+   ],
+   [
+     'q' => 'I am an international student. Who can help with visas, OSHC or orientation?',
+-    'a' => 'Our team can help with visa and ESOS information, orientation and OSHC guidance. Choose &ldquo;International students&rdquo; as your topic above, or visit <a href="student-support.php">Student Support</a>.',
++    'a' => 'Our team can help with visa and ESOS information, orientation and OSHC guidance. Choose &ldquo;International students&rdquo; as your topic above, or visit <a href="' . BASE_PATH . '/student-support">Student Support</a>.',
+   ],
+   [
+     'q' => 'How do I give feedback or make a complaint?',
+-    'a' => 'Choose &ldquo;Feedback&rdquo; in the form above or email <a href="mailto:info@cornell.vic.edu.au">info@cornell.vic.edu.au</a>. For formal complaints and appeals, our <a href="student-support.php#policies">Feedback, Complaints &amp; Appeals policy</a> explains the process.',
++    'a' => 'Choose &ldquo;Feedback&rdquo; in the form above or email <a href="mailto:info@cornell.vic.edu.au">info@cornell.vic.edu.au</a>. For formal complaints and appeals, our <a href="' . BASE_PATH . '/student-support#policies">Feedback, Complaints &amp; Appeals policy</a> explains the process.',
+   ],
+ ];
+ 
+@@ -114,24 +122,14 @@
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ 
+-    <title>Contact Us | Cornell Institute of Training</title>
+-    <meta name="description"
+-        content="Contact Cornell Institute of Training – enrolment, course and international student enquiries, feedback and FAQs. Melbourne &amp; Brisbane campuses." />
+-    <link rel="canonical" href="https://www.cornell.vic.edu.au/contact.php" />
+-
+-    <!-- Open Graph -->
+-    <meta property="og:title" content="Contact Us | Cornell Institute of Training" />
+-    <meta property="og:description"
+-        content="Questions about courses, enrolment or student life? Send us a message or call 1300 195 612." />
+-    <meta property="og:url" content="https://www.cornell.vic.edu.au/contact.php" />
+-    <meta property="og:type" content="website" />
++    <?php require __DIR__ . '/includes/seo.php'; ?>
+ 
+     <script type="application/ld+json">
+     <?= json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) ?>
+     </script>
+ 
+     <?php include_once('includes/stylesheets.php') ?>
+-    <link rel="stylesheet" href="assets/css/page/contact.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/contact.css" />
+ </head>
+ 
+ <body>
+@@ -139,12 +137,12 @@
+ 
+     <!-- ===================== PAGE HEADER ===================== -->
+     <section class="page-header">
+-        <img class="page-header-bg" src="assets/images/campus/campus.jpg" alt="" />
++        <img class="page-header-bg" src="<?= BASE_PATH ?>/assets/images/campus/campus.jpg" alt="" />
+         <div class="page-header-overlay"></div>
+ 
+         <div class="container">
+             <nav class="page-breadcrumb" aria-label="Breadcrumb">
+-                <a href="index.php">Home</a>
++                <a href="<?= BASE_PATH ?>/">Home</a>
+                 <span>/</span>
+                 <span>Contact</span>
+             </nav>
+@@ -241,7 +239,7 @@
+                         <p>Pick a topic, tell us a little about you, and we&rsquo;ll take it from there.</p>
+                     </div>
+ 
+-                    <form id="contactForm" method="post" action="contact.php#enquire" novalidate
++                    <form id="contactForm" method="post" action="<?= BASE_PATH ?>/contact#enquire" novalidate
+                         <?= $sent ? 'hidden' : '' ?>>
+                         <input type="hidden" name="csrf" value="<?= ct_e($_SESSION['contact_csrf']) ?>" />
+ 
+@@ -332,7 +330,7 @@
+                             <div>
+                                 <label for="ctConsent">
+                                     I&rsquo;m happy for Cornell to contact me about this enquiry. See our
+-                                    <a href="student-support.php#privacy">privacy information</a>.
++                                    <a href="<?= BASE_PATH ?>/student-support#privacy">privacy information</a>.
+                                 </label>
+                                 <p class="ct-error" id="err-consent" role="alert"><?= ct_e($err('consent')) ?></p>
+                             </div>
+@@ -372,28 +370,28 @@
+                         <h3>Looking for something else?</h3>
+                         <ul class="ct-links">
+                             <li>
+-                                <a href="courses.php" class="ct-link">
++                                <a href="<?= BASE_PATH ?>/courses" class="ct-link">
+                                     <span><strong>Browse courses</strong><small>Duration, units and
+                                             pathways</small></span>
+                                     <span class="ct-link-arrow" aria-hidden="true">→</span>
+                                 </a>
+                             </li>
+                             <li>
+-                                <a href="student-support.php#forms" class="ct-link">
++                                <a href="<?= BASE_PATH ?>/student-support#forms" class="ct-link">
+                                     <span><strong>Student forms</strong><small>Enrolment, RPL, deferral and
+                                             more</small></span>
+                                     <span class="ct-link-arrow" aria-hidden="true">→</span>
+                                 </a>
+                             </li>
+                             <li>
+-                                <a href="student-support.php#policies" class="ct-link">
++                                <a href="<?= BASE_PATH ?>/student-support#policies" class="ct-link">
+                                     <span><strong>Feedback &amp; complaints</strong><small>Read our policy and
+                                             process</small></span>
+                                     <span class="ct-link-arrow" aria-hidden="true">→</span>
+                                 </a>
+                             </li>
+                             <li>
+-                                <a href="agents.php" class="ct-link">
++                                <a href="<?= BASE_PATH ?>/agents" class="ct-link">
+                                     <span><strong>Education agents</strong><small>Partner with Cornell</small></span>
+                                     <span class="ct-link-arrow" aria-hidden="true">→</span>
+                                 </a>
+@@ -434,7 +432,7 @@
+ 
+     <?php include_once('includes/footer.php') ?>
+     <?php include_once('includes/scripts.php') ?>
+-    <script src="assets/js/contact.js"></script>
++    <script src="<?= BASE_PATH ?>/assets/js/contact.js"></script>
+ </body>
+ 
+ </html>
+\ No newline at end of file
+diff -ruN a/course.php b/course.php
+--- a/course.php
++++ b/course.php
+@@ -21,17 +21,19 @@
+ 
+ // 404 if course not found
+ if (!$course) {
+-  http_response_code(404);
+-  // Optionally include a 404 template
+-  echo '<h1>Course not found</h1><p><a href="courses.php">View all courses</a></p>';
++  // Unknown course: send the site 404 page (sets the 404 status itself)
++  require __DIR__ . '/404.php';
+   exit;
+ }
+ 
+ // Helper values
+-$pageTitle       = $course['title'] . ' | Cornell Institute of Training';
++$pageTitle       = $course['title'] . (strlen($course['title']) <= 34 ? ' | Cornell Institute of Training' : ' | Cornell');
+ $pageDescription = $course['short_desc'] ?? substr(strip_tags($course['description']), 0, 155);
+-$canonicalUrl    = 'https://cornell.vic.edu.au/course/' . ($course['slug'] ?? $courseKey);
+-$heroImage       = "assets/images/courses/".$course['hero_image'];
++if (strlen($pageDescription) < 110) {
++  $pageDescription .= ' Course code ' . $course['code'] . ', CRICOS ' . $course['cricos'] . '.';
++}
++$canonicalUrl    = BASE_URL . '/course/' . ($course['slug'] ?? $courseKey);
++$heroImage       = '/assets/images/courses/' . $course['hero_image'];   // root-relative; prefix BASE_PATH in src
+ $unitsCount      = count($course['units'] ?? []);
+ $visibleUnits    = 8;
+ 
+@@ -43,6 +45,14 @@
+ $electiveCount = $unitsCount - $coreCount;
+ $longDesc      = strlen($course['description'] ?? '') > 650;
+ 
++$seo = [
++    'title'       => $pageTitle,
++    'description' => $pageDescription,
++    'path'        => '/course/' . ($course['slug'] ?? $courseKey),
++    'image'       => $heroImage,
++    'breadcrumbs' => [['Home', '/'], ['Courses', '/courses'], [$course['title'], '/course/' . ($course['slug'] ?? $courseKey)]],
++];
++
+ // Small inline icon set (stroke icons, inherit currentColor)
+ function cc_icon($name) {
+   $p = [
+@@ -78,26 +88,7 @@
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ 
+-    <!-- Primary SEO -->
+-    <title><?= htmlspecialchars($pageTitle) ?></title>
+-    <meta name="description" content="<?= htmlspecialchars($pageDescription) ?>" />
+-    <meta name="robots" content="index, follow, max-image-preview:large" />
+-    <link rel="canonical" href="<?= htmlspecialchars($canonicalUrl) ?>" />
+-
+-    <!-- Open Graph -->
+-    <meta property="og:type" content="website" />
+-    <meta property="og:title" content="<?= htmlspecialchars($course['title']) ?>" />
+-    <meta property="og:description" content="<?= htmlspecialchars($pageDescription) ?>" />
+-    <meta property="og:url" content="<?= htmlspecialchars($canonicalUrl) ?>" />
+-    <meta property="og:image"
+-        content="<?= htmlspecialchars('https://www.cornell.vic.edu.au/' . ltrim($heroImage, '/')) ?>" />
+-    <meta property="og:site_name" content="Cornell Institute of Training" />
+-    <meta property="og:locale" content="en_AU" />
+-
+-    <!-- Twitter -->
+-    <meta name="twitter:card" content="summary_large_image" />
+-    <meta name="twitter:title" content="<?= htmlspecialchars($course['title']) ?>" />
+-    <meta name="twitter:description" content="<?= htmlspecialchars($pageDescription) ?>" />
++    <?php require __DIR__ . '/includes/seo.php'; ?>
+ 
+     <!-- Additional SEO -->
+     <meta name="author" content="Cornell Institute of Training" />
+@@ -113,8 +104,8 @@
+ 
+ 
+     <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/course-page.css" />
+-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/sections/campuses.css" />
+-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/sections/cta.css">
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/campuses.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/cta.css">
+ 
+     <!-- Structured Data (Course) -->
+     <script type="application/ld+json">
+@@ -126,7 +117,7 @@
+         "provider": {
+             "@type": "Organization",
+             "name": "Cornell Institute of Training",
+-            "sameAs": "https://www.cornell.vic.edu.au",
++            "url": "<?= BASE_URL ?>/",
+             "address": {
+                 "@type": "PostalAddress",
+                 "streetAddress": "Level 5, 440 Elizabeth Street",
+@@ -170,13 +161,13 @@
+ 
+     <!-- ===================== COURSE HERO ===================== -->
+     <section class="course-hero">
+-        <img class="course-hero-bg" src="<?= htmlspecialchars($heroImage) ?>"
++        <img class="course-hero-bg" src="<?= htmlspecialchars(BASE_PATH . $heroImage) ?>"
+             alt="<?= htmlspecialchars($course['title']) ?>" width="1470" height="800" fetchpriority="high" />
+         <div class="course-hero-overlay"></div>
+ 
+         <div class="container">
+             <nav class="course-breadcrumb" aria-label="Breadcrumb">
+-                <a href="courses.php">Our Courses</a>
++                <a href="<?= BASE_PATH ?>/courses">Our Courses</a>
+                 <span>/</span>
+                 <span><?= htmlspecialchars($course['title']) ?></span>
+             </nav>
+@@ -197,7 +188,7 @@
+                     </p>
+ 
+                     <div class="course-actions">
+-                        <a href="#enquire" class="btn-pill btn-pill-accent">
++                        <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
+                             Enquire Now <span class="btn-icon">→</span>
+                         </a>
+                         <a href="#structure" class="btn-pill btn-pill-secondary">
+@@ -349,7 +340,7 @@
+ 
+                     </div>
+ 
+-                    <img src="assets/images/courses/const.svg" width="400px" alt="">
++                    <img src="<?= BASE_PATH ?>/assets/images/courses/const.svg" width="400px" alt="">
+                 </section>
+ 
+                 <!-- Entry Requirements -->
+@@ -504,7 +495,7 @@
+                             <h3>Recognition of Prior Learning (RPL)</h3>
+                             <p>You may be eligible for RPL based on previous skills and experience. This can reduce
+                                 the time and cost of your course.</p>
+-                            <a href="#enquire" class="cc-link-btn"><span>Check my
++                            <a href="<?= BASE_PATH ?>/contact#enquire" class="cc-link-btn"><span>Check my
+                                     eligibility</span><?= cc_icon('arrow') ?></a>
+                         </div>
+                         <div class="cc-feature">
+@@ -512,7 +503,7 @@
+                             <h3>Credit Transfer</h3>
+                             <p>If you have previously completed identical units with another Australian RTO, you can
+                                 apply for Credit Transfer.</p>
+-                            <a href="#enquire" class="cc-link-btn"><span>Ask about
++                            <a href="<?= BASE_PATH ?>/contact#enquire" class="cc-link-btn"><span>Ask about
+                                     credit</span><?= cc_icon('arrow') ?></a>
+                         </div>
+                     </div>
+@@ -614,7 +605,7 @@
+                 <strong>$<?= number_format((int)$course['enrolment_fee']) ?></strong>
+                 <span>enrolment fee</span>
+             </div>
+-            <a href="#enquire" class="btn-pill btn-pill-accent">
++            <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
+                 Enquire <span class="btn-icon">→</span>
+             </a>
+         </div>
+@@ -624,7 +615,7 @@
+ 
+     <?php include_once('includes/footer.php') ?>
+     <?php include_once('includes/scripts.php') ?>
+-    <script src="<?= BASE_URL ?>/assets/js/course-page.js"></script>
++    <script src="<?= BASE_PATH ?>/assets/js/course-page.js"></script>
+ </body>
+ 
+ </html>
+\ No newline at end of file
+diff -ruN a/courses.php b/courses.php
+--- a/courses.php
++++ b/courses.php
+@@ -9,6 +9,13 @@
+ require_once __DIR__ .'/data/dbcourses.php';
+ 
+ // Optional: group by category
++$seo = [
++    'title' => 'Our Courses | Cornell Institute of Training',
++    'description' => 'Explore Certificate III, Certificate IV, Diploma and Advanced Diploma courses in Hospitality, Construction and Trades at Cornell Institute of Training.',
++    'path' => '/courses',
++    'breadcrumbs' => [['Home', '/'], ['Courses', '/courses']],
++];
++
+ $categories = [];
+ foreach ($courses as $key => $course) {
+   $cat = $course['category'] ?? 'Other';
+@@ -22,20 +29,10 @@
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ 
+-    <title>Our Courses | Cornell Institute of Training</title>
+-    <meta name="description"
+-        content="Explore nationally recognised vocational courses at Cornell Institute of Training – Certificate III, Certificate IV, Diploma and Advanced Diploma qualifications in Hospitality, Construction and more." />
+-    <link rel="canonical" href="https://www.cornell.vic.edu.au/courses.php" />
+-
+-    <!-- Open Graph -->
+-    <meta property="og:title" content="Our Courses | Cornell Institute of Training" />
+-    <meta property="og:description"
+-        content="Explore nationally recognised vocational courses in Hospitality, Construction and Building." />
+-    <meta property="og:url" content="https://www.cornell.vic.edu.au/courses.php" />
+-    <meta property="og:type" content="website" />
++    <?php require __DIR__ . '/includes/seo.php'; ?>
+ 
+     <?php include_once('includes/stylesheets.php') ?>
+-    <link rel="stylesheet" href="assets/css/page/courses.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/courses.css" />
+ </head>
+ 
+ <body>
+@@ -52,7 +49,7 @@
+         <div class="container">
+             <!-- Breadcrumb -->
+             <nav class="courses-breadcrumb" aria-label="Breadcrumb">
+-                <a href="index.php">Home</a>
++                <a href="<?= BASE_PATH ?>/">Home</a>
+                 <span>/</span>
+                 <span>Courses</span>
+             </nav>
+@@ -89,10 +86,10 @@
+         <div class="container">
+             <div class="courseCards">
+                 <?php foreach ($courses as $key => $course): ?>
+-                <a href="<?= BASE_URL ?>/course/<?= htmlspecialchars($course['slug']) ?>" class="courseCard"
++                <a href="<?= BASE_PATH ?>/course/<?= htmlspecialchars($course['slug']) ?>" class="courseCard"
+                     data-category="<?= htmlspecialchars($course['category'] ?? 'Other') ?>">
+                     <div class="card-image-wrapper">
+-                        <img src="assets/images/courses/<?= htmlspecialchars($course['hero_image']) ?>"
++                        <img src="<?= BASE_PATH ?>/assets/images/courses/<?= htmlspecialchars($course['hero_image']) ?>"
+                             alt="<?= htmlspecialchars($course['title']) ?>" class="card-image" loading="lazy" />
+                         <div class="card-gradient"></div>
+                     </div>
+@@ -117,7 +114,7 @@
+     <?php include_once('includes/footer.php') ?>
+     <?php include_once('includes/scripts.php') ?>
+ 
+-    <script src="<?= BASE_URL ?>/assets/js/courses-page.js"></script>
++    <script src="<?= BASE_PATH ?>/assets/js/courses-page.js"></script>
+ 
+ </body>
+ 
+diff -ruN a/data/dbcourses.php b/data/dbcourses.php
+--- a/data/dbcourses.php
++++ b/data/dbcourses.php
+@@ -531,4 +531,16 @@
+     }
+ 
+     return null;
+-}
+\ No newline at end of file
++}
++
++/**
++ * Clean public URL for a course page: /course/<slug>.
++ * Accepts either the array key (e.g. cpc30220) or the slug.
++ * Requires config.php (BASE_PATH) to be loaded first.
++ */
++function course_url(string $key): string
++{
++    $course = get_course($key);
++    $slug   = $course['slug'] ?? $key;
++    return (defined('BASE_PATH') ? BASE_PATH : '') . '/course/' . rawurlencode($slug);
++}
+diff -ruN a/includes/campuses.php b/includes/campuses.php
+--- a/includes/campuses.php
++++ b/includes/campuses.php
+@@ -11,7 +11,7 @@
+               <a href="https://maps.google.com/?q=Level+5,+440+Elizabeth+Street,+Melbourne+VIC+3000" style="padding: 0;"
+                   target="_blank" rel="noopener" class="campus-card">
+                   <div class="campus-image-wrap">
+-                      <img src="assets/images/campus/campus.jpg" alt="Melbourne Campus – Cornell Institute of Training"
++                      <img src="<?= BASE_PATH ?>/assets/images/campus/campus.jpg" alt="Cornell students at the Melbourne campus of Cornell Institute of Training"
+                           loading="lazy" />
+                       <div class="campus-image-overlay"></div>
+                       <span class="campus-badge">Melbourne</span>
+@@ -27,7 +27,7 @@
+               <a href="https://maps.google.com/?q=161+Brunswick+Street,+Fortitude+Valley+QLD+4006" style="padding: 0;"
+                   target="_blank" rel="noopener" class="campus-card">
+                   <div class="campus-image-wrap">
+-                      <img src="assets/images/campus/class.jpg" alt="Brisbane Campus – Cornell Institute of Training"
++                      <img src="<?= BASE_PATH ?>/assets/images/campus/class.jpg" alt="Students in a classroom at the Brisbane campus of Cornell Institute of Training"
+                           loading="lazy" />
+                       <div class="campus-image-overlay"></div>
+                       <span class="campus-badge">Brisbane</span>
+diff -ruN a/includes/cta.php b/includes/cta.php
+--- a/includes/cta.php
++++ b/includes/cta.php
+@@ -7,10 +7,10 @@
+                   <p>Explore our nationally recognised courses or speak with our team about the next intake.</p>
+               </div>
+               <div class="cta-actions">
+-                  <a href="courses.php" class="btn-pill btn-pill-accent">
++                  <a href="<?= BASE_PATH ?>/courses" class="btn-pill btn-pill-accent">
+                       View Courses <span class="btn-icon">→</span>
+                   </a>
+-                  <a href="contact.php" class="btn-pill btn-pill-secondary">
++                  <a href="<?= BASE_PATH ?>/contact" class="btn-pill btn-pill-secondary">
+                       Contact Us <span class="btn-icon">→</span>
+                   </a>
+               </div>
+diff -ruN a/includes/footer.php b/includes/footer.php
+--- a/includes/footer.php
++++ b/includes/footer.php
+@@ -6,9 +6,9 @@
+             <div class="footer-grid">
+                 <!-- Left: Brand -->
+                 <div class="footer-brand">
+-                    <a href="https://www.cornell.vic.edu.au" class="footer-logo">
++                    <a href="<?= BASE_PATH ?>/" class="footer-logo">
+                         <img
+-                            src="assets/images/logo/logotransparent.png"
++                            src="<?= BASE_PATH ?>/assets/images/logo/logotransparent.png"
+                             alt="Cornell Institute of Training"
+                             width="200" />
+                     </a>
+@@ -79,30 +79,30 @@
+                         <div class="footer-col">
+                             <h4 class="footer-heading">Quick Links</h4>
+                             <ul class="footer-links">
+-                                <li><a href="#">Our Courses</a></li>
+-                                <li><a href="#">Agent Portal</a></li>
+-                                <li><a href="#">Contact Us</a></li>
+-                                <li><a href="#">Student Forms</a></li>
++                                <li><a href="<?= BASE_PATH ?>/courses">Our Courses</a></li>
++                                <li><a href="<?= BASE_PATH ?>/agents">Agent Portal</a></li>
++                                <li><a href="<?= BASE_PATH ?>/contact">Contact Us</a></li>
++                                <li><a href="<?= BASE_PATH ?>/student-support#forms">Student Forms</a></li>
+                             </ul>
+                         </div>
+ 
+                         <div class="footer-col">
+                             <h4 class="footer-heading">Student Resources</h4>
+                             <ul class="footer-links">
+-                                <li><a href="#">Student Handbook</a></li>
+-                                <li><a href="#">Policies &amp; Procedures</a></li>
+-                                <li><a href="#">Fees &amp; Refunds</a></li>
+-                                <li><a href="#">Timetables</a></li>
++                                <li><a href="<?= BASE_PATH ?>/student-support#resources">Student Handbook</a></li>
++                                <li><a href="<?= BASE_PATH ?>/student-support#policies">Policies &amp; Procedures</a></li>
++                                <li><a href="<?= BASE_PATH ?>/student-support#policies">Fees &amp; Refunds</a></li>
++                                <li><a href="<?= BASE_PATH ?>/student-support#resources">Timetables</a></li>
+                             </ul>
+                         </div>
+ 
+                         <div class="footer-col">
+                             <h4 class="footer-heading">International Students</h4>
+                             <ul class="footer-links">
+-                                <li><a href="#">Visa &amp; ESOS Information</a></li>
+-                                <li><a href="#">Orientation</a></li>
+-                                <li><a href="#">Overseas Student Health Cover</a></li>
+-                                <li><a href="#">Contact International Team</a></li>
++                                <li><a href="<?= BASE_PATH ?>/student-support#support-services">Visa &amp; ESOS Information</a></li>
++                                <li><a href="<?= BASE_PATH ?>/student-support#support-services">Orientation</a></li>
++                                <li><a href="<?= BASE_PATH ?>/student-support#support-services">Overseas Student Health Cover</a></li>
++                                <li><a href="<?= BASE_PATH ?>/student-support#contacts">Contact International Team</a></li>
+                             </ul>
+                         </div>
+                     </div>
+@@ -135,7 +135,7 @@
+                         <div class="footer-acknowledgement">
+                             <p>
+                                 <img
+-                                    src="assets/images/general/flag.png"
++                                    src="<?= BASE_PATH ?>/assets/images/general/flag.png"
+                                     width="50px"
+                                     alt="" />
+                                 Cornell Institute of Training acknowledges Aboriginal and
+@@ -156,9 +156,9 @@
+                     © 2026 Cornell Institute of Training. All rights reserved.
+                 </p>
+                 <div class="footer-legal-links">
+-                    <a href="#">Privacy Policy</a>
++                    <a href="<?= BASE_PATH ?>/student-support#privacy">Privacy Policy</a>
+                     <a href="#">Terms of Use</a>
+-                    <a href="#">Sitemap</a>
++                    <a href="<?= BASE_PATH ?>/sitemap.xml">Sitemap</a>
+                 </div>
+             </div>
+         </div>
+diff -ruN a/includes/navbar.php b/includes/navbar.php
+--- a/includes/navbar.php
++++ b/includes/navbar.php
+@@ -1,16 +1,16 @@
+  <header class="header" id="header">
+      <div class="container header-container">
+          <!-- Logo -->
+-         <a href="index.php" class="header-logo">
+-             <img src="https://www.cornell.vic.edu.au/img/logotxt.png" alt="Cornell Institute of Training"
++         <a href="<?= BASE_PATH ?>/" class="header-logo">
++             <img src="<?= BASE_PATH ?>/img/logotxt.png" alt="Cornell Institute of Training"
+                  class="header-logo-img" />
+          </a>
+ 
+          <!-- Desktop Navigation -->
+          <nav class="header-nav" id="headerNav">
+              <ul class="header-menu">
+-                 <li><a href="index.php" class="header-link active">Home</a></li>
+-                 <li><a href="courses.php" class="header-link">Courses</a></li>
++                 <li><a href="<?= BASE_PATH ?>/" class="header-link active">Home</a></li>
++                 <li><a href="<?= BASE_PATH ?>/courses" class="header-link">Courses</a></li>
+ 
+                  <!-- Mega Menu Item -->
+                  <li class="has-mega">
+@@ -28,33 +28,33 @@
+                              <div class="mega-col">
+                                  <h4 class="mega-title">Student Resources</h4>
+                                  <ul>
+-                                     <li><a href="student-support.php#resources">Student Handbook</a></li>
+-                                     <li><a href="student-support.php#policies">Policies &amp; Procedures</a></li>
+-                                     <li><a href="student-support.php#policies">Fees &amp; Refunds</a></li>
+-                                     <li><a href="student-support.php#resources">Timetables</a></li>
++                                     <li><a href="<?= BASE_PATH ?>/student-support#resources">Student Handbook</a></li>
++                                     <li><a href="<?= BASE_PATH ?>/student-support#policies">Policies &amp; Procedures</a></li>
++                                     <li><a href="<?= BASE_PATH ?>/student-support#policies">Fees &amp; Refunds</a></li>
++                                     <li><a href="<?= BASE_PATH ?>/student-support#resources">Timetables</a></li>
+                                  </ul>
+                              </div>
+ 
+                              <div class="mega-col">
+                                  <h4 class="mega-title">Support Services</h4>
+                                  <ul>
+-                                     <li><a href="student-support.php#support-services">Academic Support</a></li>
+-                                     <li><a href="student-support.php#support-services">Wellbeing &amp; Counselling</a>
++                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Academic Support</a></li>
++                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Wellbeing &amp; Counselling</a>
+                                      </li>
+-                                     <li><a href="student-support.php#support-services">Disability Support</a></li>
+-                                     <li><a href="student-support.php#support-services">Career Guidance</a></li>
++                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Disability Support</a></li>
++                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Career Guidance</a></li>
+                                  </ul>
+                              </div>
+ 
+                              <div class="mega-col">
+                                  <h4 class="mega-title">International Students</h4>
+                                  <ul>
+-                                     <li><a href="student-support.php#support-services">Visa &amp; ESOS Information</a>
++                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Visa &amp; ESOS Information</a>
+                                      </li>
+-                                     <li><a href="student-support.php#support-services">Orientation</a></li>
+-                                     <li><a href="student-support.php#support-services">Overseas Student Health
++                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Orientation</a></li>
++                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Overseas Student Health
+                                              Cover</a></li>
+-                                     <li><a href="student-support.php#contacts">Contact International Team</a></li>
++                                     <li><a href="<?= BASE_PATH ?>/student-support#contacts">Contact International Team</a></li>
+                                  </ul>
+                              </div>
+ 
+@@ -64,7 +64,7 @@
+                                      Our student support team is here to assist you with any
+                                      questions.
+                                  </p>
+-                                 <a href="student-support.php" class="btn-pill btn-pill-primary"
++                                 <a href="<?= BASE_PATH ?>/student-support" class="btn-pill btn-pill-primary"
+                                      style="margin-top: 1rem">
+                                      Contact Support
+                                      <span class="btn-icon">↗</span>
+@@ -74,16 +74,16 @@
+                      </div>
+                  </li>
+                  <li>
+-                     <a href="agents.php" class="header-link">Agents Hub</a>
++                     <a href="<?= BASE_PATH ?>/agents" class="header-link">Agents Hub</a>
+                  </li>
+-                 <li><a href="about.php" class="header-link">About</a></li>
++                 <li><a href="<?= BASE_PATH ?>/about" class="header-link">About</a></li>
+ 
+ 
+              </ul>
+          </nav>
+ 
+          <!-- CTA Button -->
+-         <a href="contact.php#enquire" class="btn-pill btn-pill-accent header-cta">
++         <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent header-cta">
+              Contact Now
+              <span class="btn-icon">↗</span>
+          </a>
+diff -ruN a/includes/scripts.php b/includes/scripts.php
+--- a/includes/scripts.php
++++ b/includes/scripts.php
+@@ -1,5 +1,6 @@
++<script>window.BASE_PATH = <?= json_encode(BASE_PATH) ?>;</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/SplitText.min.js"></script>
+- <script src="<?= BASE_URL ?>/assets/js/courses-gsap.js"></script>
+- <script src="<?= BASE_URL ?>/assets/js/main.js"></script>
+\ No newline at end of file
++ <script src="<?= BASE_PATH ?>/assets/js/courses-gsap.js"></script>
++ <script src="<?= BASE_PATH ?>/assets/js/main.js"></script>
+\ No newline at end of file
+diff -ruN a/includes/seo.php b/includes/seo.php
+--- a/includes/seo.php
++++ b/includes/seo.php
+@@ -0,0 +1,118 @@
++<?php
++/**
++ * SEO <head> partial: title, meta description, canonical, Open Graph,
++ * Twitter cards and JSON-LD (Organization + BreadcrumbList).
++ *
++ * Usage - at the top of a page (after requiring config.php):
++ *
++ *   $seo = [
++ *       'title'       => 'About Us | Cornell Institute of Training',
++ *       'description' => 'Plain-text description, ~150 characters.',
++ *       'path'        => '/about',                        // clean path: no .php, no host
++ *       'image'       => '/assets/images/campus/campus.jpg', // optional, root-relative
++ *       'robots'      => 'index, follow',                 // optional
++ *       'breadcrumbs' => [['Home', '/'], ['About', '/about']], // optional
++ *       'org'         => true,                            // optional: Organization JSON-LD
++ *   ];
++ *
++ * and inside <head>:   <?php require __DIR__ . '/includes/seo.php'; ?>
++ *
++ * Canonical / og:url / og:image use BASE_URL (https://cornell.vic.edu.au on live).
++ */
++
++if (!function_exists('cn_e')) {
++    function cn_e($v): string
++    {
++        return htmlspecialchars((string) $v, ENT_QUOTES, 'UTF-8');
++    }
++}
++
++$seo         = $seo ?? [];
++$seoBase     = rtrim(BASE_URL, '/');
++$seoTitle    = $seo['title'] ?? SITE_NAME;
++$seoDesc     = $seo['description'] ?? '';
++$seoPath     = $seo['path'] ?? '/';
++$seoUrl      = $seoBase . $seoPath;
++$seoImage    = $seoBase . ($seo['image'] ?? '/assets/images/campus/campus.jpg');
++$seoRobots   = $seo['robots'] ?? 'index, follow, max-image-preview:large';
++$seoNoindex  = stripos($seoRobots, 'noindex') !== false;
++$seoJson     = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG;
++?>
++    <title><?= cn_e($seoTitle) ?></title>
++<?php if ($seoDesc !== ''): ?>
++    <meta name="description" content="<?= cn_e($seoDesc) ?>" />
++<?php endif; ?>
++    <meta name="robots" content="<?= cn_e($seoRobots) ?>" />
++<?php if (!$seoNoindex): ?>
++    <link rel="canonical" href="<?= cn_e($seoUrl) ?>" />
++<?php endif; ?>
++
++    <!-- Open Graph -->
++    <meta property="og:type" content="<?= cn_e($seo['type'] ?? 'website') ?>" />
++    <meta property="og:site_name" content="<?= cn_e(SITE_NAME) ?>" />
++    <meta property="og:locale" content="en_AU" />
++    <meta property="og:title" content="<?= cn_e($seoTitle) ?>" />
++<?php if ($seoDesc !== ''): ?>
++    <meta property="og:description" content="<?= cn_e($seoDesc) ?>" />
++<?php endif; ?>
++    <meta property="og:url" content="<?= cn_e($seoUrl) ?>" />
++    <meta property="og:image" content="<?= cn_e($seoImage) ?>" />
++
++    <!-- Twitter -->
++    <meta name="twitter:card" content="summary_large_image" />
++    <meta name="twitter:title" content="<?= cn_e($seoTitle) ?>" />
++<?php if ($seoDesc !== ''): ?>
++    <meta name="twitter:description" content="<?= cn_e($seoDesc) ?>" />
++<?php endif; ?>
++    <meta name="twitter:image" content="<?= cn_e($seoImage) ?>" />
++<?php if (!empty($seo['org'])):
++    $seoAddr = function (string $street, string $city, string $region, string $zip): array {
++        return [
++            '@type'           => 'PostalAddress',
++            'streetAddress'   => $street,
++            'addressLocality' => $city,
++            'addressRegion'   => $region,
++            'postalCode'      => $zip,
++            'addressCountry'  => 'AU',
++        ];
++    };
++    $seoOrg = [
++        '@context'   => 'https://schema.org',
++        '@type'      => 'EducationalOrganization',
++        '@id'        => $seoBase . '/#organization',
++        'name'       => SITE_NAME,
++        'url'        => $seoBase . '/',
++        'logo'       => $seoBase . '/assets/images/logo/logotransparent.png',
++        'telephone'  => SITE_PHONE,
++        'email'      => SITE_EMAIL,
++        'identifier' => ['TOID ' . TOID, 'CRICOS ' . CRICOS],
++        'location'   => [
++            [
++                '@type'   => 'Place',
++                'name'    => SITE_NAME . ' - Melbourne Campus',
++                'address' => $seoAddr('Level 5, 440 Elizabeth Street', 'Melbourne', 'VIC', '3000'),
++            ],
++            [
++                '@type'   => 'Place',
++                'name'    => SITE_NAME . ' - Brisbane Campus',
++                'address' => $seoAddr('161 Brunswick Street', 'Fortitude Valley', 'QLD', '4006'),
++            ],
++        ],
++    ];
++?>
++
++    <script type="application/ld+json"><?= json_encode($seoOrg, $seoJson) ?></script>
++<?php endif; ?>
++<?php if (!empty($seo['breadcrumbs'])):
++    $seoCrumbs = ['@context' => 'https://schema.org', '@type' => 'BreadcrumbList', 'itemListElement' => []];
++    foreach ($seo['breadcrumbs'] as $i => $crumb) {
++        $seoCrumbs['itemListElement'][] = [
++            '@type'    => 'ListItem',
++            'position' => $i + 1,
++            'name'     => $crumb[0],
++            'item'     => $seoBase . $crumb[1],
++        ];
++    }
++?>
++    <script type="application/ld+json"><?= json_encode($seoCrumbs, $seoJson) ?></script>
++<?php endif; ?>
+diff -ruN a/includes/stylesheets.php b/includes/stylesheets.php
+--- a/includes/stylesheets.php
++++ b/includes/stylesheets.php
+@@ -1,4 +1,4 @@
+-  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/sections/navbar.css" />
+-  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css" />
++  <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/navbar.css" />
++  <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/style.css" />
+ 
+-  <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/sections/footer.css" />
+\ No newline at end of file
++  <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/footer.css" />
+\ No newline at end of file
+diff -ruN a/index.php b/index.php
+--- a/index.php
++++ b/index.php
+@@ -1,5 +1,13 @@
+ <?php
+-require_once 'data/dbcourses.php';
++require_once __DIR__ . '/config.php';
++require_once __DIR__ . '/data/dbcourses.php';
++
++$seo = [
++    'title' => 'Cornell Institute of Training | RTO in Melbourne & Brisbane',
++    'description' => 'Nationally recognised Hospitality, Construction, Carpentry and Painting courses at Cornell Institute of Training. RTO 6074, CRICOS 03892A. Melbourne & Brisbane.',
++    'path' => '/',
++    'org' => true,
++];
+ 
+ // Separate groups
+ $construction = [];
+@@ -24,25 +32,23 @@
+ <head>
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+-    <title>
+-        Cornell Institute of Training | Nationally Recognised Vocational Training
+-    </title>
++    <?php require __DIR__ . '/includes/seo.php'; ?>
+ 
+     <!-- Your base styles -->
+     <!-- Page specific styles -->
+     <?php include_once('includes/stylesheets.php') ?>
+ 
+-    <link rel="stylesheet" href="assets/css/page/index.css" />
+-    <link rel="stylesheet" href="assets/css/sections/aboutSection.css" />
+-    <link rel="stylesheet" href="assets/css/sections/course-section.css" />
+-    <link rel="stylesheet" href="assets/css/sections/bento.css" />
+-
+-    <link rel="stylesheet" href="assets/css/sections/cta.css" />
+-
+-    <link rel="stylesheet" href="assets/css/sections/blog.css" />
+-    <link rel="stylesheet" href="assets/css/sections/reviews.css">
+-    <link rel="stylesheet" href="assets/css/sections/campuses.css" />
+-    <link rel="stylesheet" href="assets/css/sections/cta.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/index.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/aboutSection.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/course-section.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/bento.css" />
++
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/cta.css" />
++
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/blog.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/reviews.css">
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/campuses.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/cta.css" />
+ 
+ 
+ </head>
+@@ -55,7 +61,7 @@
+     <!-- ===================== HERO ===================== -->
+     <section class="hero">
+         <div class="hero-bg">
+-            <img src="https://shorturl.at/rGwlB" alt="Students in practical training" class="hero-bg-img" />
++            <img src="https://shorturl.at/rGwlB" alt="Cornell Institute of Training students in hands-on practical training" class="hero-bg-img" />
+             <div class="hero-overlay"></div>
+         </div>
+ 
+@@ -91,7 +97,7 @@
+                         a rewarding career today at Cornell Institute of Training,
+                         Melbourne’s trusted name in vocational education.
+                     </p>
+-                    <a href="#enquire" class="btn-pill btn-pill-accent">
++                    <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
+                         Learn more
+                         <span class="btn-icon">↗</span>
+                     </a>
+@@ -99,16 +105,16 @@
+             </div>
+             <div class="trusted">
+                 <div class="trustcard">
+-                    <img src="assets/images/general/aqf.webp" alt="Australian Qualifications Framework" />
++                    <img src="<?= BASE_PATH ?>/assets/images/general/aqf.webp" alt="Australian Qualifications Framework (AQF) logo" />
+                 </div>
+                 <div class="trustcard">
+-                    <img src="assets/images/general/asqa.webp" alt="ASQA" />
++                    <img src="<?= BASE_PATH ?>/assets/images/general/asqa.webp" alt="ASQA - Australian Skills Quality Authority logo" />
+                 </div>
+                 <div class="trustcard">
+-                    <img src="assets/images/general/ntr.png" alt="Nationally Recognised Training" />
++                    <img src="<?= BASE_PATH ?>/assets/images/general/ntr.png" alt="Nationally Recognised Training logo" />
+                 </div>
+                 <div class="trustcard">
+-                    <img src="assets/images/general/trainiggov.jpg" alt="training.gov.au" />
++                    <img src="<?= BASE_PATH ?>/assets/images/general/trainiggov.jpg" alt="training.gov.au national register logo" />
+                 </div>
+             </div>
+         </div>
+@@ -124,7 +130,7 @@
+             <div class="course-panel">
+                 <img class="course-bg"
+                     src="https://plus.unsplash.com/premium_photo-1682092170538-9ebcb3a09ac1?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+-                    alt="Hospitality and Management" />
++                    alt="Hospitality and management courses" />
+                 <div class="course-overlay"></div>
+ 
+                 <div class="course-wrapper">
+@@ -145,7 +151,7 @@
+                         <ul class="included-list">
+                             <?php foreach ($hospitality  as $key => $course): ?>
+                             <li>
+-                                <a href="course.php?course=<?= urlencode($key) ?>">
++                                <a href="<?= course_url($key) ?>">
+                                     <?= htmlspecialchars($course['code'] ?? $key) ?> -
+                                     <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
+                                 </a>
+@@ -154,10 +160,10 @@
+ 
+                         </ul>
+                         <div class="course-actions">
+-                            <a href="" class="btn-pill btn-pill-accent">
++                            <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
+                                 Join Now <span class="btn-icon">→</span>
+                             </a>
+-                            <a href="" class="btn-pill btn-pill-soft">
++                            <a href="<?= BASE_PATH ?>/courses" class="btn-pill btn-pill-soft">
+                                 Explore <span class="btn-icon">→</span>
+                             </a>
+                         </div>
+@@ -169,7 +175,7 @@
+             <div class="course-panel">
+                 <img class="course-bg"
+                     src="https://plus.unsplash.com/premium_photo-1681823100546-0541b5880f14?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+-                    alt="Business & Leadership" />
++                    alt="Construction and building courses" />
+                 <div class="course-overlay"></div>
+ 
+                 <div class="course-wrapper">
+@@ -191,7 +197,7 @@
+                             <ul class="included-list">
+                                 <?php foreach ($construction  as $key => $course): ?>
+                                 <li>
+-                                    <a href="course.php?course=<?= urlencode($key) ?>">
++                                    <a href="<?= course_url($key) ?>">
+                                         <?= htmlspecialchars($course['code'] ?? $key) ?> -
+                                         <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
+                                     </a>
+@@ -201,10 +207,10 @@
+                             </ul>
+                         </ul>
+                         <div class="course-actions">
+-                            <a href="" class="btn-pill btn-pill-accent">
++                            <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
+                                 Join Now <span class="btn-icon">→</span>
+                             </a>
+-                            <a href="" class="btn-pill btn-pill-soft">
++                            <a href="<?= BASE_PATH ?>/courses" class="btn-pill btn-pill-soft">
+                                 Explore <span class="btn-icon">→</span>
+                             </a>
+                         </div>
+@@ -216,13 +222,13 @@
+             <div class="course-panel">
+                 <img class="course-bg"
+                     src="https://plus.unsplash.com/premium_photo-1683887034491-f58b4c4fca72?q=80&w=1169&auto=format&fit=crop"
+-                    alt="Information Technology" />
++                    alt="Painting and carpentry courses" />
+                 <div class="course-overlay"></div>
+ 
+                 <div class="course-wrapper">
+                     <div class="course-left">
+                         <span class="course-label">Intake Available</span>
+-                        <h2 class="course-title">painting and Carpentry</h2>
++                        <h2 class="course-title">Painting and Carpentry</h2>
+                         <div class="course-overview">
+                             <h5>OVERVIEW</h5>
+                             <p>
+@@ -237,7 +243,7 @@
+                         <ul class="included-list">
+                             <?php foreach ($trade  as $key => $course): ?>
+                             <li>
+-                                <a href="course.php?course=<?= urlencode($key) ?>">
++                                <a href="<?= course_url($key) ?>">
+                                     <?= htmlspecialchars($course['code'] ?? $key) ?> -
+                                     <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
+                                 </a>
+@@ -246,10 +252,10 @@
+ 
+                         </ul>
+                         <div class="course-actions">
+-                            <a href="" class="btn-pill btn-pill-accent">
++                            <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
+                                 Join Now <span class="btn-icon">→</span>
+                             </a>
+-                            <a href="" class="btn-pill btn-pill-soft">
++                            <a href="<?= BASE_PATH ?>/courses" class="btn-pill btn-pill-soft">
+                                 Explore <span class="btn-icon">→</span>
+                             </a>
+                         </div>
+@@ -274,7 +280,7 @@
+                 <!-- 1 · Large image -->
+                 <button type="button" class="bento-item bento-large" data-type="image"
+                     data-full="assets/images/campus/campus.jpg">
+-                    <img src="assets/images/campus/campus.jpg" alt="Students outside the Melbourne campus"
++                    <img src="<?= BASE_PATH ?>/assets/images/campus/campus.jpg" alt="Cornell students gathered in front of a Cornell branded backdrop at the Melbourne campus"
+                         loading="lazy" />
+                     <span class="bento-overlay">
+                         <span class="bento-badge">Melbourne</span>
+@@ -284,8 +290,8 @@
+ 
+                 <!-- 2 · Instagram Reel (tall) -->
+                 <div class="bento-item bento-tall" data-type="video">
+-                    <img src="assets/images/videos/paintthumb.PNG" alt="Melbourne campus" loading="lazy" />
+-                    <video class="bento-video" src="assets/images/videos/painting.mp4" muted loop playsinline
++                    <img src="<?= BASE_PATH ?>/assets/images/videos/paintthumb.PNG" alt="Two students painting a wall in a painting and decorating class" loading="lazy" />
++                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/painting.mp4" muted loop playsinline
+                         preload="metadata"></video>
+                     <span class="bento-play" aria-hidden="true"></span>
+                     <span class="bento-overlay">
+@@ -296,7 +302,7 @@
+ 
+                 <!-- 3 · Image -->
+                 <button type="button" class="bento-item" data-type="image" data-full="assets/images/campus/class.jpg">
+-                    <img src="assets/images/campus/class.jpg" alt="classroom" loading="lazy" />
++                    <img src="<?= BASE_PATH ?>/assets/images/campus/class.jpg" alt="Students seated at desks in a Cornell Institute of Training classroom" loading="lazy" />
+                     <span class="bento-overlay">
+                         <span class="bento-badge">Brisbane</span>
+                         <span class="bento-caption">classroom</span>
+@@ -307,7 +313,7 @@
+                 <button type="button" class="bento-item" data-type="image"
+                     data-full="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1600&q=80&auto=format&fit=crop">
+                     <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80&auto=format&fit=crop"
+-                        alt="Carpentry workshop" loading="lazy" />
++                        alt="Students working in a carpentry workshop" loading="lazy" />
+                     <span class="bento-overlay">
+                         <span class="bento-badge">Melbourne</span>
+                         <span class="bento-caption">Carpentry workshop</span>
+@@ -315,8 +321,8 @@
+                 </button>
+                 <!-- 6 · Instagram Reel (tall) -->
+                 <div class="bento-item bento-tall" data-type="video">
+-                    <img src="assets/images/videos/carthumb.PNG" alt="Melbourne campus" loading="lazy" />
+-                    <video class="bento-video" src="assets/images/videos/carpentry.mp4" muted loop playsinline
++                    <img src="<?= BASE_PATH ?>/assets/images/videos/carthumb.PNG" alt="Students building a timber frame in a carpentry class" loading="lazy" />
++                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/carpentry.mp4" muted loop playsinline
+                         preload="metadata"></video>
+                     <span class="bento-play" aria-hidden="true"></span>
+                     <span class="bento-overlay">
+@@ -327,7 +333,7 @@
+                 <!-- 5 · Wide image -->
+                 <button type="button" class="bento-item bento-wide" data-type="image"
+                     data-full="assets/images/campus/practical1.jpg">
+-                    <img src="assets/images/campus/practical1.jpg" alt="Students studying together" loading="lazy" />
++                    <img src="<?= BASE_PATH ?>/assets/images/campus/practical1.jpg" alt="Students in Cornell hi-vis shirts in the practical training workshop" loading="lazy" />
+                     <span class="bento-overlay">
+                         <span class="bento-badge">Brisbane</span>
+                         <span class="bento-caption">Group study and collaboration</span>
+@@ -342,7 +348,7 @@
+                     <p class="bento-cta__text">
+                         Book a campus tour in Melbourne or Brisbane and meet our team.
+                     </p>
+-                    <a href="#contact" class="btn-pill btn-pill-accent">
++                    <a href="<?= BASE_PATH ?>/contact" class="btn-pill btn-pill-accent">
+                         Book a tour
+                         <span class="btn-icon" aria-hidden="true">→</span>
+                     </a>
+@@ -350,8 +356,8 @@
+ 
+                 <!-- 9 · Image -->
+                 <div class="bento-item bento-tall" data-type="video">
+-                    <img src="assets/images/general/thumb.png" alt="Melbourne campus" loading="lazy" />
+-                    <video class="bento-video" src="assets/images/videos/carpentry.mp4" muted loop playsinline
++                    <img src="<?= BASE_PATH ?>/assets/images/general/thumb.png" alt="Student sanding a plasterboard wall in a painting and decorating class" loading="lazy" />
++                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/carpentry.mp4" muted loop playsinline
+                         preload="metadata"></video>
+                     <span class="bento-play" aria-hidden="true"></span>
+                     <span class="bento-overlay">
+@@ -409,7 +415,7 @@
+                 <a href="/blog-page.html" class="event-card">
+                     <div class="card-image-wrapper">
+                         <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80"
+-                            alt="Event Cover" class="card-image" />
++                            alt="" class="card-image" />
+                     </div>
+                     <div class="card-content">
+                         <div class="event-datetime">
+@@ -434,7 +440,7 @@
+                 <a href="/blog-page.html" class="event-card">
+                     <div class="card-image-wrapper">
+                         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80"
+-                            alt="Event Cover" class="card-image" />
++                            alt="" class="card-image" />
+                     </div>
+                     <div class="card-content">
+                         <div class="event-datetime">
+@@ -458,7 +464,7 @@
+                 <a href="/blog-page.html" class="event-card">
+                     <div class="card-image-wrapper">
+                         <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80"
+-                            alt="Event Cover" class="card-image" />
++                            alt="" class="card-image" />
+                     </div>
+                     <div class="card-content">
+                         <div class="event-datetime">
+@@ -482,7 +488,7 @@
+                 <a href="/blog-page.html" class="event-card">
+                     <div class="card-image-wrapper">
+                         <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80"
+-                            alt="Event Cover" class="card-image" />
++                            alt="" class="card-image" />
+                     </div>
+                     <div class="card-content">
+                         <div class="event-datetime">
+@@ -513,9 +519,9 @@
+ 
+ 
+ 
+-    <script src="assets/js/bento.js"></script>
++    <script src="<?= BASE_PATH ?>/assets/js/bento.js"></script>
+ 
+-    <script src="assets/js/reviews.js" defer></script>
++    <script src="<?= BASE_PATH ?>/assets/js/reviews.js" defer></script>
+ 
+ </body>
+ 
+diff -ruN a/robots.txt b/robots.txt
+--- a/robots.txt
++++ b/robots.txt
+@@ -11,7 +11,7 @@
+ Disallow: /config.php
+ Disallow: /env.php
+ Disallow: /test.php
+-Disallow: /*.php$          # Prefer clean URLs; .php files should redirect
++Disallow: /404
+ 
+ # Sitemap
+ Sitemap: https://cornell.vic.edu.au/sitemap.xml
+diff -ruN a/student-support.php b/student-support.php
+--- a/student-support.php
++++ b/student-support.php
+@@ -1,3 +1,12 @@
++<?php
++require_once __DIR__ . '/config.php';
++$seo = [
++    'title' => 'Student Support | Cornell Institute of Training',
++    'description' => 'Student support services, resources, forms, policies and wellbeing information at Cornell Institute of Training - Melbourne & Brisbane.',
++    'path' => '/student-support',
++    'breadcrumbs' => [['Home', '/'], ['Student Support', '/student-support']],
++];
++?>
+ <!doctype html>
+ <html lang="en">
+ 
+@@ -5,19 +14,10 @@
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ 
+-    <title>Student Support | Cornell Institute of Training</title>
+-    <meta name="description"
+-        content="Student support services, resources, forms, policies and wellbeing information at Cornell Institute of Training – Melbourne & Brisbane." />
+-    <link rel="canonical" href="https://www.cornell.vic.edu.au/student-support.php" />
+-
+-    <meta property="og:title" content="Student Support | Cornell Institute of Training" />
+-    <meta property="og:description"
+-        content="Academic support, wellbeing, forms, policies and resources for current and prospective students." />
+-    <meta property="og:url" content="https://www.cornell.vic.edu.au/student-support.php" />
+-    <meta property="og:type" content="website" />
++    <?php require __DIR__ . '/includes/seo.php'; ?>
+ 
+     <?php include_once('includes/stylesheets.php') ?>
+-    <link rel="stylesheet" href="assets/css/page/student-support.css" />
++    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/student-support.css" />
+ </head>
+ 
+ <body>
+@@ -32,7 +32,7 @@
+ 
+         <div class="container">
+             <nav class="page-breadcrumb" aria-label="Breadcrumb">
+-                <a href="index.php">Home</a>
++                <a href="<?= BASE_PATH ?>/">Home</a>
+                 <span>/</span>
+                 <span>Student Support</span>
+             </nav>
+@@ -206,25 +206,25 @@
+                     <ul class="ss-form-list">
+                         <li>
+ 
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/international_Student_Application_Form%20cornell.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/international_Student_Application_Form%20cornell.pdf"
+                                 target="_blank" rel="noopener">
+                                 International Student Application
+                             </a>
+                         </li>
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/rpl-application-form.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/rpl-application-form.pdf"
+                                 target="_blank" rel="noopener">
+                                 Recognition of Prior Learning (RPL)
+                             </a>
+                         </li>
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/credit-transfer-application-form.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/credit-transfer-application-form.pdf"
+                                 target="_blank" rel="noopener">
+                                 Credit Transfer Application Form
+                             </a>
+                         </li>
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/internal-course-transfer-application-form.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/internal-course-transfer-application-form.pdf"
+                                 target="_blank" rel="noopener">
+                                 Internal Course Transfer Application
+                             </a>
+@@ -237,31 +237,31 @@
+                     <h3 class="ss-form-group-title">Changes &amp; Requests</h3>
+                     <ul class="ss-form-list">
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/application-for-deferral-form-international-students.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/application-for-deferral-form-international-students.pdf"
+                                 target="_blank" rel="noopener">
+                                 Deferment / Suspension form
+                             </a>
+                         </li>
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/withdrawal-form-international-student.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/withdrawal-form-international-student.pdf"
+                                 target="_blank" rel="noopener">
+                                 Application for Withdrawal
+                             </a>
+                         </li>
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/release-request-form.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/release-request-form.pdf"
+                                 target="_blank" rel="noopener">
+                                 Application for Release
+                             </a>
+                         </li>
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/student-change-of-details-form.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/student-change-of-details-form.pdf"
+                                 target="_blank" rel="noopener">
+                                 Change of Personal Details Form
+                             </a>
+                         </li>
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/access-to-records-request-form.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/access-to-records-request-form.pdf"
+                                 target="_blank" rel="noopener">
+                                 Access to Records Request Form
+                             </a>
+@@ -274,31 +274,31 @@
+                     <h3 class="ss-form-group-title">Assessment &amp; Finance</h3>
+                     <ul class="ss-form-list">
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/reassess-and-appeal-form.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/reassess-and-appeal-form.pdf"
+                                 target="_blank" rel="noopener">
+                                 Reassessment / Appeal Form
+                             </a>
+                         </li>
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/refund-application-form.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/refund-application-form.pdf"
+                                 target="_blank" rel="noopener">
+                                 Refund Request Form
+                             </a>
+                         </li>
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/qualification-issue-form.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/qualification-issue-form.pdf"
+                                 target="_blank" rel="noopener">
+                                 Qualification Issue Request Form
+                             </a>
+                         </li>
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/credit-card-authorisation-form.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/credit-card-authorisation-form.pdf"
+                                 target="_blank" rel="noopener">
+                                 Credit Card Authorisation Form
+                             </a>
+                         </li>
+                         <li>
+-                            <a href="https://www.cornell.vic.edu.au/forms/forms/improvement-idea-submission-form.pdf"
++                            <a href="<?= BASE_PATH ?>/forms/forms/improvement-idea-submission-form.pdf"
+                                 target="_blank" rel="noopener">
+                                 Improvement Idea Submission Form
+                             </a>
+@@ -319,63 +319,63 @@
+             </div>
+ 
+             <div class="ss-policies-grid">
+-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP014-Student-wellbeing-support.pdf"
++                <a href="<?= BASE_PATH ?>/forms/policy/CITP014-Student-wellbeing-support.pdf"
+                     target="_blank" rel="noopener" class="ss-policy-card">
+                     <h3>Student Wellbeing Support</h3>
+                     <p>How we support student wellbeing and provide appropriate assistance.</p>
+                     <span class="ss-policy-link">View PDF →</span>
+                 </a>
+ 
+-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP011-Student-support-and-intervention.pdf"
++                <a href="<?= BASE_PATH ?>/forms/policy/CITP011-Student-support-and-intervention.pdf"
+                     target="_blank" rel="noopener" class="ss-policy-card">
+                     <h3>Student Support &amp; Intervention</h3>
+                     <p>Support strategies and intervention when academic progress is at risk.</p>
+                     <span class="ss-policy-link">View PDF →</span>
+                 </a>
+ 
+-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP015-Feedback-complaints-and-Appeals.pdf"
++                <a href="<?= BASE_PATH ?>/forms/policy/CITP015-Feedback-complaints-and-Appeals.pdf"
+                     target="_blank" rel="noopener" class="ss-policy-card">
+                     <h3>Feedback, Complaints &amp; Appeals</h3>
+                     <p>How to provide feedback or lodge a formal complaint or appeal.</p>
+                     <span class="ss-policy-link">View PDF →</span>
+                 </a>
+ 
+-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP020-Fee-and-Refund.pdf" target="_blank"
++                <a href="<?= BASE_PATH ?>/forms/policy/CITP020-Fee-and-Refund.pdf" target="_blank"
+                     rel="noopener" class="ss-policy-card">
+                     <h3>Fee &amp; Refund Policy</h3>
+                     <p>Fees, payment schedules, refunds and withdrawal procedures.</p>
+                     <span class="ss-policy-link">View PDF →</span>
+                 </a>
+ 
+-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP010-Student-Enrolment.pdf" target="_blank"
++                <a href="<?= BASE_PATH ?>/forms/policy/CITP010-Student-Enrolment.pdf" target="_blank"
+                     rel="noopener" class="ss-policy-card">
+                     <h3>Student Enrolment Policy</h3>
+                     <p>Enrolment processes, entry requirements and related procedures.</p>
+                     <span class="ss-policy-link">View PDF →</span>
+                 </a>
+ 
+-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP012-Attendance.pdf" target="_blank"
++                <a href="<?= BASE_PATH ?>/forms/policy/CITP012-Attendance.pdf" target="_blank"
+                     rel="noopener" class="ss-policy-card">
+                     <h3>Attendance Policy</h3>
+                     <p>Attendance requirements and monitoring for all students.</p>
+                     <span class="ss-policy-link">View PDF →</span>
+                 </a>
+ 
+-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP006-RPL-Policy.pdf" target="_blank"
++                <a href="<?= BASE_PATH ?>/forms/policy/CITP006-RPL-Policy.pdf" target="_blank"
+                     rel="noopener" class="ss-policy-card">
+                     <h3>RPL Policy</h3>
+                     <p>Recognition of Prior Learning processes and evidence requirements.</p>
+                     <span class="ss-policy-link">View PDF →</span>
+                 </a>
+ 
+-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP009-Student-information.pdf" target="_blank"
++                <a href="<?= BASE_PATH ?>/forms/policy/CITP009-Student-information.pdf" target="_blank"
+                     rel="noopener" class="ss-policy-card">
+                     <h3>Student Information Policy</h3>
+                     <p>How we provide clear, accurate and timely information to students.</p>
+                     <span class="ss-policy-link">View PDF →</span>
+                 </a>
+ 
+-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP013-Diversity-Incl-and-C-Safety.pdf"
++                <a href="<?= BASE_PATH ?>/forms/policy/CITP013-Diversity-Incl-and-C-Safety.pdf"
+                     target="_blank" rel="noopener" class="ss-policy-card">
+                     <h3>Diversity, Inclusion &amp; Child Safety</h3>
+                     <p>Our commitment to an inclusive and safe learning environment.</p>
+@@ -489,7 +489,7 @@
+ 
+     <?php include_once('includes/footer.php') ?>
+     <?php include_once('includes/scripts.php') ?>
+-    <script src="assets/js/student-support.js"></script>
++    <script src="<?= BASE_PATH ?>/assets/js/student-support.js"></script>
+ </body>
+ 
+ </html>
+\ No newline at end of file

@@ -1,3 +1,12 @@
+<?php
+require_once __DIR__ . '/config.php';
+$seo = [
+    'title' => 'Student Support | Cornell Institute of Training',
+    'description' => 'Student support services, resources, forms, policies and wellbeing information at Cornell Institute of Training - Melbourne & Brisbane.',
+    'path' => '/student-support',
+    'breadcrumbs' => [['Home', '/'], ['Student Support', '/student-support']],
+];
+?>
 <!doctype html>
 <html lang="en">
 
@@ -5,19 +14,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Student Support | Cornell Institute of Training</title>
-    <meta name="description"
-        content="Student support services, resources, forms, policies and wellbeing information at Cornell Institute of Training – Melbourne & Brisbane." />
-    <link rel="canonical" href="https://www.cornell.vic.edu.au/student-support.php" />
-
-    <meta property="og:title" content="Student Support | Cornell Institute of Training" />
-    <meta property="og:description"
-        content="Academic support, wellbeing, forms, policies and resources for current and prospective students." />
-    <meta property="og:url" content="https://www.cornell.vic.edu.au/student-support.php" />
-    <meta property="og:type" content="website" />
+    <?php require __DIR__ . '/includes/seo.php'; ?>
 
     <?php include_once('includes/stylesheets.php') ?>
-    <link rel="stylesheet" href="assets/css/page/student-support.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/student-support.css" />
 </head>
 
 <body>
@@ -32,7 +32,7 @@
 
         <div class="container">
             <nav class="page-breadcrumb" aria-label="Breadcrumb">
-                <a href="index.php">Home</a>
+                <a href="<?= BASE_PATH ?>/">Home</a>
                 <span>/</span>
                 <span>Student Support</span>
             </nav>
@@ -206,25 +206,25 @@
                     <ul class="ss-form-list">
                         <li>
 
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/international_Student_Application_Form%20cornell.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/international_Student_Application_Form%20cornell.pdf"
                                 target="_blank" rel="noopener">
                                 International Student Application
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/rpl-application-form.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/rpl-application-form.pdf"
                                 target="_blank" rel="noopener">
                                 Recognition of Prior Learning (RPL)
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/credit-transfer-application-form.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/credit-transfer-application-form.pdf"
                                 target="_blank" rel="noopener">
                                 Credit Transfer Application Form
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/internal-course-transfer-application-form.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/internal-course-transfer-application-form.pdf"
                                 target="_blank" rel="noopener">
                                 Internal Course Transfer Application
                             </a>
@@ -237,31 +237,31 @@
                     <h3 class="ss-form-group-title">Changes &amp; Requests</h3>
                     <ul class="ss-form-list">
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/application-for-deferral-form-international-students.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/application-for-deferral-form-international-students.pdf"
                                 target="_blank" rel="noopener">
                                 Deferment / Suspension form
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/withdrawal-form-international-student.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/withdrawal-form-international-student.pdf"
                                 target="_blank" rel="noopener">
                                 Application for Withdrawal
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/release-request-form.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/release-request-form.pdf"
                                 target="_blank" rel="noopener">
                                 Application for Release
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/student-change-of-details-form.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/student-change-of-details-form.pdf"
                                 target="_blank" rel="noopener">
                                 Change of Personal Details Form
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/access-to-records-request-form.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/access-to-records-request-form.pdf"
                                 target="_blank" rel="noopener">
                                 Access to Records Request Form
                             </a>
@@ -274,31 +274,31 @@
                     <h3 class="ss-form-group-title">Assessment &amp; Finance</h3>
                     <ul class="ss-form-list">
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/reassess-and-appeal-form.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/reassess-and-appeal-form.pdf"
                                 target="_blank" rel="noopener">
                                 Reassessment / Appeal Form
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/refund-application-form.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/refund-application-form.pdf"
                                 target="_blank" rel="noopener">
                                 Refund Request Form
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/qualification-issue-form.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/qualification-issue-form.pdf"
                                 target="_blank" rel="noopener">
                                 Qualification Issue Request Form
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/credit-card-authorisation-form.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/credit-card-authorisation-form.pdf"
                                 target="_blank" rel="noopener">
                                 Credit Card Authorisation Form
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.cornell.vic.edu.au/forms/forms/improvement-idea-submission-form.pdf"
+                            <a href="<?= BASE_PATH ?>/forms/forms/improvement-idea-submission-form.pdf"
                                 target="_blank" rel="noopener">
                                 Improvement Idea Submission Form
                             </a>
@@ -319,63 +319,63 @@
             </div>
 
             <div class="ss-policies-grid">
-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP014-Student-wellbeing-support.pdf"
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP014-Student-wellbeing-support.pdf"
                     target="_blank" rel="noopener" class="ss-policy-card">
                     <h3>Student Wellbeing Support</h3>
                     <p>How we support student wellbeing and provide appropriate assistance.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP011-Student-support-and-intervention.pdf"
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP011-Student-support-and-intervention.pdf"
                     target="_blank" rel="noopener" class="ss-policy-card">
                     <h3>Student Support &amp; Intervention</h3>
                     <p>Support strategies and intervention when academic progress is at risk.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP015-Feedback-complaints-and-Appeals.pdf"
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP015-Feedback-complaints-and-Appeals.pdf"
                     target="_blank" rel="noopener" class="ss-policy-card">
                     <h3>Feedback, Complaints &amp; Appeals</h3>
                     <p>How to provide feedback or lodge a formal complaint or appeal.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP020-Fee-and-Refund.pdf" target="_blank"
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP020-Fee-and-Refund.pdf" target="_blank"
                     rel="noopener" class="ss-policy-card">
                     <h3>Fee &amp; Refund Policy</h3>
                     <p>Fees, payment schedules, refunds and withdrawal procedures.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP010-Student-Enrolment.pdf" target="_blank"
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP010-Student-Enrolment.pdf" target="_blank"
                     rel="noopener" class="ss-policy-card">
                     <h3>Student Enrolment Policy</h3>
                     <p>Enrolment processes, entry requirements and related procedures.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP012-Attendance.pdf" target="_blank"
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP012-Attendance.pdf" target="_blank"
                     rel="noopener" class="ss-policy-card">
                     <h3>Attendance Policy</h3>
                     <p>Attendance requirements and monitoring for all students.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP006-RPL-Policy.pdf" target="_blank"
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP006-RPL-Policy.pdf" target="_blank"
                     rel="noopener" class="ss-policy-card">
                     <h3>RPL Policy</h3>
                     <p>Recognition of Prior Learning processes and evidence requirements.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP009-Student-information.pdf" target="_blank"
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP009-Student-information.pdf" target="_blank"
                     rel="noopener" class="ss-policy-card">
                     <h3>Student Information Policy</h3>
                     <p>How we provide clear, accurate and timely information to students.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="https://www.cornell.vic.edu.au/forms/policy/CITP013-Diversity-Incl-and-C-Safety.pdf"
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP013-Diversity-Incl-and-C-Safety.pdf"
                     target="_blank" rel="noopener" class="ss-policy-card">
                     <h3>Diversity, Inclusion &amp; Child Safety</h3>
                     <p>Our commitment to an inclusive and safe learning environment.</p>
@@ -489,7 +489,7 @@
 
     <?php include_once('includes/footer.php') ?>
     <?php include_once('includes/scripts.php') ?>
-    <script src="assets/js/student-support.js"></script>
+    <script src="<?= BASE_PATH ?>/assets/js/student-support.js"></script>
 </body>
 
 </html>

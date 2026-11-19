@@ -1,5 +1,13 @@
 <?php
-require_once 'data/dbcourses.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/data/dbcourses.php';
+
+$seo = [
+    'title' => 'Cornell Institute of Training | RTO in Melbourne & Brisbane',
+    'description' => 'Nationally recognised Hospitality, Construction, Carpentry and Painting courses at Cornell Institute of Training. RTO 6074, CRICOS 03892A. Melbourne & Brisbane.',
+    'path' => '/',
+    'org' => true,
+];
 
 // Separate groups
 $construction = [];
@@ -24,25 +32,23 @@ foreach ($courses as $key => $course) {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-        Cornell Institute of Training | Nationally Recognised Vocational Training
-    </title>
+    <?php require __DIR__ . '/includes/seo.php'; ?>
 
     <!-- Your base styles -->
     <!-- Page specific styles -->
     <?php include_once('includes/stylesheets.php') ?>
 
-    <link rel="stylesheet" href="assets/css/page/index.css" />
-    <link rel="stylesheet" href="assets/css/sections/aboutSection.css" />
-    <link rel="stylesheet" href="assets/css/sections/course-section.css" />
-    <link rel="stylesheet" href="assets/css/sections/bento.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/index.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/aboutSection.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/course-section.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/bento.css" />
 
-    <link rel="stylesheet" href="assets/css/sections/cta.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/cta.css" />
 
-    <link rel="stylesheet" href="assets/css/sections/blog.css" />
-    <link rel="stylesheet" href="assets/css/sections/reviews.css">
-    <link rel="stylesheet" href="assets/css/sections/campuses.css" />
-    <link rel="stylesheet" href="assets/css/sections/cta.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/blog.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/reviews.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/campuses.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/cta.css" />
 
 
 </head>
@@ -55,7 +61,7 @@ foreach ($courses as $key => $course) {
     <!-- ===================== HERO ===================== -->
     <section class="hero">
         <div class="hero-bg">
-            <img src="https://shorturl.at/rGwlB" alt="Students in practical training" class="hero-bg-img" />
+            <img src="https://shorturl.at/rGwlB" alt="Cornell Institute of Training students in hands-on practical training" class="hero-bg-img" />
             <div class="hero-overlay"></div>
         </div>
 
@@ -91,7 +97,7 @@ foreach ($courses as $key => $course) {
                         a rewarding career today at Cornell Institute of Training,
                         Melbourne’s trusted name in vocational education.
                     </p>
-                    <a href="#enquire" class="btn-pill btn-pill-accent">
+                    <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
                         Learn more
                         <span class="btn-icon">↗</span>
                     </a>
@@ -99,16 +105,16 @@ foreach ($courses as $key => $course) {
             </div>
             <div class="trusted">
                 <div class="trustcard">
-                    <img src="assets/images/general/aqf.webp" alt="Australian Qualifications Framework" />
+                    <img src="<?= BASE_PATH ?>/assets/images/general/aqf.webp" alt="Australian Qualifications Framework (AQF) logo" />
                 </div>
                 <div class="trustcard">
-                    <img src="assets/images/general/asqa.webp" alt="ASQA" />
+                    <img src="<?= BASE_PATH ?>/assets/images/general/asqa.webp" alt="ASQA - Australian Skills Quality Authority logo" />
                 </div>
                 <div class="trustcard">
-                    <img src="assets/images/general/ntr.png" alt="Nationally Recognised Training" />
+                    <img src="<?= BASE_PATH ?>/assets/images/general/ntr.png" alt="Nationally Recognised Training logo" />
                 </div>
                 <div class="trustcard">
-                    <img src="assets/images/general/trainiggov.jpg" alt="training.gov.au" />
+                    <img src="<?= BASE_PATH ?>/assets/images/general/trainiggov.jpg" alt="training.gov.au national register logo" />
                 </div>
             </div>
         </div>
@@ -124,7 +130,7 @@ foreach ($courses as $key => $course) {
             <div class="course-panel">
                 <img class="course-bg"
                     src="https://plus.unsplash.com/premium_photo-1682092170538-9ebcb3a09ac1?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
-                    alt="Hospitality and Management" />
+                    alt="Hospitality and management courses" />
                 <div class="course-overlay"></div>
 
                 <div class="course-wrapper">
@@ -145,7 +151,7 @@ foreach ($courses as $key => $course) {
                         <ul class="included-list">
                             <?php foreach ($hospitality  as $key => $course): ?>
                             <li>
-                                <a href="course.php?course=<?= urlencode($key) ?>">
+                                <a href="<?= course_url($key) ?>">
                                     <?= htmlspecialchars($course['code'] ?? $key) ?> -
                                     <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
                                 </a>
@@ -154,10 +160,10 @@ foreach ($courses as $key => $course) {
 
                         </ul>
                         <div class="course-actions">
-                            <a href="" class="btn-pill btn-pill-accent">
+                            <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
                                 Join Now <span class="btn-icon">→</span>
                             </a>
-                            <a href="" class="btn-pill btn-pill-soft">
+                            <a href="<?= BASE_PATH ?>/courses" class="btn-pill btn-pill-soft">
                                 Explore <span class="btn-icon">→</span>
                             </a>
                         </div>
@@ -169,7 +175,7 @@ foreach ($courses as $key => $course) {
             <div class="course-panel">
                 <img class="course-bg"
                     src="https://plus.unsplash.com/premium_photo-1681823100546-0541b5880f14?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
-                    alt="Business & Leadership" />
+                    alt="Construction and building courses" />
                 <div class="course-overlay"></div>
 
                 <div class="course-wrapper">
@@ -191,7 +197,7 @@ foreach ($courses as $key => $course) {
                             <ul class="included-list">
                                 <?php foreach ($construction  as $key => $course): ?>
                                 <li>
-                                    <a href="course.php?course=<?= urlencode($key) ?>">
+                                    <a href="<?= course_url($key) ?>">
                                         <?= htmlspecialchars($course['code'] ?? $key) ?> -
                                         <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
                                     </a>
@@ -201,10 +207,10 @@ foreach ($courses as $key => $course) {
                             </ul>
                         </ul>
                         <div class="course-actions">
-                            <a href="" class="btn-pill btn-pill-accent">
+                            <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
                                 Join Now <span class="btn-icon">→</span>
                             </a>
-                            <a href="" class="btn-pill btn-pill-soft">
+                            <a href="<?= BASE_PATH ?>/courses" class="btn-pill btn-pill-soft">
                                 Explore <span class="btn-icon">→</span>
                             </a>
                         </div>
@@ -216,13 +222,13 @@ foreach ($courses as $key => $course) {
             <div class="course-panel">
                 <img class="course-bg"
                     src="https://plus.unsplash.com/premium_photo-1683887034491-f58b4c4fca72?q=80&w=1169&auto=format&fit=crop"
-                    alt="Information Technology" />
+                    alt="Painting and carpentry courses" />
                 <div class="course-overlay"></div>
 
                 <div class="course-wrapper">
                     <div class="course-left">
                         <span class="course-label">Intake Available</span>
-                        <h2 class="course-title">painting and Carpentry</h2>
+                        <h2 class="course-title">Painting and Carpentry</h2>
                         <div class="course-overview">
                             <h5>OVERVIEW</h5>
                             <p>
@@ -237,7 +243,7 @@ foreach ($courses as $key => $course) {
                         <ul class="included-list">
                             <?php foreach ($trade  as $key => $course): ?>
                             <li>
-                                <a href="course.php?course=<?= urlencode($key) ?>">
+                                <a href="<?= course_url($key) ?>">
                                     <?= htmlspecialchars($course['code'] ?? $key) ?> -
                                     <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
                                 </a>
@@ -246,10 +252,10 @@ foreach ($courses as $key => $course) {
 
                         </ul>
                         <div class="course-actions">
-                            <a href="" class="btn-pill btn-pill-accent">
+                            <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
                                 Join Now <span class="btn-icon">→</span>
                             </a>
-                            <a href="" class="btn-pill btn-pill-soft">
+                            <a href="<?= BASE_PATH ?>/courses" class="btn-pill btn-pill-soft">
                                 Explore <span class="btn-icon">→</span>
                             </a>
                         </div>
@@ -274,7 +280,7 @@ foreach ($courses as $key => $course) {
                 <!-- 1 · Large image -->
                 <button type="button" class="bento-item bento-large" data-type="image"
                     data-full="assets/images/campus/campus.jpg">
-                    <img src="assets/images/campus/campus.jpg" alt="Students outside the Melbourne campus"
+                    <img src="<?= BASE_PATH ?>/assets/images/campus/campus.jpg" alt="Cornell students gathered in front of a Cornell branded backdrop at the Melbourne campus"
                         loading="lazy" />
                     <span class="bento-overlay">
                         <span class="bento-badge">Melbourne</span>
@@ -284,8 +290,8 @@ foreach ($courses as $key => $course) {
 
                 <!-- 2 · Instagram Reel (tall) -->
                 <div class="bento-item bento-tall" data-type="video">
-                    <img src="assets/images/videos/paintthumb.PNG" alt="Melbourne campus" loading="lazy" />
-                    <video class="bento-video" src="assets/images/videos/painting.mp4" muted loop playsinline
+                    <img src="<?= BASE_PATH ?>/assets/images/videos/paintthumb.PNG" alt="Two students painting a wall in a painting and decorating class" loading="lazy" />
+                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/painting.mp4" muted loop playsinline
                         preload="metadata"></video>
                     <span class="bento-play" aria-hidden="true"></span>
                     <span class="bento-overlay">
@@ -296,7 +302,7 @@ foreach ($courses as $key => $course) {
 
                 <!-- 3 · Image -->
                 <button type="button" class="bento-item" data-type="image" data-full="assets/images/campus/class.jpg">
-                    <img src="assets/images/campus/class.jpg" alt="classroom" loading="lazy" />
+                    <img src="<?= BASE_PATH ?>/assets/images/campus/class.jpg" alt="Students seated at desks in a Cornell Institute of Training classroom" loading="lazy" />
                     <span class="bento-overlay">
                         <span class="bento-badge">Brisbane</span>
                         <span class="bento-caption">classroom</span>
@@ -307,7 +313,7 @@ foreach ($courses as $key => $course) {
                 <button type="button" class="bento-item" data-type="image"
                     data-full="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1600&q=80&auto=format&fit=crop">
                     <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80&auto=format&fit=crop"
-                        alt="Carpentry workshop" loading="lazy" />
+                        alt="Students working in a carpentry workshop" loading="lazy" />
                     <span class="bento-overlay">
                         <span class="bento-badge">Melbourne</span>
                         <span class="bento-caption">Carpentry workshop</span>
@@ -315,8 +321,8 @@ foreach ($courses as $key => $course) {
                 </button>
                 <!-- 6 · Instagram Reel (tall) -->
                 <div class="bento-item bento-tall" data-type="video">
-                    <img src="assets/images/videos/carthumb.PNG" alt="Melbourne campus" loading="lazy" />
-                    <video class="bento-video" src="assets/images/videos/carpentry.mp4" muted loop playsinline
+                    <img src="<?= BASE_PATH ?>/assets/images/videos/carthumb.PNG" alt="Students building a timber frame in a carpentry class" loading="lazy" />
+                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/carpentry.mp4" muted loop playsinline
                         preload="metadata"></video>
                     <span class="bento-play" aria-hidden="true"></span>
                     <span class="bento-overlay">
@@ -327,7 +333,7 @@ foreach ($courses as $key => $course) {
                 <!-- 5 · Wide image -->
                 <button type="button" class="bento-item bento-wide" data-type="image"
                     data-full="assets/images/campus/practical1.jpg">
-                    <img src="assets/images/campus/practical1.jpg" alt="Students studying together" loading="lazy" />
+                    <img src="<?= BASE_PATH ?>/assets/images/campus/practical1.jpg" alt="Students in Cornell hi-vis shirts in the practical training workshop" loading="lazy" />
                     <span class="bento-overlay">
                         <span class="bento-badge">Brisbane</span>
                         <span class="bento-caption">Group study and collaboration</span>
@@ -342,7 +348,7 @@ foreach ($courses as $key => $course) {
                     <p class="bento-cta__text">
                         Book a campus tour in Melbourne or Brisbane and meet our team.
                     </p>
-                    <a href="#contact" class="btn-pill btn-pill-accent">
+                    <a href="<?= BASE_PATH ?>/contact" class="btn-pill btn-pill-accent">
                         Book a tour
                         <span class="btn-icon" aria-hidden="true">→</span>
                     </a>
@@ -350,8 +356,8 @@ foreach ($courses as $key => $course) {
 
                 <!-- 9 · Image -->
                 <div class="bento-item bento-tall" data-type="video">
-                    <img src="assets/images/general/thumb.png" alt="Melbourne campus" loading="lazy" />
-                    <video class="bento-video" src="assets/images/videos/carpentry.mp4" muted loop playsinline
+                    <img src="<?= BASE_PATH ?>/assets/images/general/thumb.png" alt="Student sanding a plasterboard wall in a painting and decorating class" loading="lazy" />
+                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/carpentry.mp4" muted loop playsinline
                         preload="metadata"></video>
                     <span class="bento-play" aria-hidden="true"></span>
                     <span class="bento-overlay">
@@ -409,7 +415,7 @@ include 'includes/reviews.php';
                 <a href="/blog-page.html" class="event-card">
                     <div class="card-image-wrapper">
                         <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=800&q=80"
-                            alt="Event Cover" class="card-image" />
+                            alt="" class="card-image" />
                     </div>
                     <div class="card-content">
                         <div class="event-datetime">
@@ -434,7 +440,7 @@ include 'includes/reviews.php';
                 <a href="/blog-page.html" class="event-card">
                     <div class="card-image-wrapper">
                         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80"
-                            alt="Event Cover" class="card-image" />
+                            alt="" class="card-image" />
                     </div>
                     <div class="card-content">
                         <div class="event-datetime">
@@ -458,7 +464,7 @@ include 'includes/reviews.php';
                 <a href="/blog-page.html" class="event-card">
                     <div class="card-image-wrapper">
                         <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80"
-                            alt="Event Cover" class="card-image" />
+                            alt="" class="card-image" />
                     </div>
                     <div class="card-content">
                         <div class="event-datetime">
@@ -482,7 +488,7 @@ include 'includes/reviews.php';
                 <a href="/blog-page.html" class="event-card">
                     <div class="card-image-wrapper">
                         <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80"
-                            alt="Event Cover" class="card-image" />
+                            alt="" class="card-image" />
                     </div>
                     <div class="card-content">
                         <div class="event-datetime">
@@ -513,9 +519,9 @@ include 'includes/reviews.php';
 
 
 
-    <script src="assets/js/bento.js"></script>
+    <script src="<?= BASE_PATH ?>/assets/js/bento.js"></script>
 
-    <script src="assets/js/reviews.js" defer></script>
+    <script src="<?= BASE_PATH ?>/assets/js/reviews.js" defer></script>
 
 </body>
 

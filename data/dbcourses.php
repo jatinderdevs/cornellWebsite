@@ -532,3 +532,15 @@ function get_course(string $key): ?array
 
     return null;
 }
+
+/**
+ * Clean public URL for a course page: /course/<slug>.
+ * Accepts either the array key (e.g. cpc30220) or the slug.
+ * Requires config.php (BASE_PATH) to be loaded first.
+ */
+function course_url(string $key): string
+{
+    $course = get_course($key);
+    $slug   = $course['slug'] ?? $key;
+    return (defined('BASE_PATH') ? BASE_PATH : '') . '/course/' . rawurlencode($slug);
+}

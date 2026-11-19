@@ -1,5 +1,13 @@
 <?php
-require_once 'data/dbcourses.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/data/dbcourses.php';
+
+$seo = [
+    'title' => 'Education Agents | Cornell Institute of Training',
+    'description' => 'Find a Cornell Institute of Training education agent or become a partner. Nationally recognised vocational courses in Melbourne & Brisbane.',
+    'path' => '/agents',
+    'breadcrumbs' => [['Home', '/'], ['Agents', '/agents']],
+];
 
 // Separate groups
 $construction = [];
@@ -59,20 +67,11 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Education Agents | Cornell Institute of Training</title>
-    <meta name="description"
-        content="Find a Cornell Institute of Training education agent or become a partner. Nationally recognised vocational courses in Melbourne & Brisbane." />
-    <link rel="canonical" href="https://www.cornell.vic.edu.au/agents.php" />
-
-    <meta property="og:title" content="Education Agents | Cornell Institute of Training" />
-    <meta property="og:description"
-        content="Find a Cornell education agent or become a partner – nationally recognised vocational courses in Melbourne & Brisbane." />
-    <meta property="og:url" content="https://www.cornell.vic.edu.au/agents.php" />
-    <meta property="og:type" content="website" />
+    <?php require __DIR__ . '/includes/seo.php'; ?>
 
     <?php include_once('includes/stylesheets.php') ?>
-    <link rel="stylesheet" href="assets/css/page/agents.css" />
-    <link rel="stylesheet" href="assets/css/sections/campuses.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/agents.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/campuses.css" />
 
 </head>
 
@@ -88,7 +87,7 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
 
         <div class="container">
             <nav class="page-breadcrumb" aria-label="Breadcrumb">
-                <a href="index.php">Home</a>
+                <a href="<?= BASE_PATH ?>/">Home</a>
                 <span>/</span>
                 <span>Education Agents</span>
             </nav>
@@ -185,7 +184,7 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
                     <header class="ag-agent-head">
                         <div class="ag-agent-avatar">
                             <?php if ($logo !== ''): ?>
-                            <img src="assets/img/agents/<?= ag_e(rawurlencode($logo)) ?>" alt="" loading="lazy" />
+                            <img src="<?= BASE_PATH ?>/assets/img/agents/<?= ag_e(rawurlencode($logo)) ?>" alt="<?= ag_e($name) ?> logo" loading="lazy" />
                             <?php else: ?>
                             <span><?= ag_e(agent_initials($name)) ?></span>
                             <?php endif; ?>
@@ -344,7 +343,7 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
                     <ul class="ag-chips">
                         <?php foreach ($hospitality  as $key => $course): ?>
                         <li class="course_chip">
-                            <a href="course.php?course=<?= urlencode($key) ?>">
+                            <a href="<?= course_url($key) ?>">
                                 <?= htmlspecialchars($course['code'] ?? $key) ?> -
                                 <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
                             </a>
@@ -360,7 +359,7 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
                     <ul class="ag-chips">
                         <?php foreach ($construction as $key => $course): ?>
                         <li class="course_chip">
-                            <a class="course_chip" href="course.php?course=<?= urlencode($key) ?>">
+                            <a class="course_chip" href="<?= course_url($key) ?>">
                                 <?= htmlspecialchars($course['code'] ?? $key) ?> -
                                 <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
                             </a>
@@ -378,7 +377,7 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
                     <ul class="ag-chips">
                         <?php foreach ($trade as $key => $course): ?>
                         <li class="course_chip">
-                            <a class="course_chip" href="course.php?course=<?= urlencode($key) ?>">
+                            <a class="course_chip" href="<?= course_url($key) ?>">
                                 <?= htmlspecialchars($course['code'] ?? $key) ?> -
                                 <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
                             </a>
@@ -422,7 +421,7 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
                     </button>
                     <div class="ag-faq-answer">
                         <p>All our CRICOS-registered Hospitality and Construction courses. See the
-                            <a href="courses.php">Courses page</a> for details.
+                            <a href="<?= BASE_PATH ?>/courses">Courses page</a> for details.
                         </p>
                     </div>
                 </div>
@@ -499,7 +498,7 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
 
     <?php include_once('includes/footer.php') ?>
     <?php include_once('includes/scripts.php') ?>
-    <script src="assets/js/agents.js"></script>
+    <script src="<?= BASE_PATH ?>/assets/js/agents.js"></script>
 </body>
 
 </html>

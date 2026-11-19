@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   console.log(formUl);
 
   formUl.forEach((li) => {
-    return (li.innerHTML += `<img src="assets/images/icons/pdf.png" alt="">`);
+    return (li.innerHTML += `<img src="${window.BASE_PATH || ""}/assets/images/icons/pdf.png" alt="">`);
   });
 
   // Smooth scroll for jump links

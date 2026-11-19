@@ -21,17 +21,19 @@ $course = $courseKey ? get_course($courseKey) : null;
 
 // 404 if course not found
 if (!$course) {
-  http_response_code(404);
-  // Optionally include a 404 template
-  echo '<h1>Course not found</h1><p><a href="courses.php">View all courses</a></p>';
+  // Unknown course: send the site 404 page (sets the 404 status itself)
+  require __DIR__ . '/404.php';
   exit;
 }
 
 // Helper values
-$pageTitle       = $course['title'] . ' | Cornell Institute of Training';
+$pageTitle       = $course['title'] . (strlen($course['title']) <= 34 ? ' | Cornell Institute of Training' : ' | Cornell');
 $pageDescription = $course['short_desc'] ?? substr(strip_tags($course['description']), 0, 155);
-$canonicalUrl    = 'https://cornell.vic.edu.au/course/' . ($course['slug'] ?? $courseKey);
-$heroImage       = "assets/images/courses/".$course['hero_image'];
+if (strlen($pageDescription) < 110) {
+  $pageDescription .= ' Course code ' . $course['code'] . ', CRICOS ' . $course['cricos'] . '.';
+}
+$canonicalUrl    = BASE_URL . '/course/' . ($course['slug'] ?? $courseKey);
+$heroImage       = '/assets/images/courses/' . $course['hero_image'];   // root-relative; prefix BASE_PATH in src
 $unitsCount      = count($course['units'] ?? []);
 $visibleUnits    = 8;
 
@@ -42,6 +44,14 @@ foreach (($course['units'] ?? []) as $u) {
 }
 $electiveCount = $unitsCount - $coreCount;
 $longDesc      = strlen($course['description'] ?? '') > 650;
+
+$seo = [
+    'title'       => $pageTitle,
+    'description' => $pageDescription,
+    'path'        => '/course/' . ($course['slug'] ?? $courseKey),
+    'image'       => $heroImage,
+    'breadcrumbs' => [['Home', '/'], ['Courses', '/courses'], [$course['title'], '/course/' . ($course['slug'] ?? $courseKey)]],
+];
 
 // Small inline icon set (stroke icons, inherit currentColor)
 function cc_icon($name) {
@@ -78,26 +88,7 @@ function cc_icon($name) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Primary SEO -->
-    <title><?= htmlspecialchars($pageTitle) ?></title>
-    <meta name="description" content="<?= htmlspecialchars($pageDescription) ?>" />
-    <meta name="robots" content="index, follow, max-image-preview:large" />
-    <link rel="canonical" href="<?= htmlspecialchars($canonicalUrl) ?>" />
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="<?= htmlspecialchars($course['title']) ?>" />
-    <meta property="og:description" content="<?= htmlspecialchars($pageDescription) ?>" />
-    <meta property="og:url" content="<?= htmlspecialchars($canonicalUrl) ?>" />
-    <meta property="og:image"
-        content="<?= htmlspecialchars('https://www.cornell.vic.edu.au/' . ltrim($heroImage, '/')) ?>" />
-    <meta property="og:site_name" content="Cornell Institute of Training" />
-    <meta property="og:locale" content="en_AU" />
-
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="<?= htmlspecialchars($course['title']) ?>" />
-    <meta name="twitter:description" content="<?= htmlspecialchars($pageDescription) ?>" />
+    <?php require __DIR__ . '/includes/seo.php'; ?>
 
     <!-- Additional SEO -->
     <meta name="author" content="Cornell Institute of Training" />
@@ -113,8 +104,8 @@ function cc_icon($name) {
 
 
     <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/course-page.css" />
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/sections/campuses.css" />
-    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/sections/cta.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/campuses.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/cta.css">
 
     <!-- Structured Data (Course) -->
     <script type="application/ld+json">
@@ -126,7 +117,7 @@ function cc_icon($name) {
         "provider": {
             "@type": "Organization",
             "name": "Cornell Institute of Training",
-            "sameAs": "https://www.cornell.vic.edu.au",
+            "url": "<?= BASE_URL ?>/",
             "address": {
                 "@type": "PostalAddress",
                 "streetAddress": "Level 5, 440 Elizabeth Street",
@@ -170,13 +161,13 @@ function cc_icon($name) {
 
     <!-- ===================== COURSE HERO ===================== -->
     <section class="course-hero">
-        <img class="course-hero-bg" src="<?= htmlspecialchars($heroImage) ?>"
+        <img class="course-hero-bg" src="<?= htmlspecialchars(BASE_PATH . $heroImage) ?>"
             alt="<?= htmlspecialchars($course['title']) ?>" width="1470" height="800" fetchpriority="high" />
         <div class="course-hero-overlay"></div>
 
         <div class="container">
             <nav class="course-breadcrumb" aria-label="Breadcrumb">
-                <a href="courses.php">Our Courses</a>
+                <a href="<?= BASE_PATH ?>/courses">Our Courses</a>
                 <span>/</span>
                 <span><?= htmlspecialchars($course['title']) ?></span>
             </nav>
@@ -197,7 +188,7 @@ function cc_icon($name) {
                     </p>
 
                     <div class="course-actions">
-                        <a href="#enquire" class="btn-pill btn-pill-accent">
+                        <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
                             Enquire Now <span class="btn-icon">→</span>
                         </a>
                         <a href="#structure" class="btn-pill btn-pill-secondary">
@@ -349,7 +340,7 @@ function cc_icon($name) {
 
                     </div>
 
-                    <img src="assets/images/courses/const.svg" width="400px" alt="">
+                    <img src="<?= BASE_PATH ?>/assets/images/courses/const.svg" width="400px" alt="">
                 </section>
 
                 <!-- Entry Requirements -->
@@ -504,7 +495,7 @@ function cc_icon($name) {
                             <h3>Recognition of Prior Learning (RPL)</h3>
                             <p>You may be eligible for RPL based on previous skills and experience. This can reduce
                                 the time and cost of your course.</p>
-                            <a href="#enquire" class="cc-link-btn"><span>Check my
+                            <a href="<?= BASE_PATH ?>/contact#enquire" class="cc-link-btn"><span>Check my
                                     eligibility</span><?= cc_icon('arrow') ?></a>
                         </div>
                         <div class="cc-feature">
@@ -512,7 +503,7 @@ function cc_icon($name) {
                             <h3>Credit Transfer</h3>
                             <p>If you have previously completed identical units with another Australian RTO, you can
                                 apply for Credit Transfer.</p>
-                            <a href="#enquire" class="cc-link-btn"><span>Ask about
+                            <a href="<?= BASE_PATH ?>/contact#enquire" class="cc-link-btn"><span>Ask about
                                     credit</span><?= cc_icon('arrow') ?></a>
                         </div>
                     </div>
@@ -614,7 +605,7 @@ function cc_icon($name) {
                 <strong>$<?= number_format((int)$course['enrolment_fee']) ?></strong>
                 <span>enrolment fee</span>
             </div>
-            <a href="#enquire" class="btn-pill btn-pill-accent">
+            <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
                 Enquire <span class="btn-icon">→</span>
             </a>
         </div>
@@ -624,7 +615,7 @@ function cc_icon($name) {
 
     <?php include_once('includes/footer.php') ?>
     <?php include_once('includes/scripts.php') ?>
-    <script src="<?= BASE_URL ?>/assets/js/course-page.js"></script>
+    <script src="<?= BASE_PATH ?>/assets/js/course-page.js"></script>
 </body>
 
 </html>

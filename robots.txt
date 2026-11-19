@@ -11,7 +11,7 @@ Disallow: /reviews/
 Disallow: /config.php
 Disallow: /env.php
 Disallow: /test.php
-Disallow: /*.php$          # Prefer clean URLs; .php files should redirect
+Disallow: /404
 
 # Sitemap
 Sitemap: https://cornell.vic.edu.au/sitemap.xml

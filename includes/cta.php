@@ -7,10 +7,10 @@
                   <p>Explore our nationally recognised courses or speak with our team about the next intake.</p>
               </div>
               <div class="cta-actions">
-                  <a href="courses.php" class="btn-pill btn-pill-accent">
+                  <a href="<?= BASE_PATH ?>/courses" class="btn-pill btn-pill-accent">
                       View Courses <span class="btn-icon">→</span>
                   </a>
-                  <a href="contact.php" class="btn-pill btn-pill-secondary">
+                  <a href="<?= BASE_PATH ?>/contact" class="btn-pill btn-pill-secondary">
                       Contact Us <span class="btn-icon">→</span>
                   </a>
               </div>

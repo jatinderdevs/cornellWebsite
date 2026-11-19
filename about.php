@@ -1,3 +1,13 @@
+<?php
+require_once __DIR__ . '/config.php';
+$seo = [
+    'title' => 'About Us | Cornell Institute of Training',
+    'description' => 'Cornell Institute of Training is a nationally recognised RTO (TOID 6074, CRICOS 03892A) offering practical vocational education in Melbourne and Brisbane.',
+    'path' => '/about',
+    'breadcrumbs' => [['Home', '/'], ['About', '/about']],
+    'org' => true,
+];
+?>
 <!doctype html>
 <html lang="en">
 
@@ -5,23 +15,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>About Us | Cornell Institute of Training</title>
-    <meta name="description"
-        content="Learn about Cornell Institute of Training – a nationally recognised RTO (TOID 6074 | CRICOS 03892A) delivering practical, industry-focused vocational education in Melbourne and Brisbane." />
-    <link rel="canonical" href="https://www.cornell.vic.edu.au/about.php" />
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="About Us | Cornell Institute of Training" />
-    <meta property="og:description"
-        content="Empowering students through high-quality vocational education and training." />
-    <meta property="og:url" content="https://www.cornell.vic.edu.au/about.php" />
-    <meta property="og:type" content="website" />
+    <?php require __DIR__ . '/includes/seo.php'; ?>
 
     <?php include_once('includes/stylesheets.php') ?>
-    <link rel="stylesheet" href="assets/css/page/about.css" />
-    <link rel="stylesheet" href="assets/css/sections/campuses.css" />
-    <link rel="stylesheet" href="assets/css/sections/reviews.css">
-    <link rel="stylesheet" href="assets/css/sections/cta.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/about.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/campuses.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/reviews.css">
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/sections/cta.css">
 
 </head>
 
@@ -35,7 +35,7 @@
 
         <div class="container">
             <nav class="page-breadcrumb" aria-label="Breadcrumb">
-                <a href="index.php">Home</a>
+                <a href="<?= BASE_PATH ?>/">Home</a>
                 <span>/</span>
                 <span>About Us</span>
             </nav>
@@ -55,7 +55,7 @@
     <section class="about-intro">
         <div class="container">
             <div class="about-intro-grid">
-                <img src="assets/images/courses/about.svg" alt="">
+                <img src="<?= BASE_PATH ?>/assets/images/courses/about.svg" alt="">
                 <div class="about-intro-text">
                     <h2 class="heading">Achieve Your Goals</h2>
                     <p>
@@ -80,8 +80,8 @@
 
     <section class="about-img">
         <div class="about-img-inner">
-            <video src="assets/images/videos/about.mp4" autoplay muted loop playsinline
-                poster="assets/images/campus/campus.jpg"></video>
+            <video src="<?= BASE_PATH ?>/assets/images/videos/about.mp4" autoplay muted loop playsinline
+                poster="<?= BASE_PATH ?>/assets/images/campus/campus.jpg"></video>
         </div>
     </section>
     <?php
@@ -104,8 +104,8 @@ include 'includes/reviews.php';
 
     <?php include_once('includes/footer.php') ?>
     <?php include_once('includes/scripts.php') ?>
-    <script src="assets/js/about.js"></script>
-    <script src="assets/js/reviews.js" defer></script>
+    <script src="<?= BASE_PATH ?>/assets/js/about.js"></script>
+    <script src="<?= BASE_PATH ?>/assets/js/reviews.js" defer></script>
 </body>
 
 </html>

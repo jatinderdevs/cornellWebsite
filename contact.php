@@ -7,7 +7,8 @@
 
 session_start();
 
-require_once 'data/dbcourses.php';
+require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/data/dbcourses.php';
 require_once 'includes/contact-handler.php';
 
 if (empty($_SESSION['contact_csrf'])) {
@@ -31,6 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
   }
 }
+
+$seo = [
+    'title' => 'Contact Us | Cornell Institute of Training',
+    'description' => 'Contact Cornell Institute of Training - enrolment, course and international student enquiries, feedback and FAQs. Melbourne & Brisbane campuses.',
+    'path' => '/contact',
+    'breadcrumbs' => [['Home', '/'], ['Contact', '/contact']],
+];
 
 /* ---------- View helpers ---------- */
 function ct_e($v)
@@ -68,11 +76,11 @@ foreach ($courses as $c) {
 $faqs = [
   [
     'q' => 'How do I enrol?',
-    'a' => 'Send us an enquiry using the form above or call <a href="tel:1300195612">1300 195 612</a>. Our team will guide you through the next available intake. International students can also download the application form from <a href="student-support.php#forms">Student Forms</a>.',
+    'a' => 'Send us an enquiry using the form above or call <a href="tel:1300195612">1300 195 612</a>. Our team will guide you through the next available intake. International students can also download the application form from <a href="' . BASE_PATH . '/student-support#forms">Student Forms</a>.',
   ],
   [
     'q' => 'Which courses can I study?',
-    'a' => 'We offer nationally recognised Hospitality and Construction qualifications, from Certificate III to Advanced Diploma. See <a href="courses.php">Courses</a> for duration, units and pathways.',
+    'a' => 'We offer nationally recognised Hospitality and Construction qualifications, from Certificate III to Advanced Diploma. See <a href="' . BASE_PATH . '/courses">Courses</a> for duration, units and pathways.',
   ],
   [
     'q' => 'Where are your campuses?',
@@ -80,15 +88,15 @@ $faqs = [
   ],
   [
     'q' => 'Can I get credit for previous study or work experience?',
-    'a' => 'You may be able to. We offer Recognition of Prior Learning (RPL) and credit transfer. The forms are on <a href="student-support.php#forms">Student Forms</a>, or tell us about your background in the form above and we will advise.',
+    'a' => 'You may be able to. We offer Recognition of Prior Learning (RPL) and credit transfer. The forms are on <a href="' . BASE_PATH . '/student-support#forms">Student Forms</a>, or tell us about your background in the form above and we will advise.',
   ],
   [
     'q' => 'I am an international student. Who can help with visas, OSHC or orientation?',
-    'a' => 'Our team can help with visa and ESOS information, orientation and OSHC guidance. Choose &ldquo;International students&rdquo; as your topic above, or visit <a href="student-support.php">Student Support</a>.',
+    'a' => 'Our team can help with visa and ESOS information, orientation and OSHC guidance. Choose &ldquo;International students&rdquo; as your topic above, or visit <a href="' . BASE_PATH . '/student-support">Student Support</a>.',
   ],
   [
     'q' => 'How do I give feedback or make a complaint?',
-    'a' => 'Choose &ldquo;Feedback&rdquo; in the form above or email <a href="mailto:info@cornell.vic.edu.au">info@cornell.vic.edu.au</a>. For formal complaints and appeals, our <a href="student-support.php#policies">Feedback, Complaints &amp; Appeals policy</a> explains the process.',
+    'a' => 'Choose &ldquo;Feedback&rdquo; in the form above or email <a href="mailto:info@cornell.vic.edu.au">info@cornell.vic.edu.au</a>. For formal complaints and appeals, our <a href="' . BASE_PATH . '/student-support#policies">Feedback, Complaints &amp; Appeals policy</a> explains the process.',
   ],
 ];
 
@@ -114,24 +122,14 @@ $faqSchema = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Contact Us | Cornell Institute of Training</title>
-    <meta name="description"
-        content="Contact Cornell Institute of Training – enrolment, course and international student enquiries, feedback and FAQs. Melbourne &amp; Brisbane campuses." />
-    <link rel="canonical" href="https://www.cornell.vic.edu.au/contact.php" />
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="Contact Us | Cornell Institute of Training" />
-    <meta property="og:description"
-        content="Questions about courses, enrolment or student life? Send us a message or call 1300 195 612." />
-    <meta property="og:url" content="https://www.cornell.vic.edu.au/contact.php" />
-    <meta property="og:type" content="website" />
+    <?php require __DIR__ . '/includes/seo.php'; ?>
 
     <script type="application/ld+json">
     <?= json_encode($faqSchema, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) ?>
     </script>
 
     <?php include_once('includes/stylesheets.php') ?>
-    <link rel="stylesheet" href="assets/css/page/contact.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/contact.css" />
 </head>
 
 <body>
@@ -139,12 +137,12 @@ $faqSchema = [
 
     <!-- ===================== PAGE HEADER ===================== -->
     <section class="page-header">
-        <img class="page-header-bg" src="assets/images/campus/campus.jpg" alt="" />
+        <img class="page-header-bg" src="<?= BASE_PATH ?>/assets/images/campus/campus.jpg" alt="" />
         <div class="page-header-overlay"></div>
 
         <div class="container">
             <nav class="page-breadcrumb" aria-label="Breadcrumb">
-                <a href="index.php">Home</a>
+                <a href="<?= BASE_PATH ?>/">Home</a>
                 <span>/</span>
                 <span>Contact</span>
             </nav>
@@ -241,7 +239,7 @@ $faqSchema = [
                         <p>Pick a topic, tell us a little about you, and we&rsquo;ll take it from there.</p>
                     </div>
 
-                    <form id="contactForm" method="post" action="contact.php#enquire" novalidate
+                    <form id="contactForm" method="post" action="<?= BASE_PATH ?>/contact#enquire" novalidate
                         <?= $sent ? 'hidden' : '' ?>>
                         <input type="hidden" name="csrf" value="<?= ct_e($_SESSION['contact_csrf']) ?>" />
 
@@ -332,7 +330,7 @@ $faqSchema = [
                             <div>
                                 <label for="ctConsent">
                                     I&rsquo;m happy for Cornell to contact me about this enquiry. See our
-                                    <a href="student-support.php#privacy">privacy information</a>.
+                                    <a href="<?= BASE_PATH ?>/student-support#privacy">privacy information</a>.
                                 </label>
                                 <p class="ct-error" id="err-consent" role="alert"><?= ct_e($err('consent')) ?></p>
                             </div>
@@ -372,28 +370,28 @@ $faqSchema = [
                         <h3>Looking for something else?</h3>
                         <ul class="ct-links">
                             <li>
-                                <a href="courses.php" class="ct-link">
+                                <a href="<?= BASE_PATH ?>/courses" class="ct-link">
                                     <span><strong>Browse courses</strong><small>Duration, units and
                                             pathways</small></span>
                                     <span class="ct-link-arrow" aria-hidden="true">→</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="student-support.php#forms" class="ct-link">
+                                <a href="<?= BASE_PATH ?>/student-support#forms" class="ct-link">
                                     <span><strong>Student forms</strong><small>Enrolment, RPL, deferral and
                                             more</small></span>
                                     <span class="ct-link-arrow" aria-hidden="true">→</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="student-support.php#policies" class="ct-link">
+                                <a href="<?= BASE_PATH ?>/student-support#policies" class="ct-link">
                                     <span><strong>Feedback &amp; complaints</strong><small>Read our policy and
                                             process</small></span>
                                     <span class="ct-link-arrow" aria-hidden="true">→</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="agents.php" class="ct-link">
+                                <a href="<?= BASE_PATH ?>/agents" class="ct-link">
                                     <span><strong>Education agents</strong><small>Partner with Cornell</small></span>
                                     <span class="ct-link-arrow" aria-hidden="true">→</span>
                                 </a>
@@ -434,7 +432,7 @@ $faqSchema = [
 
     <?php include_once('includes/footer.php') ?>
     <?php include_once('includes/scripts.php') ?>
-    <script src="assets/js/contact.js"></script>
+    <script src="<?= BASE_PATH ?>/assets/js/contact.js"></script>
 </body>
 
 </html>

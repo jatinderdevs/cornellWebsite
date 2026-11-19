@@ -9,6 +9,13 @@ require_once __DIR__ .'/config.php';
 require_once __DIR__ .'/data/dbcourses.php';
 
 // Optional: group by category
+$seo = [
+    'title' => 'Our Courses | Cornell Institute of Training',
+    'description' => 'Explore Certificate III, Certificate IV, Diploma and Advanced Diploma courses in Hospitality, Construction and Trades at Cornell Institute of Training.',
+    'path' => '/courses',
+    'breadcrumbs' => [['Home', '/'], ['Courses', '/courses']],
+];
+
 $categories = [];
 foreach ($courses as $key => $course) {
   $cat = $course['category'] ?? 'Other';
@@ -22,20 +29,10 @@ foreach ($courses as $key => $course) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Our Courses | Cornell Institute of Training</title>
-    <meta name="description"
-        content="Explore nationally recognised vocational courses at Cornell Institute of Training – Certificate III, Certificate IV, Diploma and Advanced Diploma qualifications in Hospitality, Construction and more." />
-    <link rel="canonical" href="https://www.cornell.vic.edu.au/courses.php" />
-
-    <!-- Open Graph -->
-    <meta property="og:title" content="Our Courses | Cornell Institute of Training" />
-    <meta property="og:description"
-        content="Explore nationally recognised vocational courses in Hospitality, Construction and Building." />
-    <meta property="og:url" content="https://www.cornell.vic.edu.au/courses.php" />
-    <meta property="og:type" content="website" />
+    <?php require __DIR__ . '/includes/seo.php'; ?>
 
     <?php include_once('includes/stylesheets.php') ?>
-    <link rel="stylesheet" href="assets/css/page/courses.css" />
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/courses.css" />
 </head>
 
 <body>
@@ -52,7 +49,7 @@ foreach ($courses as $key => $course) {
         <div class="container">
             <!-- Breadcrumb -->
             <nav class="courses-breadcrumb" aria-label="Breadcrumb">
-                <a href="index.php">Home</a>
+                <a href="<?= BASE_PATH ?>/">Home</a>
                 <span>/</span>
                 <span>Courses</span>
             </nav>
@@ -89,10 +86,10 @@ foreach ($courses as $key => $course) {
         <div class="container">
             <div class="courseCards">
                 <?php foreach ($courses as $key => $course): ?>
-                <a href="<?= BASE_URL ?>/course/<?= htmlspecialchars($course['slug']) ?>" class="courseCard"
+                <a href="<?= BASE_PATH ?>/course/<?= htmlspecialchars($course['slug']) ?>" class="courseCard"
                     data-category="<?= htmlspecialchars($course['category'] ?? 'Other') ?>">
                     <div class="card-image-wrapper">
-                        <img src="assets/images/courses/<?= htmlspecialchars($course['hero_image']) ?>"
+                        <img src="<?= BASE_PATH ?>/assets/images/courses/<?= htmlspecialchars($course['hero_image']) ?>"
                             alt="<?= htmlspecialchars($course['title']) ?>" class="card-image" loading="lazy" />
                         <div class="card-gradient"></div>
                     </div>
@@ -117,7 +114,7 @@ foreach ($courses as $key => $course) {
     <?php include_once('includes/footer.php') ?>
     <?php include_once('includes/scripts.php') ?>
 
-    <script src="<?= BASE_URL ?>/assets/js/courses-page.js"></script>
+    <script src="<?= BASE_PATH ?>/assets/js/courses-page.js"></script>
 
 </body>
 

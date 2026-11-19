@@ -1,49 +1,70 @@
+# ==================================================================
+# Cornell Institute of Training - Apache rules
+# Canonical host: https://cornell.vic.edu.au  (HTTPS, no www, no .php)
+# ==================================================================
 RewriteEngine On
+Options -MultiViews -Indexes
+
+ErrorDocument 404 /404.php
 
 # --------------------------------------------------
-# Optional: Force HTTPS + remove www (uncomment on live)
+# 1. www -> non-www (always HTTPS). Needs a certificate covering www.
 # --------------------------------------------------
-# RewriteCond %{HTTPS} off [OR]
-# RewriteCond %{HTTP_HOST} ^www\. [NC]
-# RewriteRule ^ https://cornell.vic.edu.au%{REQUEST_URI} [L,R=301]
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
 # --------------------------------------------------
-# Block sensitive folders
+# 2. http -> https (live only: skipped for localhost / *.local / *.test)
+#    Also honours X-Forwarded-Proto for hosts behind a proxy / Cloudflare.
+# --------------------------------------------------
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteCond %{HTTP_HOST} !^(localhost|127\.0\.0\.1|\[::1\])(:\d+)?$ [NC]
+RewriteCond %{HTTP_HOST} !\.(local|test|localhost)(:\d+)?$ [NC]
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# --------------------------------------------------
+# 3. Block sensitive folders
 # --------------------------------------------------
 RewriteRule ^(includes|data|reviews)(/|$) - [F,L]
 
 # --------------------------------------------------
-# Homepage: /index and /index.php → /
+# 4. Strip trailing slash (/about/ -> /about) for non-directories
+# --------------------------------------------------
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/$ /$1 [R=301,L]
+
+# --------------------------------------------------
+# 5. Homepage: /index and /index.php -> /
 # --------------------------------------------------
 RewriteCond %{THE_REQUEST} \s/+index(\.php)?[\s?] [NC]
 RewriteRule ^ / [R=301,L]
 
 # --------------------------------------------------
-# Course detail pages
-# Example: /course/certificate-iii-cabinet-making
+# 6. Course detail pages
+#    /course/certificate-iii-cabinet-making -> course.php?course=...
 # --------------------------------------------------
 RewriteRule ^course/([a-z0-9-]+)/?$ course.php?course=$1 [L,QSA]
 
 # --------------------------------------------------
-# Serve pages without .php extension
-# Example: /contact  →  contact.php
+# 7. Serve pages without .php   (/contact -> contact.php)
 # --------------------------------------------------
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ $1.php [L]
 
 # --------------------------------------------------
-# Redirect direct .php requests to clean URL
-# Example: /contact.php  →  /contact
+# 8. Direct .php requests -> clean URL (GET/HEAD only, so a stray
+#    form POST to /contact.php is never turned into a GET)
+#    /contact.php -> /contact
 # --------------------------------------------------
+RewriteCond %{REQUEST_METHOD} ^(GET|HEAD)$
 RewriteCond %{THE_REQUEST} \s/+(.+)\.php[\s?] [NC]
 RewriteRule ^ /%1 [R=301,L]
 
 # --------------------------------------------------
 # Security
 # --------------------------------------------------
-Options -Indexes
-
-<FilesMatch "^\.|^(env|config)\.php$|\.(env|sql|log|bak|ini)$">
+<FilesMatch "^\.|^(env|config|test)\.php$|\.(env|sql|log|bak|ini)$">
     Require all denied
 </FilesMatch>
