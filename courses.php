@@ -5,7 +5,8 @@
  * Displays all courses from dbcourses.php
  */
 
-require_once 'data/dbcourses.php';
+require_once __DIR__ .'/config.php';
+require_once __DIR__ .'/data/dbcourses.php';
 
 // Optional: group by category
 $categories = [];
@@ -88,7 +89,7 @@ foreach ($courses as $key => $course) {
         <div class="container">
             <div class="courseCards">
                 <?php foreach ($courses as $key => $course): ?>
-                <a href="/course/<?= htmlspecialchars($course['slug']) ?>" class="courseCard"
+                <a href="<?= BASE_URL ?>/course/<?= htmlspecialchars($course['slug']) ?>" class="courseCard"
                     data-category="<?= htmlspecialchars($course['category'] ?? 'Other') ?>">
                     <div class="card-image-wrapper">
                         <img src="assets/images/courses/<?= htmlspecialchars($course['hero_image']) ?>"
@@ -116,7 +117,7 @@ foreach ($courses as $key => $course) {
     <?php include_once('includes/footer.php') ?>
     <?php include_once('includes/scripts.php') ?>
 
-    <script src="assets/js/courses-page.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/courses-page.js"></script>
 
 </body>
 

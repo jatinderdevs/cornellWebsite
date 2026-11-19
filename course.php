@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ .'/config.php';
 
 /**
  * Course Detail Page
@@ -106,10 +107,14 @@ function cc_icon($name) {
     <script>
     document.documentElement.classList.add("js")
     </script>
-    <?php include_once('includes/stylesheets.php') ?>
-    <link rel="stylesheet" href="assets/css/page/course-page.css" />
-    <link rel="stylesheet" href="assets/css/sections/campuses.css" />
-    <link rel="stylesheet" href="assets/css/sections/cta.css">
+    <?php require_once __DIR__ .'/includes/stylesheets.php'; ?>
+
+
+
+
+    <link rel="stylesheet" href="<?= BASE_PATH ?>/assets/css/page/course-page.css" />
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/sections/campuses.css" />
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/sections/cta.css">
 
     <!-- Structured Data (Course) -->
     <script type="application/ld+json">
@@ -619,7 +624,7 @@ function cc_icon($name) {
 
     <?php include_once('includes/footer.php') ?>
     <?php include_once('includes/scripts.php') ?>
-    <script src="assets/js/course-page.js"></script>
+    <script src="<?= BASE_URL ?>/assets/js/course-page.js"></script>
 </body>
 
 </html>

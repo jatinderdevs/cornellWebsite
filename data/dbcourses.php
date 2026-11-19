@@ -525,6 +525,7 @@ function get_course(string $key): ?array
     // Slug match (certificate-iii-cabinet-making)
     foreach ($courses as $course) {
         if (($course['slug'] ?? '') === $key) {
+           
             return $course;
         }
     }
