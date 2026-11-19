@@ -1,0 +1,527 @@
+diff -ruN a/includes/contact-handler.php b/includes/contact-handler.php
+--- a/includes/contact-handler.php
++++ b/includes/contact-handler.php
+@@ -2,20 +2,21 @@
+ 
+ /**
+  * Contact form handler
+- * Validates an enquiry and emails it to the admissions inbox.
++ * Validates an enquiry, emails it to the college and sends the visitor a
++ * confirmation copy. Sending lives in includes/contact-mail.php.
+  *
+- * Delivery
+- *  - If RESEND_API_KEY is defined (put it in env.php, which is git-ignored) the
+- *    message is sent through Resend.
+- *  - Otherwise it falls back to PHP's mail().
+- *
+- * Optional constants (env.php): RESEND_API_KEY, CONTACT_TO, CONTACT_FROM
+- * Requires PHP 7.0+ and an active session (contact.php starts it).
++ * Settings (env.php, git-ignored): RESEND_API_KEY, CONTACT_TO, CONTACT_FROM
++ * Requires an active session (contact.php starts it).
+  */
+ 
+ if (is_file(__DIR__ . '/../env.php')) {
+     require_once __DIR__ . '/../env.php';
+ }
++// Composer packages (resend/resend-php). Optional: cURL fallback is used without it.
++if (is_file(__DIR__ . '/../vendor/autoload.php')) {
++    require_once __DIR__ . '/../vendor/autoload.php';
++}
++require_once __DIR__ . '/contact-mail.php';
+ 
+ defined('CONTACT_TO')   || define('CONTACT_TO', 'info@cornell.vic.edu.au');
+ defined('CONTACT_FROM') || define('CONTACT_FROM', 'Cornell Website <no-reply@cornell.vic.edu.au>');
+@@ -28,14 +29,12 @@
+     'other'         => 'Something else',
+ ];
+ 
+-const CONTACT_CAMPUSES = ['Melbourne', 'Brisbane', 'Not sure yet'];
+-
+ /**
+  * @param array $post    Raw $_POST
+- * @param array $courses Course list from data/dbcourses.php
++ * @param array $courses Unused (kept so contact.php's call still works)
+  * @return array         ['ok' => bool, 'status' => int, 'message' => string, 'errors' => array]
+  */
+-function contact_handle(array $post, array $courses)
++function contact_handle(array $post, array $courses = [])
+ {
+     $result = function ($ok, $status, $message = '', $errors = []) {
+         return ['ok' => $ok, 'status' => $status, 'message' => $message, 'errors' => $errors];
+@@ -63,12 +62,11 @@
+ 
+     // 4. Validate
+     $topic   = $get('topic');
+-    $name    = preg_replace('/\s+/', ' ', $get('name'));
++    $name    = trim(preg_replace('/[\x00-\x1F\x7F\s]+/u', ' ', $get('name')));
+     $email   = $get('email');
+     $phone   = $get('phone');
+-    $campus  = $get('campus');
+-    $course  = $get('course');
+-    $message = $get('message');
++    $stuId   = $get('stu_id');
++    $message = str_replace(["\r\n", "\r", "\0"], ["\n", "\n", ''], $get('message'));
+ 
+     $len = function ($s) {
+         return function_exists('mb_strlen') ? mb_strlen($s, 'UTF-8') : strlen($s);
+@@ -88,11 +86,8 @@
+     if ($phone !== '' && !preg_match('/^[0-9+()\-\s]{6,20}$/', $phone)) {
+         $errors['phone'] = 'Please enter a valid phone number.';
+     }
+-    if ($campus !== '' && !in_array($campus, CONTACT_CAMPUSES, true)) {
+-        $errors['campus'] = 'Please choose a campus from the list.';
+-    }
+-    if ($course !== '' && !in_array($course, array_column($courses, 'title'), true)) {
+-        $errors['course'] = 'Please choose a course from the list.';
++    if ($stuId !== '' && !preg_match('/^[A-Za-z0-9][A-Za-z0-9\-\/ ]{0,19}$/', $stuId)) {
++        $errors['stu_id'] = 'Please enter a valid student ID (letters and numbers only).';
+     }
+     if ($len($message) < 10 || $len($message) > 3000) {
+         $errors['message'] = 'Please tell us a little more (10–3000 characters).';
+@@ -105,19 +100,18 @@
+         return $result(false, 422, 'Please check the highlighted fields.', $errors);
+     }
+ 
+-    // 5. Compose + send
+-    $dash    = function ($v) { return $v !== '' ? $v : '—'; };
+-    $subject = '[' . CONTACT_TOPICS[$topic] . '] Website enquiry from ' . $name;
+-    $body    = "Topic:  " . CONTACT_TOPICS[$topic] . "\n"
+-             . "Name:   " . $name . "\n"
+-             . "Email:  " . $email . "\n"
+-             . "Phone:  " . $dash($phone) . "\n"
+-             . "Campus: " . $dash($campus) . "\n"
+-             . "Course: " . $dash($course) . "\n\n"
+-             . "Message:\n" . $message . "\n\n"
+-             . "--\nSent via the Cornell website contact form";
++    // 5. Send: college first (must succeed), then the visitor's confirmation
++    $data = [
++        'topic'        => CONTACT_TOPICS[$topic],
++        'name'         => $name,
++        'email'        => $email,
++        'phone'        => $phone,
++        'student_id'   => $stuId,
++        'message'      => $message,
++        'submitted_at' => new DateTimeImmutable('now', new DateTimeZone('Australia/Melbourne')),
++    ];
+ 
+-    if (!contact_send($subject, $body, $email)) {
++    if (!contact_send_staff($data)) {
+         return $result(
+             false,
+             500,
+@@ -126,53 +120,11 @@
+     }
+ 
+     $_SESSION['contact_last'] = time();
+-    return $result(true, 200);
+-}
+ 
+-/**
+- * Send the email. $replyTo must already be a validated address.
+- */
+-function contact_send($subject, $body, $replyTo)
+-{
+-    if (defined('RESEND_API_KEY') && RESEND_API_KEY) {
+-        $ch = curl_init('https://api.resend.com/emails');
+-        curl_setopt_array($ch, [
+-            CURLOPT_POST           => true,
+-            CURLOPT_RETURNTRANSFER => true,
+-            CURLOPT_TIMEOUT        => 15,
+-            CURLOPT_HTTPHEADER     => [
+-                'Authorization: Bearer ' . RESEND_API_KEY,
+-                'Content-Type: application/json',
+-            ],
+-            CURLOPT_POSTFIELDS     => json_encode([
+-                'from'     => CONTACT_FROM,
+-                'to'       => [CONTACT_TO],
+-                'reply_to' => $replyTo,
+-                'subject'  => $subject,
+-                'text'     => $body,
+-            ]),
+-        ]);
+-        $response = curl_exec($ch);
+-        $status   = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+-        $curlErr  = curl_error($ch);
+-        curl_close($ch);
+-
+-        if ($response === false || $status < 200 || $status >= 300) {
+-            error_log('[contact] Resend failed (' . $status . '): ' . ($curlErr ?: $response));
+-            return false;
+-        }
+-        return true;
+-    }
+-
+-    $headers = [
+-        'From: ' . CONTACT_FROM,
+-        'Reply-To: ' . $replyTo,
+-        'MIME-Version: 1.0',
+-        'Content-Type: text/plain; charset=UTF-8',
+-    ];
+-    $sent = mail(CONTACT_TO, '=?UTF-8?B?' . base64_encode($subject) . '?=', $body, implode("\r\n", $headers));
+-    if (!$sent) {
+-        error_log('[contact] mail() failed');
++    // The enquiry is already delivered, so a failed confirmation is only logged.
++    if (!contact_send_confirmation($data)) {
++        error_log('[contact] confirmation email could not be sent');
+     }
+-    return $sent;
+-}
+\ No newline at end of file
++
++    return $result(true, 200);
++}
+diff -ruN a/includes/contact-mail.php b/includes/contact-mail.php
+--- a/includes/contact-mail.php
++++ b/includes/contact-mail.php
+@@ -0,0 +1,115 @@
++<?php
++/**
++ * Contact-form email sending (Resend).
++ *
++ *  - Uses the official SDK when installed (composer require resend/resend-php),
++ *    otherwise falls back to a plain cURL call to the same Resend API.
++ *  - Staff email falls back to PHP mail() if RESEND_API_KEY is not set.
++ *
++ * Settings (env.php, git-ignored): RESEND_API_KEY, CONTACT_TO, CONTACT_FROM,
++ * and optionally CONTACT_CONFIRMATION (set false to stop confirmation emails).
++ */
++
++require_once __DIR__ . '/emails/staff.php';
++require_once __DIR__ . '/emails/confirmation.php';
++
++/**
++ * @param array $m to, subject, html, text, reply_to, resend_only (bool)
++ */
++if (!function_exists('contact_deliver')) {
++    function contact_deliver(array $m): bool
++    {
++        $payload = [
++            'from'    => CONTACT_FROM,
++            'to'      => [$m['to']],
++            'subject' => $m['subject'],
++            'html'    => $m['html'],
++            'text'    => $m['text'],
++        ];
++        if (!empty($m['reply_to'])) {
++            $payload['reply_to'] = $m['reply_to'];
++        }
++
++        if (defined('RESEND_API_KEY') && RESEND_API_KEY) {
++            // 1) Official SDK
++            if (class_exists('Resend')) {
++                try {
++                    \Resend::client(RESEND_API_KEY)->emails->send($payload);
++                    return true;
++                } catch (\Throwable $e) {
++                    error_log('[contact] Resend SDK error: ' . $e->getMessage());
++                    return false;
++                }
++            }
++            // 2) No Composer: same API over cURL
++            $ch = curl_init(defined('RESEND_API_URL') ? RESEND_API_URL : 'https://api.resend.com/emails');
++            curl_setopt_array($ch, [
++                CURLOPT_POST           => true,
++                CURLOPT_RETURNTRANSFER => true,
++                CURLOPT_TIMEOUT        => 15,
++                CURLOPT_HTTPHEADER     => [
++                    'Authorization: Bearer ' . RESEND_API_KEY,
++                    'Content-Type: application/json',
++                ],
++                CURLOPT_POSTFIELDS     => json_encode($payload),
++            ]);
++            $response = curl_exec($ch);
++            $status   = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
++            $curlErr  = curl_error($ch);
++            curl_close($ch);
++
++            if ($response === false || $status < 200 || $status >= 300) {
++                error_log('[contact] Resend failed (' . $status . '): ' . ($curlErr ?: $response));
++                return false;
++            }
++            return true;
++        }
++
++        // 3) No Resend key
++        if (!empty($m['resend_only'])) {
++            error_log('[contact] RESEND_API_KEY not set - email skipped: ' . $m['subject']);
++            return false;
++        }
++        $headers = [
++            'From: ' . CONTACT_FROM,
++            'Reply-To: ' . $m['reply_to'],
++            'MIME-Version: 1.0',
++            'Content-Type: text/plain; charset=UTF-8',
++        ];
++        $sent = mail($m['to'], '=?UTF-8?B?' . base64_encode($m['subject']) . '?=', $m['text'], implode("\r\n", $headers));
++        if (!$sent) {
++            error_log('[contact] mail() failed');
++        }
++        return $sent;
++    }
++}
++
++/** Email to the college with the form details. Reply-To = the visitor. */
++function contact_send_staff(array $d): bool
++{
++    $mail = mail_staff($d);
++    return contact_deliver([
++        'to'       => CONTACT_TO,
++        'reply_to' => $d['email'],
++        'subject'  => $mail['subject'],
++        'html'     => $mail['html'],
++        'text'     => $mail['text'],
++    ]);
++}
++
++/** Confirmation to the visitor with a copy of their message. Reply-To = college inbox. */
++function contact_send_confirmation(array $d): bool
++{
++    if (defined('CONTACT_CONFIRMATION') && !CONTACT_CONFIRMATION) {
++        return true;
++    }
++    $mail = mail_confirmation($d);
++    return contact_deliver([
++        'to'          => $d['email'],
++        'reply_to'    => CONTACT_TO,
++        'subject'     => $mail['subject'],
++        'html'        => $mail['html'],
++        'text'        => $mail['text'],
++        'resend_only' => true,
++    ]);
++}
+diff -ruN a/includes/emails/confirmation.php b/includes/emails/confirmation.php
+--- a/includes/emails/confirmation.php
++++ b/includes/emails/confirmation.php
+@@ -0,0 +1,61 @@
++<?php
++/**
++ * Confirmation email sent to the person who submitted the contact form,
++ * including a copy of what they sent. Reply-To is the college inbox.
++ *
++ * @param array $d topic, name, email, phone, student_id, message, submitted_at (DateTimeInterface)
++ * @return array{subject:string,html:string,text:string}
++ */
++
++require_once __DIR__ . '/layout.php';
++
++function mail_confirmation(array $d): array
++{
++    $when    = $d['submitted_at']->format('j M Y, g:i a T');
++    $first   = preg_split('/\s+/', $d['name'])[0];
++    $phone   = mail_const('SITE_PHONE', '1300 195 612');
++    $inbox   = mail_const('SITE_EMAIL', 'info@cornell.vic.edu.au');
++    $subject = "We've received your enquiry \u{2013} Cornell Institute of Training";
++
++    $rows = mail_row('Topic', mail_e($d['topic']));
++    if ($d['phone'] !== '') {
++        $rows .= mail_row('Phone', mail_e($d['phone']));
++    }
++    if ($d['student_id'] !== '') {
++        $rows .= mail_row('Student ID', mail_e($d['student_id']));
++    }
++    $rows .= mail_row('Sent', mail_e($when));
++
++    $p = 'margin:0 0 16px;font:400 15px/1.6 Arial,Helvetica,sans-serif;color:#4a5568;';
++
++    $body = '<p style="' . $p . '">Hi ' . mail_e($first) . ',</p>'
++          . '<p style="' . $p . '">Thanks for getting in touch with Cornell Institute of Training. '
++          . 'We&rsquo;ve received your enquiry and a member of our team will be in touch as soon as possible.</p>'
++          . '<p style="margin:22px 0 6px;font:700 15px/1.4 Arial,Helvetica,sans-serif;color:#0b1d36;">Here&rsquo;s a copy of what you sent us</p>'
++          . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">' . $rows . '</table>'
++          . '<p style="margin:20px 0 4px;font:600 12px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#718096;">Your message</p>'
++          . mail_message_block($d['message'])
++          . '<p style="' . $p . 'margin-top:24px;">Need us sooner? Call <a href="tel:' . mail_e(preg_replace('/\D+/', '', $phone)) . '" style="color:#035bce;">'
++          . mail_e($phone) . '</a> or email <a href="mailto:' . mail_e($inbox) . '" style="color:#035bce;">' . mail_e($inbox) . '</a>.</p>'
++          . '<p style="margin:0 0 22px;">' . mail_button(MAIL_SITE_URL . '/courses', 'Browse our courses') . '</p>'
++          . '<p style="margin:0 0 8px;font:400 12px/1.6 Arial,Helvetica,sans-serif;color:#718096;">'
++          . 'This is an automatic confirmation. If you didn&rsquo;t send this enquiry, you can safely ignore this email.</p>';
++
++    $html = mail_layout('We have received your enquiry and will be in touch soon.', "Thanks, {$first} \u{2013} we got your message", $body);
++
++    $text = "Hi {$first},\n\n"
++          . "Thanks for getting in touch with Cornell Institute of Training. We've received your enquiry and a member of our team will be in touch as soon as possible.\n\n"
++          . "Here's a copy of what you sent us:\n"
++          . "Topic:       " . $d['topic'] . "\n"
++          . ($d['phone'] !== '' ? "Phone:       " . $d['phone'] . "\n" : '')
++          . ($d['student_id'] !== '' ? "Student ID:  " . $d['student_id'] . "\n" : '')
++          . "Sent:        " . $when . "\n\n"
++          . "Your message:\n" . $d['message'] . "\n\n"
++          . "Need us sooner? Call {$phone} or email {$inbox}.\n\n"
++          . "Melbourne: Level 5, 440 Elizabeth Street, Melbourne VIC 3000\n"
++          . "Brisbane: 161 Brunswick Street, Fortitude Valley QLD 4006\n\n"
++          . "This is an automatic confirmation. If you didn't send this enquiry, you can safely ignore this email.\n"
++          . "--\nCornell Institute of Training | RTO TOID " . mail_const('TOID', '6074') . " | CRICOS " . mail_const('CRICOS', '03892A');
++
++    return ['subject' => $subject, 'html' => $html, 'text' => $text];
++}
+diff -ruN a/includes/emails/layout.php b/includes/emails/layout.php
+--- a/includes/emails/layout.php
++++ b/includes/emails/layout.php
+@@ -0,0 +1,111 @@
++<?php
++/**
++ * Shared HTML shell for the contact-form emails.
++ *
++ * Table-based layout with inline CSS so it renders consistently in Gmail,
++ * Outlook and Apple Mail. Brand colours match assets/css/style.css:
++ *   primary #0b1d36 (navy), accent #ffa200 (amber).
++ */
++
++if (!defined('MAIL_SITE_URL')) {
++    define('MAIL_SITE_URL', 'https://cornell.vic.edu.au');
++}
++
++if (!function_exists('mail_e')) {
++    function mail_e($v): string
++    {
++        return htmlspecialchars((string) $v, ENT_QUOTES, 'UTF-8');
++    }
++}
++
++/** Constants from config.php, with safe fallbacks. */
++function mail_const(string $name, string $fallback): string
++{
++    return defined($name) ? (string) constant($name) : $fallback;
++}
++
++/** One label / value row for the details table. $valueHtml must already be escaped. */
++function mail_row(string $label, string $valueHtml): string
++{
++    return '<tr>'
++        . '<td style="padding:9px 0;border-bottom:1px solid #e2e8f0;width:130px;vertical-align:top;'
++        . 'font:600 12px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#718096;">'
++        . mail_e($label) . '</td>'
++        . '<td style="padding:9px 0;border-bottom:1px solid #e2e8f0;vertical-align:top;'
++        . 'font:400 15px/1.5 Arial,Helvetica,sans-serif;color:#1a1a1a;">' . $valueHtml . '</td>'
++        . '</tr>';
++}
++
++/** The visitor's message in a quoted block (escaped, line breaks kept). */
++function mail_message_block(string $message): string
++{
++    return '<div style="margin:6px 0 0;padding:16px 18px;background:#f7f9fc;border-left:4px solid #ffa200;'
++        . 'border-radius:6px;font:400 15px/1.65 Arial,Helvetica,sans-serif;color:#1a1a1a;">'
++        . nl2br(mail_e($message), false) . '</div>';
++}
++
++/** Amber pill button / link. */
++function mail_button(string $href, string $label): string
++{
++    return '<a href="' . mail_e($href) . '" style="display:inline-block;background:#ffa200;color:#0b1d36;'
++        . 'font:700 14px/1 Arial,Helvetica,sans-serif;padding:13px 24px;border-radius:999px;text-decoration:none;">'
++        . mail_e($label) . '</a>';
++}
++
++/**
++ * @param string $preheader  Hidden preview text shown in the inbox list
++ * @param string $heading    Main heading inside the card
++ * @param string $contentHtml Body HTML (already escaped where needed)
++ */
++function mail_layout(string $preheader, string $heading, string $contentHtml): string
++{
++    $phone = mail_const('SITE_PHONE', '1300 195 612');
++    $email = mail_const('SITE_EMAIL', 'info@cornell.vic.edu.au');
++    $toid  = mail_const('TOID', '6074');
++    $cric  = mail_const('CRICOS', '03892A');
++
++    $muted = 'font:400 12px/1.6 Arial,Helvetica,sans-serif;color:#718096;';
++
++    return '<!doctype html>
++<html lang="en">
++<head>
++<meta charset="utf-8">
++<meta name="viewport" content="width=device-width, initial-scale=1">
++<meta name="x-apple-disable-message-reformatting">
++<title>' . mail_e($heading) . '</title>
++</head>
++<body style="margin:0;padding:0;background:#f4f6fa;">
++<div style="display:none;max-height:0;overflow:hidden;opacity:0;color:transparent;">' . mail_e($preheader) . '</div>
++<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f4f6fa;">
++<tr><td align="center" style="padding:24px 12px;">
++  <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;">
++    <tr><td style="background:#0b1d36;padding:24px 28px;">
++      <div style="font:700 24px/1 Georgia,\'Times New Roman\',serif;letter-spacing:5px;color:#ffffff;">CORNELL</div>
++      <div style="margin-top:7px;font:700 10px/1.4 Arial,Helvetica,sans-serif;letter-spacing:3px;color:#ffa200;">INSTITUTE OF TRAINING</div>
++    </td></tr>
++    <tr><td style="height:4px;background:#ffa200;font-size:0;line-height:0;">&nbsp;</td></tr>
++    <tr><td style="padding:30px 28px 8px;">
++      <h1 style="margin:0 0 14px;font:700 22px/1.3 Arial,Helvetica,sans-serif;color:#0b1d36;">' . mail_e($heading) . '</h1>
++      ' . $contentHtml . '
++    </td></tr>
++    <tr><td style="padding:22px 28px 28px;">
++      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top:1px solid #e2e8f0;">
++        <tr><td style="padding-top:18px;' . $muted . '">
++          <strong style="color:#0b1d36;">Cornell Institute of Training</strong><br>
++          Melbourne: Level 5, 440 Elizabeth Street, Melbourne VIC 3000<br>
++          Brisbane: 161 Brunswick Street, Fortitude Valley QLD 4006<br>
++          <a href="tel:' . mail_e(preg_replace('/\D+/', '', $phone)) . '" style="color:#035bce;text-decoration:none;">' . mail_e($phone) . '</a>
++          &nbsp;&middot;&nbsp;
++          <a href="mailto:' . mail_e($email) . '" style="color:#035bce;text-decoration:none;">' . mail_e($email) . '</a>
++          &nbsp;&middot;&nbsp;
++          <a href="' . mail_e(MAIL_SITE_URL) . '" style="color:#035bce;text-decoration:none;">cornell.vic.edu.au</a><br>
++          RTO TOID ' . mail_e($toid) . ' &nbsp;|&nbsp; CRICOS ' . mail_e($cric) . '
++        </td></tr>
++      </table>
++    </td></tr>
++  </table>
++</td></tr>
++</table>
++</body>
++</html>';
++}
+diff -ruN a/includes/emails/staff.php b/includes/emails/staff.php
+--- a/includes/emails/staff.php
++++ b/includes/emails/staff.php
+@@ -0,0 +1,52 @@
++<?php
++/**
++ * Email sent to the college (CONTACT_TO) when someone submits the contact form.
++ * Reply-To is set to the visitor, so "Reply" answers them directly.
++ *
++ * @param array $d topic, name, email, phone, student_id, message, submitted_at (DateTimeInterface)
++ * @return array{subject:string,html:string,text:string}
++ */
++
++require_once __DIR__ . '/layout.php';
++
++function mail_staff(array $d): array
++{
++    $dash    = function ($v) { return $v !== '' ? $v : "\u{2014}"; };
++    $when    = $d['submitted_at']->format('j M Y, g:i a T');
++    $subject = '[' . $d['topic'] . '] Website enquiry from ' . $d['name'];
++    $first   = preg_split('/\s+/', $d['name'])[0];
++
++    $rows = mail_row('Topic', mail_e($d['topic']))
++          . mail_row('Name', mail_e($d['name']))
++          . mail_row('Email', '<a href="mailto:' . mail_e($d['email']) . '" style="color:#035bce;">' . mail_e($d['email']) . '</a>')
++          . mail_row('Phone', $d['phone'] !== ''
++                ? '<a href="tel:' . mail_e(preg_replace('/[^\d+]/', '', $d['phone'])) . '" style="color:#035bce;">' . mail_e($d['phone']) . '</a>'
++                : mail_e($dash('')))
++          . mail_row('Student ID', mail_e($dash($d['student_id'])))
++          . mail_row('Submitted', mail_e($when));
++
++    $body = '<p style="margin:0 0 18px;font:400 15px/1.6 Arial,Helvetica,sans-serif;color:#4a5568;">'
++          . 'A new enquiry came in through the website contact form. Reply to this email to respond to '
++          . mail_e($first) . ' directly.</p>'
++          . '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">' . $rows . '</table>'
++          . '<p style="margin:22px 0 4px;font:600 12px/1.5 Arial,Helvetica,sans-serif;letter-spacing:.04em;text-transform:uppercase;color:#718096;">Message</p>'
++          . mail_message_block($d['message'])
++          . '<p style="margin:26px 0 22px;">'
++          . mail_button('mailto:' . $d['email'] . '?subject=' . rawurlencode('Re: Your enquiry to Cornell Institute of Training'), 'Reply to ' . $first)
++          . '</p>';
++
++    $html = mail_layout('New ' . $d['topic'] . ' enquiry from ' . $d['name'], 'New website enquiry', $body);
++
++    $text = "New website enquiry\n\n"
++          . "Topic:       " . $d['topic'] . "\n"
++          . "Name:        " . $d['name'] . "\n"
++          . "Email:       " . $d['email'] . "\n"
++          . "Phone:       " . $dash($d['phone']) . "\n"
++          . "Student ID:  " . $dash($d['student_id']) . "\n"
++          . "Submitted:   " . $when . "\n\n"
++          . "Message:\n" . $d['message'] . "\n\n"
++          . "Reply to this email to respond to " . $first . " directly.\n"
++          . "--\nSent via the Cornell website contact form";
++
++    return ['subject' => $subject, 'html' => $html, 'text' => $text];
++}

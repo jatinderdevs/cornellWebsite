@@ -7,9 +7,7 @@
                 <!-- Left: Brand -->
                 <div class="footer-brand">
                     <a href="<?= BASE_PATH ?>/" class="footer-logo">
-                        <img
-                            src="<?= BASE_PATH ?>/assets/images/logo/logotransparent.png"
-                            alt="Cornell Institute of Training"
+                        <img src="<?= BASE_PATH ?>/assets/images/logo/1logo.png" alt="Cornell Institute of Training"
                             width="200" />
                     </a>
 
@@ -31,12 +29,7 @@
 
                     <div class="footer-socials">
                         <a href="#" aria-label="Instagram" class="social-icon">
-                            <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
                                 <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
@@ -44,12 +37,7 @@
                             </svg>
                         </a>
                         <a href="#" aria-label="LinkedIn" class="social-icon">
-                            <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <path
                                     d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
@@ -58,15 +46,9 @@
                             </svg>
                         </a>
                         <a href="#" aria-label="Facebook" class="social-icon">
-                            <svg
-                                width="16"
-                                height="16"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
-                                <path
-                                    d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
                             </svg>
                         </a>
                     </div>
@@ -90,7 +72,8 @@
                             <h4 class="footer-heading">Student Resources</h4>
                             <ul class="footer-links">
                                 <li><a href="<?= BASE_PATH ?>/student-support#resources">Student Handbook</a></li>
-                                <li><a href="<?= BASE_PATH ?>/student-support#policies">Policies &amp; Procedures</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#policies">Policies &amp; Procedures</a>
+                                </li>
                                 <li><a href="<?= BASE_PATH ?>/student-support#policies">Fees &amp; Refunds</a></li>
                                 <li><a href="<?= BASE_PATH ?>/student-support#resources">Timetables</a></li>
                             </ul>
@@ -99,10 +82,13 @@
                         <div class="footer-col">
                             <h4 class="footer-heading">International Students</h4>
                             <ul class="footer-links">
-                                <li><a href="<?= BASE_PATH ?>/student-support#support-services">Visa &amp; ESOS Information</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#support-services">Visa &amp; ESOS
+                                        Information</a></li>
                                 <li><a href="<?= BASE_PATH ?>/student-support#support-services">Orientation</a></li>
-                                <li><a href="<?= BASE_PATH ?>/student-support#support-services">Overseas Student Health Cover</a></li>
-                                <li><a href="<?= BASE_PATH ?>/student-support#contacts">Contact International Team</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#support-services">Overseas Student Health
+                                        Cover</a></li>
+                                <li><a href="<?= BASE_PATH ?>/student-support#contacts">Contact International Team</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -112,11 +98,8 @@
                         <div class="campus-card">
                             <span class="campus-label">Melbourne Campus</span>
                             <p>Level 5, 440 Elizabeth Street<br />Melbourne VIC 3000</p>
-                            <a
-                                href="https://maps.google.com/?q=Level+5,+440+Elizabeth+Street,+Melbourne+VIC+3000"
-                                target="_blank"
-                                rel="noopener"
-                                class="campus-link">
+                            <a href="https://maps.google.com/?q=Level+5,+440+Elizabeth+Street,+Melbourne+VIC+3000"
+                                target="_blank" rel="noopener" class="campus-link">
                                 Get directions →
                             </a>
                         </div>
@@ -124,20 +107,14 @@
                         <div class="campus-card">
                             <span class="campus-label">Brisbane Campus</span>
                             <p>161 Brunswick Street<br />Fortitude Valley QLD 4006</p>
-                            <a
-                                href="https://maps.google.com/?q=161+Brunswick+Street,+Fortitude+Valley+QLD+4006"
-                                target="_blank"
-                                rel="noopener"
-                                class="campus-link">
+                            <a href="https://maps.google.com/?q=161+Brunswick+Street,+Fortitude+Valley+QLD+4006"
+                                target="_blank" rel="noopener" class="campus-link">
                                 Get directions →
                             </a>
                         </div>
                         <div class="footer-acknowledgement">
                             <p>
-                                <img
-                                    src="<?= BASE_PATH ?>/assets/images/general/flag.png"
-                                    width="50px"
-                                    alt="" />
+                                <img src="<?= BASE_PATH ?>/assets/images/general/flag.png" width="50px" alt="" />
                                 Cornell Institute of Training acknowledges Aboriginal and
                                 Torres Strait Islander people as the Traditional Custodians
                                 of the land and acknowledges and pays respect to their

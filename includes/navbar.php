@@ -2,7 +2,7 @@
      <div class="container header-container">
          <!-- Logo -->
          <a href="<?= BASE_PATH ?>/" class="header-logo">
-             <img src="<?= BASE_PATH ?>/img/logotxt.png" alt="Cornell Institute of Training"
+             <img src="<?= BASE_PATH ?>/assets/images/logo/mainlogo.png" alt="Cornell Institute of Training"
                  class="header-logo-img" />
          </a>
 
@@ -29,7 +29,8 @@
                                  <h4 class="mega-title">Student Resources</h4>
                                  <ul>
                                      <li><a href="<?= BASE_PATH ?>/student-support#resources">Student Handbook</a></li>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#policies">Policies &amp; Procedures</a></li>
+                                     <li><a href="<?= BASE_PATH ?>/student-support#policies">Policies &amp;
+                                             Procedures</a></li>
                                      <li><a href="<?= BASE_PATH ?>/student-support#policies">Fees &amp; Refunds</a></li>
                                      <li><a href="<?= BASE_PATH ?>/student-support#resources">Timetables</a></li>
                                  </ul>
@@ -38,23 +39,31 @@
                              <div class="mega-col">
                                  <h4 class="mega-title">Support Services</h4>
                                  <ul>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Academic Support</a></li>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Wellbeing &amp; Counselling</a>
+                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Academic
+                                             Support</a></li>
+                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Wellbeing &amp;
+                                             Counselling</a>
                                      </li>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Disability Support</a></li>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Career Guidance</a></li>
+                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Disability
+                                             Support</a></li>
+                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Career Guidance</a>
+                                     </li>
                                  </ul>
                              </div>
 
                              <div class="mega-col">
                                  <h4 class="mega-title">International Students</h4>
                                  <ul>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Visa &amp; ESOS Information</a>
+                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Visa &amp; ESOS
+                                             Information</a>
                                      </li>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Orientation</a></li>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Overseas Student Health
+                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Orientation</a>
+                                     </li>
+                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Overseas Student
+                                             Health
                                              Cover</a></li>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#contacts">Contact International Team</a></li>
+                                     <li><a href="<?= BASE_PATH ?>/student-support#contacts">Contact International
+                                             Team</a></li>
                                  </ul>
                              </div>
 

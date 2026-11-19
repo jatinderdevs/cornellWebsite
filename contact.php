@@ -286,35 +286,14 @@ $faqSchema = [
                                 <p class="ct-error" id="err-phone" role="alert"><?= ct_e($err('phone')) ?></p>
                             </div>
 
-                            <div class="ct-field" data-field="campus">
-                                <label for="ctCampus">Campus <span class="ct-opt">(optional)</span></label>
-                                <select id="ctCampus" name="campus" aria-describedby="err-campus">
-                                    <option value="">Select a campus</option>
-                                    <?php foreach (CONTACT_CAMPUSES as $campus): ?>
-                                    <option value="<?= ct_e($campus) ?>"
-                                        <?= $val('campus') === $campus ? 'selected' : '' ?>>
-                                        <?= ct_e($campus) ?></option>
-                                    <?php endforeach; ?>
-                                </select>
-                                <p class="ct-error" id="err-campus" role="alert"><?= ct_e($err('campus')) ?></p>
+                            <div class="ct-field" data-field="stu_id">
+                                <label for="ctstu_id">Student Id <span class="ct-opt">(if available)</span></label>
+                                <input type="tel" id="ctstu_id" name="stu_id" autocomplete="tel" maxlength="20"
+                                    value="<?= ct_e($val('stu_id')) ?>" aria-describedby="err-stu_id" />
+                                <p class="ct-error" id="err-stu_id" role="alert"><?= ct_e($err('stu_id')) ?></p>
                             </div>
 
-                            <div class="ct-field ct-field-full" data-field="course">
-                                <label for="ctCourse">Course of interest <span class="ct-opt">(optional)</span></label>
-                                <select id="ctCourse" name="course" aria-describedby="err-course">
-                                    <option value="">Not sure yet / not applicable</option>
-                                    <?php foreach ($coursesByCat as $cat => $titles): ?>
-                                    <optgroup label="<?= ct_e($cat) ?>">
-                                        <?php foreach ($titles as $title): ?>
-                                        <option value="<?= ct_e($title) ?>"
-                                            <?= $val('course') === $title ? 'selected' : '' ?>>
-                                            <?= ct_e($title) ?></option>
-                                        <?php endforeach; ?>
-                                    </optgroup>
-                                    <?php endforeach; ?>
-                                </select>
-                                <p class="ct-error" id="err-course" role="alert"><?= ct_e($err('course')) ?></p>
-                            </div>
+
 
                             <div class="ct-field ct-field-full" data-field="message">
                                 <label for="ctMessage">Your message <span class="ct-req">*</span></label>
