@@ -233,8 +233,8 @@ $faqSchema = [
             <div class="ct-main-grid">
 
                 <!-- Form card -->
-                <div class="ct-form-card" id="enquire">
-                    <div class="ct-form-head">
+                <div class="ct-form-card">
+                    <div class="ct-form-head" id="enquire">
                         <h2 class="ct-form-title">Send us a message</h2>
                         <p>Pick a topic, tell us a little about you, and we&rsquo;ll take it from there.</p>
                     </div>

@@ -100,6 +100,33 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* ============================================
+   Jump to #section after page load
+   Links like /student-support#policies start the browser's smooth anchor
+   scroll, but GSAP ScrollTrigger refreshes on "load" and restores the old
+   scroll position, cancelling it. Scroll to the target once that is done.
+   (The fixed-header offset comes from scroll-margin-top in style.css.)
+   ============================================ */
+
+window.addEventListener("load", () => {
+  if (!window.location.hash) return;
+
+  let target = null;
+  try {
+    target = document.getElementById(
+      decodeURIComponent(window.location.hash.slice(1)),
+    );
+  } catch (e) {
+    return;
+  }
+  if (!target) return;
+
+  // Run after ScrollTrigger's own load refresh has finished.
+  setTimeout(() => {
+    target.scrollIntoView({ behavior: "auto", block: "start" });
+  }, 0);
+});
+
+/* ============================================
    Heading Reveal – GSAP SplitText (free)
    ============================================ */
 

@@ -100,6 +100,11 @@ html {
   text-size-adjust: 100%;
 }
 
+/* Keep #anchor targets clear of the fixed header (84px) */
+[id] {
+  scroll-margin-top: 96px;
+}
+
 body {
   font-family: var(--font-body);
   font-size: var(--fs-body);

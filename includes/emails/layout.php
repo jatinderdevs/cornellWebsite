@@ -10,6 +10,10 @@
 if (!defined('MAIL_SITE_URL')) {
     define('MAIL_SITE_URL', 'https://cornell.vic.edu.au');
 }
+if (!defined('MAIL_LOGO_URL')) {
+    // Must be a public absolute URL: email clients cannot load localhost images.
+    define('MAIL_LOGO_URL', 'https://www.cornell.vic.edu.au/img/logotxt.png');
+}
 
 if (!function_exists('mail_e')) {
     function mail_e($v): string
@@ -79,9 +83,11 @@ function mail_layout(string $preheader, string $heading, string $contentHtml): s
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#f4f6fa;">
 <tr><td align="center" style="padding:24px 12px;">
   <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%;max-width:600px;background:#ffffff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;">
-    <tr><td style="background:#0b1d36;padding:24px 28px;">
-      <div style="font:700 24px/1 Georgia,\'Times New Roman\',serif;letter-spacing:5px;color:#ffffff;">CORNELL</div>
-      <div style="margin-top:7px;font:700 10px/1.4 Arial,Helvetica,sans-serif;letter-spacing:3px;color:#ffa200;">INSTITUTE OF TRAINING</div>
+    <tr><td style="background:#ffffff;padding:18px 28px;">
+      <a href="' . mail_e(MAIL_SITE_URL) . '" style="text-decoration:none;">
+        <img src="' . mail_e(MAIL_LOGO_URL) . '" width="240" height="79" alt="Cornell Institute of Training"
+          style="display:block;border:0;outline:none;width:240px;max-width:100%;height:auto;font:700 18px/1.3 Arial,Helvetica,sans-serif;color:#0b1d36;">
+      </a>
     </td></tr>
     <tr><td style="height:4px;background:#ffa200;font-size:0;line-height:0;">&nbsp;</td></tr>
     <tr><td style="padding:30px 28px 8px;">
