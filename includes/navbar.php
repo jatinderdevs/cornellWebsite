@@ -28,6 +28,7 @@
                              <div class="mega-col">
                                  <h4 class="mega-title">Student Resources</h4>
                                  <ul>
+                                     <li><a href="<?= BASE_PATH ?>/student-support#forms">Student Forms</a></li>
                                      <li><a href="<?= BASE_PATH ?>/student-support#resources">Student Handbook</a></li>
                                      <li><a href="<?= BASE_PATH ?>/student-support#policies">Policies &amp;
                                              Procedures</a></li>
@@ -54,15 +55,12 @@
                              <div class="mega-col">
                                  <h4 class="mega-title">International Students</h4>
                                  <ul>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Visa &amp; ESOS
-                                             Information</a>
+                                     <li><a href="https://www.usi.gov.au/">USI Number</a>
                                      </li>
                                      <li><a href="<?= BASE_PATH ?>/student-support#support-services">Orientation</a>
                                      </li>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#support-services">Overseas Student
-                                             Health
-                                             Cover</a></li>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#contacts">Contact International
+
+                                     <li><a href="<?= BASE_PATH ?>/contact#enquire">Contact International
                                              Team</a></li>
                                  </ul>
                              </div>
@@ -77,6 +75,9 @@
                                      style="margin-top: 1rem">
                                      Contact Support
                                      <span class="btn-icon">↗</span>
+                                 </a>
+                                 <a href="<?= BASE_PATH ?>/student-support#forms" class="mega-forms-link">
+                                     Download student forms →
                                  </a>
                              </div>
                          </div>

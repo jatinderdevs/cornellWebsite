@@ -166,6 +166,20 @@
   margin-bottom: 0;
 }
 
+.mega-forms-link {
+  display: block;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.mega-forms-link:hover {
+  color: var(--color-accent-hover);
+}
+
 /* CTA in header */
 .header-cta {
   display: none;

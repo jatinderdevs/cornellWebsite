@@ -199,112 +199,91 @@ $seo = [
                 <p>Common forms for applications, changes, refunds, RPL and more. Complete and return as directed.</p>
             </div>
 
+            <?php
+            // Student forms: PDFs live in assets/forms/ (file => link text).
+            // To add a form: drop the PDF in assets/forms/ and add one line below.
+            $formGroups = [
+                'Applications &amp; Enrolment' => [
+                    'international-student-application-form.pdf'           => 'International Student Application',
+                    'citf015-pre-enrolment-review-form.pdf'                => 'Pre-Enrolment Review Form',
+                    'citf020-continuing-student-enrolment-form.pdf'        => 'Continuing Student Enrolment Form',
+                    'citf021-rpl-application-form.pdf'                     => 'Recognition of Prior Learning (RPL) Application',
+                    'citf001-credit-transfer-application-form.pdf'         => 'Credit Transfer Application',
+                    'citf009-internal-course-transfer-application-form.pdf' => 'Internal Course Transfer Application',
+                ],
+                'Changes &amp; Requests' => [
+                    'citf007-student-change-of-details-form.pdf'                  => 'Change of Details Form',
+                    'citf010-deferral-application-form-international-students.pdf' => 'Deferral Application (International Students)',
+                    'citf008-withdrawal-form-international-students.pdf'          => 'Withdrawal Form (International Students)',
+                    'citf011-release-request-form.pdf'                            => 'Release Request Form',
+                    'citf069-change-of-education-agent-request.pdf'               => 'Change of Education Agent Request',
+                    'citf014-access-to-records-request-form.pdf'                  => 'Access to Records Request',
+                    'citf019-disability-disclosure-form.pdf'                      => 'Disability Disclosure Form',
+                ],
+                'Assessment, Complaints &amp; Finance' => [
+                    'citf025-assessment-extension-and-further-attempt-request.pdf' => 'Assessment Extension &amp; Further Attempt Request',
+                    'citf004-reassessment-and-appeal-form.pdf'                     => 'Reassessment &amp; Appeal Form',
+                    'citf005-complaints-and-appeal-form.pdf'                       => 'Complaints &amp; Appeal Form',
+                    'citf006-refund-application-form.pdf'                          => 'Refund Application Form',
+                    'citf012-qualification-issue-form.pdf'                         => 'Qualification Issue Form',
+                    'citf041-feedback-form.pdf'                                    => 'Feedback Form',
+                    'citf059-student-privacy-notice.pdf'                           => 'Student Privacy Notice',
+                ],
+            ];
+
+            // One icon per group, in the same order as $formGroups
+            $formGroupIcons = [
+                '<path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" /><rect x="8" y="2" width="8" height="4" rx="1" /><path d="M9 14l2 2 4-4" />',
+                '<path d="M21 2v6h-6" /><path d="M3 12a9 9 0 0 1 15-6.7L21 8" /><path d="M3 22v-6h6" /><path d="M21 12a9 9 0 0 1-15 6.7L3 16" />',
+                '<path d="M12 3v18" /><path d="M5 7h14" /><path d="M5 7l-3 7a3 3 0 0 0 6 0z" /><path d="M19 7l-3 7a3 3 0 0 0 6 0z" /><path d="M8 21h8" />',
+            ];
+            $formCount = array_sum(array_map('count', $formGroups));
+            ?>
             <div class="ss-forms-grid">
-                <!-- Group 1 -->
+                <?php $gi = 0; foreach ($formGroups as $groupTitle => $forms): ?>
                 <div class="ss-form-group">
-                    <h3 class="ss-form-group-title">Applications &amp; Enrolment</h3>
-                    <ul class="ss-form-list">
+                    <div class="ss-form-group-head">
+                        <span class="ss-form-group-icon" aria-hidden="true">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="1.8" stroke-linecap="round"
+                                stroke-linejoin="round"><?= $formGroupIcons[$gi++] ?? '' ?></svg>
+                        </span>
+                        <h3 class="ss-form-group-title"><?= $groupTitle ?></h3>
+                        <span class="ss-form-count"><?= count($forms) ?> forms</span>
+                    </div>
+                    <ul class="ss-forms-list">
+                        <?php foreach ($forms as $file => $label):
+                            $formCode = preg_match('/^(citf\d+)-/', $file, $m) ? strtoupper($m[1]) . ' &middot; ' : ''; ?>
                         <li>
-
-                            <a href="<?= BASE_PATH ?>/forms/forms/international_Student_Application_Form%20cornell.pdf"
-                                target="_blank" rel="noopener">
-                                International Student Application
+                            <a class="ss-form-item" href="<?= BASE_PATH ?>/assets/forms/<?= $file ?>" target="_blank"
+                                rel="noopener">
+                                <span class="ss-form-file" aria-hidden="true"><img
+                                        src="<?= BASE_PATH ?>/assets/images/icons/pdf.png" alt=""></span>
+                                <span class="ss-form-text">
+                                    <span class="ss-form-name"><?= $label ?></span>
+                                    <span class="ss-form-meta"><?= $formCode ?>Fillable PDF</span>
+                                </span>
+                                <svg class="ss-form-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M7 17L17 7" />
+                                    <path d="M8 7h9v9" />
+                                </svg>
+                                <span class="sr-only">(PDF, opens in a new tab)</span>
                             </a>
                         </li>
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/rpl-application-form.pdf"
-                                target="_blank" rel="noopener">
-                                Recognition of Prior Learning (RPL)
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/credit-transfer-application-form.pdf"
-                                target="_blank" rel="noopener">
-                                Credit Transfer Application Form
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/internal-course-transfer-application-form.pdf"
-                                target="_blank" rel="noopener">
-                                Internal Course Transfer Application
-                            </a>
-                        </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
+                <?php endforeach; ?>
+            </div>
 
-                <!-- Group 2 -->
-                <div class="ss-form-group">
-                    <h3 class="ss-form-group-title">Changes &amp; Requests</h3>
-                    <ul class="ss-form-list">
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/application-for-deferral-form-international-students.pdf"
-                                target="_blank" rel="noopener">
-                                Deferment / Suspension form
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/withdrawal-form-international-student.pdf"
-                                target="_blank" rel="noopener">
-                                Application for Withdrawal
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/release-request-form.pdf"
-                                target="_blank" rel="noopener">
-                                Application for Release
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/student-change-of-details-form.pdf"
-                                target="_blank" rel="noopener">
-                                Change of Personal Details Form
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/access-to-records-request-form.pdf"
-                                target="_blank" rel="noopener">
-                                Access to Records Request Form
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Group 3 -->
-                <div class="ss-form-group">
-                    <h3 class="ss-form-group-title">Assessment &amp; Finance</h3>
-                    <ul class="ss-form-list">
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/reassess-and-appeal-form.pdf"
-                                target="_blank" rel="noopener">
-                                Reassessment / Appeal Form
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/refund-application-form.pdf"
-                                target="_blank" rel="noopener">
-                                Refund Request Form
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/qualification-issue-form.pdf"
-                                target="_blank" rel="noopener">
-                                Qualification Issue Request Form
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/credit-card-authorisation-form.pdf"
-                                target="_blank" rel="noopener">
-                                Credit Card Authorisation Form
-                            </a>
-                        </li>
-                        <li>
-                            <a href="<?= BASE_PATH ?>/forms/forms/improvement-idea-submission-form.pdf"
-                                target="_blank" rel="noopener">
-                                Improvement Idea Submission Form
-                            </a>
-                        </li>
-                    </ul>
-                </div>
+            <div class="ss-forms-help">
+                <p>
+                    Download, complete on your device and email to
+                    <a href="mailto:info@cornell.vic.edu.au">info@cornell.vic.edu.au</a>.
+                    Not sure which form you need? Call <a href="tel:1300195612">1300 195 612</a>.
+                </p>
             </div>
         </div>
     </section>
@@ -319,64 +298,64 @@ $seo = [
             </div>
 
             <div class="ss-policies-grid">
-                <a href="<?= BASE_PATH ?>/forms/policy/CITP014-Student-wellbeing-support.pdf"
-                    target="_blank" rel="noopener" class="ss-policy-card">
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP014-Student-wellbeing-support.pdf" target="_blank"
+                    rel="noopener" class="ss-policy-card">
                     <h3>Student Wellbeing Support</h3>
                     <p>How we support student wellbeing and provide appropriate assistance.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="<?= BASE_PATH ?>/forms/policy/CITP011-Student-support-and-intervention.pdf"
-                    target="_blank" rel="noopener" class="ss-policy-card">
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP011-Student-support-and-intervention.pdf" target="_blank"
+                    rel="noopener" class="ss-policy-card">
                     <h3>Student Support &amp; Intervention</h3>
                     <p>Support strategies and intervention when academic progress is at risk.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="<?= BASE_PATH ?>/forms/policy/CITP015-Feedback-complaints-and-Appeals.pdf"
-                    target="_blank" rel="noopener" class="ss-policy-card">
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP015-Feedback-complaints-and-Appeals.pdf" target="_blank"
+                    rel="noopener" class="ss-policy-card">
                     <h3>Feedback, Complaints &amp; Appeals</h3>
                     <p>How to provide feedback or lodge a formal complaint or appeal.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="<?= BASE_PATH ?>/forms/policy/CITP020-Fee-and-Refund.pdf" target="_blank"
-                    rel="noopener" class="ss-policy-card">
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP020-Fee-and-Refund.pdf" target="_blank" rel="noopener"
+                    class="ss-policy-card">
                     <h3>Fee &amp; Refund Policy</h3>
                     <p>Fees, payment schedules, refunds and withdrawal procedures.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="<?= BASE_PATH ?>/forms/policy/CITP010-Student-Enrolment.pdf" target="_blank"
-                    rel="noopener" class="ss-policy-card">
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP010-Student-Enrolment.pdf" target="_blank" rel="noopener"
+                    class="ss-policy-card">
                     <h3>Student Enrolment Policy</h3>
                     <p>Enrolment processes, entry requirements and related procedures.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="<?= BASE_PATH ?>/forms/policy/CITP012-Attendance.pdf" target="_blank"
-                    rel="noopener" class="ss-policy-card">
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP012-Attendance.pdf" target="_blank" rel="noopener"
+                    class="ss-policy-card">
                     <h3>Attendance Policy</h3>
                     <p>Attendance requirements and monitoring for all students.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="<?= BASE_PATH ?>/forms/policy/CITP006-RPL-Policy.pdf" target="_blank"
-                    rel="noopener" class="ss-policy-card">
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP006-RPL-Policy.pdf" target="_blank" rel="noopener"
+                    class="ss-policy-card">
                     <h3>RPL Policy</h3>
                     <p>Recognition of Prior Learning processes and evidence requirements.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="<?= BASE_PATH ?>/forms/policy/CITP009-Student-information.pdf" target="_blank"
-                    rel="noopener" class="ss-policy-card">
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP009-Student-information.pdf" target="_blank" rel="noopener"
+                    class="ss-policy-card">
                     <h3>Student Information Policy</h3>
                     <p>How we provide clear, accurate and timely information to students.</p>
                     <span class="ss-policy-link">View PDF →</span>
                 </a>
 
-                <a href="<?= BASE_PATH ?>/forms/policy/CITP013-Diversity-Incl-and-C-Safety.pdf"
-                    target="_blank" rel="noopener" class="ss-policy-card">
+                <a href="<?= BASE_PATH ?>/forms/policy/CITP013-Diversity-Incl-and-C-Safety.pdf" target="_blank"
+                    rel="noopener" class="ss-policy-card">
                     <h3>Diversity, Inclusion &amp; Child Safety</h3>
                     <p>Our commitment to an inclusive and safe learning environment.</p>
                     <span class="ss-policy-link">View PDF →</span>
@@ -404,9 +383,7 @@ $seo = [
                         by contacting us at
                         <a href="mailto:info@cornell.vic.edu.au">info@cornell.vic.edu.au</a>.
                     </p>
-                    <a href="mailto:info@cornell.vic.edu.au" class="btn-pill btn-pill-accent">
-                        Contact Privacy Officer <span class="btn-icon">→</span>
-                    </a>
+
                 </div>
             </div>
         </div>

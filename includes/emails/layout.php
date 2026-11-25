@@ -12,7 +12,7 @@ if (!defined('MAIL_SITE_URL')) {
 }
 if (!defined('MAIL_LOGO_URL')) {
     // Must be a public absolute URL: email clients cannot load localhost images.
-    define('MAIL_LOGO_URL', 'https://www.cornell.vic.edu.au/img/logotxt.png');
+    define('MAIL_LOGO_URL', 'https://cornell.vic.edu.au/img/logotxt.png');
 }
 
 if (!function_exists('mail_e')) {

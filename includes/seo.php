@@ -86,6 +86,10 @@ $seoJson     = JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG;
         'telephone'  => SITE_PHONE,
         'email'      => SITE_EMAIL,
         'identifier' => ['TOID ' . TOID, 'CRICOS ' . CRICOS],
+        'sameAs'     => [
+            'https://www.facebook.com/profile.php?id=100090548090602',
+            'https://www.instagram.com/cornellinstituteoftraining/',
+        ],
         'location'   => [
             [
                 '@type'   => 'Place',

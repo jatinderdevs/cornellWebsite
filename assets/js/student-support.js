@@ -1,12 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const formUl = document.querySelectorAll(".ss-form-list>li");
-
-  console.log(formUl);
-
-  formUl.forEach((li) => {
-    return (li.innerHTML += `<img src="${window.BASE_PATH || ""}/assets/images/icons/pdf.png" alt="">`);
-  });
-
   // Smooth scroll for jump links
   document.querySelectorAll(".ss-jump-pill").forEach((link) => {
     link.addEventListener("click", (e) => {

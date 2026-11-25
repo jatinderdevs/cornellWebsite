@@ -28,7 +28,8 @@
                     </div>
 
                     <div class="footer-socials">
-                        <a href="#" aria-label="Instagram" class="social-icon">
+                        <a href="https://www.instagram.com/cornellinstituteoftraining/" aria-label="Instagram"
+                            class="social-icon" target="_blank" rel="noopener">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
@@ -36,16 +37,8 @@
                                 <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
                             </svg>
                         </a>
-                        <a href="#" aria-label="LinkedIn" class="social-icon">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <path
-                                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-                                <rect width="4" height="12" x="2" y="9" />
-                                <circle cx="4" cy="4" r="2" />
-                            </svg>
-                        </a>
-                        <a href="#" aria-label="Facebook" class="social-icon">
+                        <a href="https://www.facebook.com/profile.php?id=100090548090602" aria-label="Facebook"
+                            class="social-icon" target="_blank" rel="noopener">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2">
                                 <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
@@ -82,8 +75,7 @@
                         <div class="footer-col">
                             <h4 class="footer-heading">International Students</h4>
                             <ul class="footer-links">
-                                <li><a href="<?= BASE_PATH ?>/student-support#support-services">Visa &amp; ESOS
-                                        Information</a></li>
+
                                 <li><a href="<?= BASE_PATH ?>/student-support#support-services">Orientation</a></li>
                                 <li><a href="<?= BASE_PATH ?>/student-support#support-services">Overseas Student Health
                                         Cover</a></li>
@@ -134,7 +126,6 @@
                 </p>
                 <div class="footer-legal-links">
                     <a href="<?= BASE_PATH ?>/student-support#privacy">Privacy Policy</a>
-                    <a href="#">Terms of Use</a>
                     <a href="<?= BASE_PATH ?>/sitemap.xml">Sitemap</a>
                 </div>
             </div>

@@ -184,7 +184,8 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
                     <header class="ag-agent-head">
                         <div class="ag-agent-avatar">
                             <?php if ($logo !== ''): ?>
-                            <img src="<?= BASE_PATH ?>/assets/img/agents/<?= ag_e(rawurlencode($logo)) ?>" alt="<?= ag_e($name) ?> logo" loading="lazy" />
+                            <img src="<?= BASE_PATH ?>/assets/img/agents/<?= ag_e(rawurlencode($logo)) ?>"
+                                alt="<?= ag_e($name) ?> logo" loading="lazy" />
                             <?php else: ?>
                             <span><?= ag_e(agent_initials($name)) ?></span>
                             <?php endif; ?>
@@ -280,7 +281,7 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
                 <?php if ($apply_url): ?>
                 <a href="<?= ag_e($apply_url) ?>" target="_blank" rel="noopener" class="btn-pill btn-pill-accent"
                     id="agent-portal-link">
-                    Apply via Agent Portal <span class="btn-icon">→</span>
+                    Apply Now <span class="btn-icon">→</span>
                 </a>
                 <?php endif; ?>
                 <?php if ($form_url !== ''): ?>
@@ -409,7 +410,7 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
                         <span class="ag-faq-icon"></span>
                     </button>
                     <div class="ag-faq-answer">
-                        <p>Use the “Apply via Agent Portal” button above. Our team reviews your application and
+                        <p>Use the “Apply now” link above. Our team reviews your application and
                             contacts you.</p>
                     </div>
                 </div>

@@ -140,8 +140,9 @@ foreach ($courses as $key => $course) {
                         <div class="course-overview">
                             <h5>OVERVIEW</h5>
                             <p>
-                                Overview Lorem ipsum dolor sit amet, consectetur adipisicing
-                                elit. Aperiam, quasi.
+                                Turn a passion for food and service into a career. Train in a
+                                commercial kitchen and progress from Certificate III in Commercial
+                                Cookery to an Advanced Diploma of Hospitality Management.
                             </p>
                         </div>
                     </div>
@@ -185,8 +186,9 @@ foreach ($courses as $key => $course) {
                         <div class="course-overview">
                             <h5>OVERVIEW</h5>
                             <p>
-                                Build the skills to lead teams, manage operations and grow a
-                                successful business.
+                                From cabinet making to site supervision and project management –
+                                nationally recognised qualifications for Australia&rsquo;s growing
+                                building industry.
                             </p>
                         </div>
                     </div>
@@ -194,17 +196,15 @@ foreach ($courses as $key => $course) {
                     <div class="course-right">
                         <h5 class="included-title">COURSES AVAILABLE</h5>
                         <ul class="included-list">
-                            <ul class="included-list">
-                                <?php foreach ($construction  as $key => $course): ?>
-                                <li>
-                                    <a href="<?= course_url($key) ?>">
-                                        <?= htmlspecialchars($course['code'] ?? $key) ?> -
-                                        <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
-                                    </a>
-                                </li>
-                                <?php endforeach; ?>
+                            <?php foreach ($construction  as $key => $course): ?>
+                            <li>
+                                <a href="<?= course_url($key) ?>">
+                                    <?= htmlspecialchars($course['code'] ?? $key) ?> -
+                                    <?= htmlspecialchars($course['name'] ?? $course['title'] ?? '') ?>
+                                </a>
+                            </li>
+                            <?php endforeach; ?>
 
-                            </ul>
                         </ul>
                         <div class="course-actions">
                             <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
@@ -232,8 +232,9 @@ foreach ($courses as $key => $course) {
                         <div class="course-overview">
                             <h5>OVERVIEW</h5>
                             <p>
-                                From networking to cybersecurity – practical IT training for
-                                real careers.
+                                Learn a hands-on trade with practical workshop training in
+                                carpentry and painting &amp; decorating – job-ready skills for
+                                real building sites.
                             </p>
                         </div>
                     </div>
@@ -279,7 +280,7 @@ foreach ($courses as $key => $course) {
             <div class="bento-grid">
                 <!-- 1 · Large image -->
                 <button type="button" class="bento-item bento-large" data-type="image"
-                    data-full="assets/images/campus/campus.jpg">
+                    data-full="<?= BASE_PATH ?>/assets/images/campus/campus.jpg">
                     <img src="<?= BASE_PATH ?>/assets/images/campus/campus.jpg" alt="Cornell students gathered in front of a Cornell branded backdrop at the Melbourne campus"
                         loading="lazy" />
                     <span class="bento-overlay">
@@ -301,7 +302,7 @@ foreach ($courses as $key => $course) {
                 </div>
 
                 <!-- 3 · Image -->
-                <button type="button" class="bento-item" data-type="image" data-full="assets/images/campus/class.jpg">
+                <button type="button" class="bento-item" data-type="image" data-full="<?= BASE_PATH ?>/assets/images/campus/class.jpg">
                     <img src="<?= BASE_PATH ?>/assets/images/campus/class.jpg" alt="Students seated at desks in a Cornell Institute of Training classroom" loading="lazy" />
                     <span class="bento-overlay">
                         <span class="bento-badge">Brisbane</span>
@@ -332,7 +333,7 @@ foreach ($courses as $key => $course) {
                 </div>
                 <!-- 5 · Wide image -->
                 <button type="button" class="bento-item bento-wide" data-type="image"
-                    data-full="assets/images/campus/practical1.jpg">
+                    data-full="<?= BASE_PATH ?>/assets/images/campus/practical1.jpg">
                     <img src="<?= BASE_PATH ?>/assets/images/campus/practical1.jpg" alt="Students in Cornell hi-vis shirts in the practical training workshop" loading="lazy" />
                     <span class="bento-overlay">
                         <span class="bento-badge">Brisbane</span>
@@ -405,6 +406,12 @@ include 'includes/reviews.php';
 
     <?php include_once('includes/cta.php') ?>
 
+    <?php
+    // "Latest updates" is hidden until there are real announcements to show.
+    // The cards below are placeholders (made-up dates, and /blog-page.html does not exist).
+    // Set to true once real content and a real blog/news page are ready.
+    $showLatestUpdates = false;
+    if ($showLatestUpdates): ?>
     <section>
         <div class="container">
             <!-- update announcements -->
@@ -510,6 +517,7 @@ include 'includes/reviews.php';
             </div>
         </div>
     </section>
+    <?php endif; ?>
     <?php include_once('includes/footer.php') ?>
 
 
