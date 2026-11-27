@@ -7,6 +7,15 @@
 
 session_start();
 
+// AJAX submissions must return pure JSON: buffer any stray output (PHP notices,
+// warnings) so it can't break the response, and log it instead.
+$isAjax = $_SERVER['REQUEST_METHOD'] === 'POST'
+  && isset($_SERVER['HTTP_X_REQUESTED_WITH'])
+  && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
+if ($isAjax) {
+  ob_start();
+}
+
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/data/dbcourses.php';
 require_once 'includes/contact-handler.php';
@@ -20,8 +29,14 @@ $result = null;
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $result = contact_handle($_POST, $courses);
 
-  $isAjax = isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
   if ($isAjax) {
+    $stray = '';
+    while (ob_get_level() > 0) {
+      $stray .= ob_get_clean();
+    }
+    if (trim($stray) !== '') {
+      error_log('[contact] unexpected output before JSON: ' . substr(trim(strip_tags($stray)), 0, 1000));
+    }
     http_response_code($result['status']);
     header('Content-Type: application/json; charset=UTF-8');
     echo json_encode([

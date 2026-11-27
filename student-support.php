@@ -25,9 +25,7 @@ $seo = [
 
     <!-- ===================== PAGE HEADER ===================== -->
     <section class="page-header">
-        <img class="page-header-bg"
-            src="https://plus.unsplash.com/premium_photo-1683887034491-f58b4c4fca72?q=80&w=1169&auto=format&fit=crop"
-            alt="" />
+        <img class="page-header-bg" src="<?= BASE_PATH ?>/assets/images/about.webp" alt="" />
         <div class="page-header-overlay"></div>
 
         <div class="container">

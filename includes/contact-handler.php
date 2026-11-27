@@ -5,21 +5,22 @@
  * Validates an enquiry, emails it to the college and sends the visitor a
  * confirmation copy. Sending lives in includes/contact-mail.php.
  *
- * Settings (env.php, git-ignored): RESEND_API_KEY, CONTACT_TO, CONTACT_FROM
+ * Settings (env.php, git-ignored): SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS,
+ * SMTP_SECURE, CONTACT_TO, CONTACT_FROM
  * Requires an active session (contact.php starts it).
  */
 
 if (is_file(__DIR__ . '/../env.php')) {
     $env = include __DIR__ . '/../env.php';
     if (is_array($env)) {
-        foreach (['RESEND_API_KEY', 'CONTACT_TO', 'CONTACT_FROM', 'CONTACT_CONFIRMATION'] as $key) {
+        foreach (['SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASS', 'SMTP_SECURE', 'CONTACT_TO', 'CONTACT_FROM', 'CONTACT_CONFIRMATION'] as $key) {
             if (isset($env[$key]) && !defined($key)) {
                 define($key, $env[$key]);
             }
         }
     }
 }
-// Composer packages (resend/resend-php). Optional: cURL fallback is used without it.
+// Composer packages (phpmailer/phpmailer). Required for SMTP sending.
 if (is_file(__DIR__ . '/../vendor/autoload.php')) {
     require_once __DIR__ . '/../vendor/autoload.php';
 }

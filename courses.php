@@ -41,9 +41,7 @@ foreach ($courses as $key => $course) {
     <!-- Page Header -->
     <section class="courses-header-section">
         <!-- Background image -->
-        <img class="courses-header-bg"
-            src="https://plus.unsplash.com/premium_photo-1681823100546-0541b5880f14?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
-            alt="" />
+        <img class="courses-header-bg" src="<?= BASE_PATH ?>/assets/images/construction.webp" alt="" />
         <div class="courses-header-overlay"></div>
 
         <div class="container">

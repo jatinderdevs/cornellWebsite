@@ -19,7 +19,7 @@ Primary sectors: Construction & Trades, Hospitality & Commercial Cookery.
 
 ## Courses (current)
 Construction & Trades:
-- CPC30220 Certificate III in Carpentry → https://cornell.vic.edu.au/course/certificate-iii-carpentry
+- CPC30326 Certificate III in Carpentry → https://cornell.vic.edu.au/course/certificate-iii-carpentry
 - MSF30322 Certificate III in Cabinet Making and Timber Technology → https://cornell.vic.edu.au/course/certificate-iii-cabinet-making
 - CPC40120 Certificate IV in Building and Construction → https://cornell.vic.edu.au/course/certificate-iv-building-construction
 - CPC30620 Certificate III in Painting and Decorating → https://cornell.vic.edu.au/course/certificate-iii-painting-decorating

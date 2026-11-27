@@ -80,9 +80,7 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
 
     <!-- ===================== PAGE HEADER ===================== -->
     <section class="page-header">
-        <img class="page-header-bg"
-            src="https://plus.unsplash.com/premium_photo-1681823100546-0541b5880f14?q=80&w=1470&auto=format&fit=crop"
-            alt="" />
+        <img class="page-header-bg" src="<?= BASE_PATH ?>/assets/images/agent.webp" alt="" />
         <div class="page-header-overlay"></div>
 
         <div class="container">
@@ -98,7 +96,7 @@ $support_ph  = $agent_settings['support_phone'] ?? '1300 195 612';
                 <p>Find an approved Cornell agent near you, or apply to become one.</p>
                 <div class="header-actions">
                     <a href="#agents" class="btn-pill btn-pill-accent">
-                        Find an agent <span class="btn-icon">→</span>
+                        Registered education agents <span class="btn-icon">→</span>
                     </a>
                     <a href="#become-partner" class="btn-pill btn-pill-soft">
                         Become a partner <span class="btn-icon">→</span>

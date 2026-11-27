@@ -1,5 +1,5 @@
 {
     "require": {
-        "resend/resend-php": "^1.18"
+        "phpmailer/phpmailer": "^7.2"
     }
 }

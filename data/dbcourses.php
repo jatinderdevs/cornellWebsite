@@ -13,11 +13,11 @@ $courses = [
     // CONSTRUCTION & TRADES
     // =====================================================
 
-    'cpc30220' => [
+    'CPC30326' => [
         'slug'            => 'certificate-iii-carpentry',
-        'code'            => 'CPC30220',
+        'code'            => 'CPC30326',
         'title'           => 'Certificate III in Carpentry',
-        'cricos'          => '117651D',
+        'cricos'          => '121597D',
         'category'        => 'trade',
         'duration_weeks'  => 54,
         'contact_weeks'   => 48,

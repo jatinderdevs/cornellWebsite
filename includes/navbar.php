@@ -33,7 +33,7 @@
                                      <li><a href="<?= BASE_PATH ?>/student-support#policies">Policies &amp;
                                              Procedures</a></li>
                                      <li><a href="<?= BASE_PATH ?>/student-support#policies">Fees &amp; Refunds</a></li>
-                                     <li><a href="<?= BASE_PATH ?>/student-support#resources">Timetables</a></li>
+
                                  </ul>
                              </div>
 

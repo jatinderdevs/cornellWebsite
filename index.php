@@ -61,7 +61,8 @@ foreach ($courses as $key => $course) {
     <!-- ===================== HERO ===================== -->
     <section class="hero">
         <div class="hero-bg">
-            <img src="https://shorturl.at/rGwlB" alt="Cornell Institute of Training students in hands-on practical training" class="hero-bg-img" />
+            <img src="<?= BASE_PATH ?>/assets/images/cover.webp"
+                alt="Cornell Institute of Training students in hands-on practical training" class="hero-bg-img" />
             <div class="hero-overlay"></div>
         </div>
 
@@ -97,24 +98,28 @@ foreach ($courses as $key => $course) {
                         a rewarding career today at Cornell Institute of Training,
                         Melbourne’s trusted name in vocational education.
                     </p>
-                    <a href="<?= BASE_PATH ?>/contact#enquire" class="btn-pill btn-pill-accent">
-                        Learn more
+                    <a href="<?= BASE_PATH ?>/about" class="btn-pill btn-pill-accent">
+                        More about us
                         <span class="btn-icon">↗</span>
                     </a>
                 </div>
             </div>
             <div class="trusted">
                 <div class="trustcard">
-                    <img src="<?= BASE_PATH ?>/assets/images/general/aqf.webp" alt="Australian Qualifications Framework (AQF) logo" />
+                    <img src="<?= BASE_PATH ?>/assets/images/general/aqf.webp"
+                        alt="Australian Qualifications Framework (AQF) logo" />
                 </div>
                 <div class="trustcard">
-                    <img src="<?= BASE_PATH ?>/assets/images/general/asqa.webp" alt="ASQA - Australian Skills Quality Authority logo" />
+                    <img src="<?= BASE_PATH ?>/assets/images/general/asqa.webp"
+                        alt="ASQA - Australian Skills Quality Authority logo" />
                 </div>
                 <div class="trustcard">
-                    <img src="<?= BASE_PATH ?>/assets/images/general/ntr.png" alt="Nationally Recognised Training logo" />
+                    <img src="<?= BASE_PATH ?>/assets/images/general/ntr.png"
+                        alt="Nationally Recognised Training logo" />
                 </div>
                 <div class="trustcard">
-                    <img src="<?= BASE_PATH ?>/assets/images/general/trainiggov.jpg" alt="training.gov.au national register logo" />
+                    <img src="<?= BASE_PATH ?>/assets/images/general/trainiggov.jpg"
+                        alt="training.gov.au national register logo" />
                 </div>
             </div>
         </div>
@@ -128,8 +133,7 @@ foreach ($courses as $key => $course) {
         <div class="courses-panels">
             <!-- PANEL 01 -->
             <div class="course-panel">
-                <img class="course-bg"
-                    src="https://plus.unsplash.com/premium_photo-1682092170538-9ebcb3a09ac1?q=80&w=1471&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+                <img class="course-bg" src="<?= BASE_PATH ?>/assets/images/courses/cookthumb.jpg"
                     alt="Hospitality and management courses" />
                 <div class="course-overlay"></div>
 
@@ -174,8 +178,7 @@ foreach ($courses as $key => $course) {
 
             <!-- PANEL 02 -->
             <div class="course-panel">
-                <img class="course-bg"
-                    src="https://plus.unsplash.com/premium_photo-1681823100546-0541b5880f14?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D"
+                <img class="course-bg" src="<?= BASE_PATH ?>/assets/images/construction.webp"
                     alt="Construction and building courses" />
                 <div class="course-overlay"></div>
 
@@ -220,8 +223,7 @@ foreach ($courses as $key => $course) {
 
             <!-- PANEL 03 -->
             <div class="course-panel">
-                <img class="course-bg"
-                    src="https://plus.unsplash.com/premium_photo-1683887034491-f58b4c4fca72?q=80&w=1169&auto=format&fit=crop"
+                <img class="course-bg" src="<?= BASE_PATH ?>/assets/images/paint.webp"
                     alt="Painting and carpentry courses" />
                 <div class="course-overlay"></div>
 
@@ -281,7 +283,8 @@ foreach ($courses as $key => $course) {
                 <!-- 1 · Large image -->
                 <button type="button" class="bento-item bento-large" data-type="image"
                     data-full="<?= BASE_PATH ?>/assets/images/campus/campus.jpg">
-                    <img src="<?= BASE_PATH ?>/assets/images/campus/campus.jpg" alt="Cornell students gathered in front of a Cornell branded backdrop at the Melbourne campus"
+                    <img src="<?= BASE_PATH ?>/assets/images/campus/campus.jpg"
+                        alt="Cornell students gathered in front of a Cornell branded backdrop at the Melbourne campus"
                         loading="lazy" />
                     <span class="bento-overlay">
                         <span class="bento-badge">Melbourne</span>
@@ -291,9 +294,10 @@ foreach ($courses as $key => $course) {
 
                 <!-- 2 · Instagram Reel (tall) -->
                 <div class="bento-item bento-tall" data-type="video">
-                    <img src="<?= BASE_PATH ?>/assets/images/videos/paintthumb.PNG" alt="Two students painting a wall in a painting and decorating class" loading="lazy" />
-                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/painting.mp4" muted loop playsinline
-                        preload="metadata"></video>
+                    <img src="<?= BASE_PATH ?>/assets/images/videos/paintthumb.PNG"
+                        alt="Two students painting a wall in a painting and decorating class" loading="lazy" />
+                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/painting.mp4" muted loop
+                        playsinline preload="metadata"></video>
                     <span class="bento-play" aria-hidden="true"></span>
                     <span class="bento-overlay">
                         <span class="bento-badge">Melbourne · Reel</span>
@@ -302,8 +306,10 @@ foreach ($courses as $key => $course) {
                 </div>
 
                 <!-- 3 · Image -->
-                <button type="button" class="bento-item" data-type="image" data-full="<?= BASE_PATH ?>/assets/images/campus/class.jpg">
-                    <img src="<?= BASE_PATH ?>/assets/images/campus/class.jpg" alt="Students seated at desks in a Cornell Institute of Training classroom" loading="lazy" />
+                <button type="button" class="bento-item" data-type="image"
+                    data-full="<?= BASE_PATH ?>/assets/images/campus/class.jpg">
+                    <img src="<?= BASE_PATH ?>/assets/images/campus/class.jpg"
+                        alt="Students seated at desks in a Cornell Institute of Training classroom" loading="lazy" />
                     <span class="bento-overlay">
                         <span class="bento-badge">Brisbane</span>
                         <span class="bento-caption">classroom</span>
@@ -312,8 +318,8 @@ foreach ($courses as $key => $course) {
 
                 <!-- 4 · Image -->
                 <button type="button" class="bento-item" data-type="image"
-                    data-full="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=1600&q=80&auto=format&fit=crop">
-                    <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80&auto=format&fit=crop"
+                    data-full="<?= BASE_PATH ?>/assets/images/campus/class.jpg">
+                    <img src="<?= BASE_PATH ?>/assets/images/campus/class.jpg"
                         alt="Students working in a carpentry workshop" loading="lazy" />
                     <span class="bento-overlay">
                         <span class="bento-badge">Melbourne</span>
@@ -322,9 +328,10 @@ foreach ($courses as $key => $course) {
                 </button>
                 <!-- 6 · Instagram Reel (tall) -->
                 <div class="bento-item bento-tall" data-type="video">
-                    <img src="<?= BASE_PATH ?>/assets/images/videos/carthumb.PNG" alt="Students building a timber frame in a carpentry class" loading="lazy" />
-                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/carpentry.mp4" muted loop playsinline
-                        preload="metadata"></video>
+                    <img src="<?= BASE_PATH ?>/assets/images/videos/carthumb.PNG"
+                        alt="Students building a timber frame in a carpentry class" loading="lazy" />
+                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/carpentry.mp4" muted loop
+                        playsinline preload="metadata"></video>
                     <span class="bento-play" aria-hidden="true"></span>
                     <span class="bento-overlay">
                         <span class="bento-badge">Melbourne · Reel</span>
@@ -334,7 +341,8 @@ foreach ($courses as $key => $course) {
                 <!-- 5 · Wide image -->
                 <button type="button" class="bento-item bento-wide" data-type="image"
                     data-full="<?= BASE_PATH ?>/assets/images/campus/practical1.jpg">
-                    <img src="<?= BASE_PATH ?>/assets/images/campus/practical1.jpg" alt="Students in Cornell hi-vis shirts in the practical training workshop" loading="lazy" />
+                    <img src="<?= BASE_PATH ?>/assets/images/campus/practical1.jpg"
+                        alt="Students in Cornell hi-vis shirts in the practical training workshop" loading="lazy" />
                     <span class="bento-overlay">
                         <span class="bento-badge">Brisbane</span>
                         <span class="bento-caption">Group study and collaboration</span>
@@ -357,9 +365,10 @@ foreach ($courses as $key => $course) {
 
                 <!-- 9 · Image -->
                 <div class="bento-item bento-tall" data-type="video">
-                    <img src="<?= BASE_PATH ?>/assets/images/general/thumb.png" alt="Student sanding a plasterboard wall in a painting and decorating class" loading="lazy" />
-                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/carpentry.mp4" muted loop playsinline
-                        preload="metadata"></video>
+                    <img src="<?= BASE_PATH ?>/assets/images/general/thumb.png"
+                        alt="Student sanding a plasterboard wall in a painting and decorating class" loading="lazy" />
+                    <video class="bento-video" src="<?= BASE_PATH ?>/assets/images/videos/carpentry.mp4" muted loop
+                        playsinline preload="metadata"></video>
                     <span class="bento-play" aria-hidden="true"></span>
                     <span class="bento-overlay">
                         <span class="bento-badge">Melbourne · Reel</span>

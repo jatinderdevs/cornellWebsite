@@ -68,7 +68,7 @@
                                 <li><a href="<?= BASE_PATH ?>/student-support#policies">Policies &amp; Procedures</a>
                                 </li>
                                 <li><a href="<?= BASE_PATH ?>/student-support#policies">Fees &amp; Refunds</a></li>
-                                <li><a href="<?= BASE_PATH ?>/student-support#resources">Timetables</a></li>
+
                             </ul>
                         </div>
 
@@ -122,8 +122,11 @@
             <!-- Bottom Bar -->
             <div class="footer-bottom">
                 <p class="copyright">
-                    © 2026 Cornell Institute of Training. All rights reserved.
+                    © 2026 Cornell Institute of Training. All rights reserved. <br>
+                    Designed and developed by <strong> <a href="https://slashkode.com.au" class="text-primary"
+                            target="_blank" rel="noopener">Slashkode</a></strong>
                 </p>
+                <p class="text-white text-center"></p>
                 <div class="footer-legal-links">
                     <a href="<?= BASE_PATH ?>/student-support#privacy">Privacy Policy</a>
                     <a href="<?= BASE_PATH ?>/sitemap.xml">Sitemap</a>

@@ -30,7 +30,7 @@ $seo = [
 
     <!-- ===================== PAGE HEADER ===================== -->
     <section class="page-header">
-        <img class="page-header-bg" src="https://shorturl.at/rGwlB" alt="" />
+        <img class="page-header-bg" src="<?= BASE_PATH ?>/assets/images/cover.webp" alt="" />
         <div class="page-header-overlay"></div>
 
         <div class="container">
